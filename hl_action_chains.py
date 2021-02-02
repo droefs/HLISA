@@ -7,6 +7,8 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
+from HumanLikeSeleniumAPI.hl_util import HL_Util
+
 class HL_ActionChains:
     
     def __init__(self, webdriver):
@@ -26,6 +28,7 @@ class HL_ActionChains:
         self.actions.click_and_hold()
         self.actions.pause(np.random.normal(0.092, 0.018))
         self.actions.release()
+        return self
 
     # Moves to a position in the viewport
     # Args:
@@ -35,9 +38,11 @@ class HL_ActionChains:
         t_cursor = TheoreticalCursor(self.x_pos, self.y_pos, x, y, self.webdriver, self.actions)
         self.x_pos = t_cursor.x_pos
         self.y_pos = t_cursor.y_pos
+        return self
 
     def move_by_offset(self, x, y):
         self.move_to(self.x_pos + x, self.y_pos + y)
+        return self
 
     def move_to_element(self, element):
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
@@ -46,106 +51,21 @@ class HL_ActionChains:
             print("not possible, out of viewport")
         elif y_relative > viewport_height:
             print("not possible, out of viewport")
-        x, y = self.behavorial_element_coordinates(self.webdriver, element)
+        x, y = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
         print("x: " + str(x) + " y: " + str(y))
         print("xpos: " + str(self.x_pos) + " ypos: " + str(self.y_pos))
         self.move_to(x, y)
+        return self
 
     def perform(self):
         self.actions.perform()
         self.actions = ActionChains(self.webdriver)
+        return self
 
     def pause(self, seconds):
         self.actions.pause(seconds)
+        return self
 
-    ##### Non-Action chain methods #####
-
-
-    #First scrolls to get the element into the viewport, then performs the movement
-    def move_to_element_outside_viewport(self, element):
-        viewport_height = self.webdriver.execute_script("return window.innerHeight")
-        y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
-        print("y relative: " + str(y_relative) + " pageyoffset: " + str(self.webdriver.execute_script("return window.pageYOffset;")))
-        if y_relative < 0:
-            self.scroll_by(0, y_relative)
-        elif y_relative > viewport_height:
-            self.scroll_by(0, y_relative - viewport_height/2)
-        x, y = self.behavorial_element_coordinates(self.webdriver, element)
-        #actions = ActionChains(self.webdriver)        
-        self.move_to(x, y)
-        self.perform()
-
-    # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
-    # It would be detectable otherwise.
-    def scroll_by(self, x_diff, y_diff):
-        #self.x_pos += x_diff
-        #self.y_pos += y_diff
-        #print("y+diff" + str(y_diff))
-        #print("y+poss " + str(self.y_pos))
-        time.sleep(random.random() + 0.5)    
-        if x_diff != 0:
-            logger.error("Scrolling horizontal not implemented")
-        if y_diff > 0:
-            self.scroll_down(self.webdriver, y_diff)
-        else:
-            self.scroll_up(self.webdriver, y_diff)
-
-    def scroll_down(self, webdriver, y_diff):
-        current_y = webdriver.execute_script("return window.pageYOffset;")
-        max_y = webdriver.execute_script("return document.body.scrollHeight;")
-        y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
-        scroll_ticks = 0
-        while y_diff > 0:
-            webdriver.execute_script("window.scrollBy(0, 57)")
-            y_diff -= 57
-            time.sleep(0.05 + (random.random()/200))
-            scroll_ticks += 1
-            if scroll_ticks % 7 == 0:
-                time.sleep(0.5)
-
-    def scroll_up(self, webdriver, y_diff):
-        current_y = webdriver.execute_script("return window.pageYOffset;")
-        min_y = 0
-        y_diff = max(y_diff, min_y - current_y) # Prevent scrolling too far
-        scroll_ticks = 0
-        while y_diff < 0:
-            webdriver.execute_script("window.scrollBy(0, -57)")
-            y_diff += 57
-            time.sleep(0.05 + (random.random()/200))
-            scroll_ticks += 1
-            if scroll_ticks % 7 == 0:
-                time.sleep(0.5)
-
-    # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
-    # It would be detectable otherwise.
-    def scroll_to(self, x, y):
-        time.sleep(random.random() + 0.5)   
-        current_x = self.webdriver.execute_script("return window.pageXOffset;")
-        if current_x != x:
-            logger.error("Scrolling horizontal not yet implemented")
-        current_y = self.webdriver.execute_script("return window.pageYOffset;")
-        y_diff = y - current_y
-        self.scroll_by(x, y_diff)
-        
-    
-
-    ##### Helper functions #####
-
-    # (normal distribution)
-    # Takes an element and returns coordinates somewhere in the element. If the element is not visable, it returns 0.
-    def behavorial_element_coordinates(self, webdriver, element):
-        x_relative = int(element.rect['x']) - webdriver.execute_script("return window.pageXOffset;")
-        y_relative = int(element.rect['y']) - webdriver.execute_script("return window.pageYOffset;")
-        counter = 0
-        for i in range(10): # Try 10 random positions, as some positions are not in round buttons.
-            x = x_relative + np.random.normal(int(element.rect['width']*0.5), int(element.rect['width']*0.2))
-            y = y_relative + np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2))
-        
-            coords_in_button = webdriver.execute_script("return document.elementFromPoint(" + str(x) + ", " + str(y) + ") === arguments[0];", element)
-            print(" speciale y: " + str(y))
-            if coords_in_button:
-                return (x, y)
-        return None
 
 class TheoreticalCursor():
 
