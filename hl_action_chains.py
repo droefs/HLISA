@@ -55,6 +55,8 @@ class HL_ActionChains:
         self.actions.perform()
         self.actions = ActionChains(self.webdriver)
 
+    def pause(self, seconds):
+        self.actions.pause(seconds)
 
     ##### Non-Action chain methods #####
 
@@ -65,9 +67,9 @@ class HL_ActionChains:
         y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
         print("y relative: " + str(y_relative) + " pageyoffset: " + str(self.webdriver.execute_script("return window.pageYOffset;")))
         if y_relative < 0:
-            self.scroll_by(self.webdriver, 0, y_relative)
+            self.scroll_by(0, y_relative)
         elif y_relative > viewport_height:
-            self.scroll_by(self.webdriver, 0, y_relative - viewport_height/2)
+            self.scroll_by(0, y_relative - viewport_height/2)
         x, y = self.behavorial_element_coordinates(self.webdriver, element)
         #actions = ActionChains(self.webdriver)        
         self.move_to(x, y)
@@ -75,7 +77,7 @@ class HL_ActionChains:
 
     # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
     # It would be detectable otherwise.
-    def scroll_by(self, webdriver, x_diff, y_diff):
+    def scroll_by(self, x_diff, y_diff):
         #self.x_pos += x_diff
         #self.y_pos += y_diff
         #print("y+diff" + str(y_diff))
@@ -84,9 +86,9 @@ class HL_ActionChains:
         if x_diff != 0:
             logger.error("Scrolling horizontal not implemented")
         if y_diff > 0:
-            self.scroll_down(webdriver, y_diff)
+            self.scroll_down(self.webdriver, y_diff)
         else:
-            self.scroll_up(webdriver, y_diff)
+            self.scroll_up(self.webdriver, y_diff)
 
     def scroll_down(self, webdriver, y_diff):
         current_y = webdriver.execute_script("return window.pageYOffset;")
@@ -116,14 +118,14 @@ class HL_ActionChains:
 
     # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
     # It would be detectable otherwise.
-    def scroll_to(self, webdriver, x, y):
+    def scroll_to(self, x, y):
         time.sleep(random.random() + 0.5)   
-        current_x = webdriver.execute_script("return window.pageXOffset;")
+        current_x = self.webdriver.execute_script("return window.pageXOffset;")
         if current_x != x:
             logger.error("Scrolling horizontal not yet implemented")
-        current_y = webdriver.execute_script("return window.pageYOffset;")
+        current_y = self.webdriver.execute_script("return window.pageYOffset;")
         y_diff = y - current_y
-        self.scroll_by(webdriver, x, y_diff)
+        self.scroll_by(x, y_diff)
         
     
 
