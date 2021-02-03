@@ -66,6 +66,43 @@ class HL_ActionChains:
         self.actions.pause(seconds)
         return self
 
+    def send_keys(self, keys_to_send):
+        sentences = keys_to_send.split(". ")
+        for i in range(len(sentences)-1):
+            self.write_sentence(sentences[i])
+            self.actions.pause(HL_Util.std_positive(1.7, 0.7, 0.3)) # Closing a sentence
+            self.write_character(".") # Add the removed dot and space again
+            self.actions.pause(HL_Util.std_positive(0.6, 0.4, 0.05)) # After closing a sentence
+            self.write_character(" ")
+        self.write_sentence(sentences[len(sentences)-1])
+
+
+    ##### Util functions #####
+
+    def write_sentence(self, sentence):
+        self.actions.pause(HL_Util.std_positive(1.3, 1, 0.2)) # Opening a sentence
+        words = sentence.split(" ")
+        if len(words) > 0:
+            for i in range(len(words)-1):
+                self.write_word(words[i])
+                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters
+                self.write_character(" ")
+            self.write_word(words[-1])
+
+    def write_word(self, word):
+        self.actions.pause(HL_Util.std_positive(0.47, 0.21, 0.05)) # Opening a word
+        characters = list(word)
+        if len(characters) > 0:
+            for i in range(len(characters)-1):
+                self.write_character(characters[i])
+                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters
+            self.write_character(characters[-1])
+        self.actions.pause(HL_Util.std_positive(0.2, 0.08, 0.01)) # Closing a word
+
+    def write_character(self, character):
+        self.actions.key_down(character)
+        self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.013)) # Dwell time
+        self.actions.key_up(character)
 
 class TheoreticalCursor():
 

@@ -22,3 +22,9 @@ class HL_Util:
             if coords_in_button:
                 return (x, y)
         return None
+
+    def std_positive(mean, std, minimal):
+        sample = np.random.normal(mean, std)
+        while sample < minimal:
+            sample += random.random() * (mean - minimal)
+        return sample

@@ -48,6 +48,8 @@ This API intends to replace and extend the Python version of the ActionChains ob
 
 **perform**()
 
+**send_keys**(**keys_to_send*)
+
 ### Not implemented, but can be implemented:
 
 **click_and_hold**(*on_element=None*)
@@ -65,8 +67,6 @@ This API intends to replace and extend the Python version of the ActionChains ob
 **move_to_element_with_offset**(*to_element, xoffset, yoffset*)
 
 **release**(*on_element=None*)
-
-**send_keys**(**keys_to_send*)
 
 **send_keys_to_element**(*element, *keys_to_send*)
 
