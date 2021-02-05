@@ -16,6 +16,7 @@ class HL_ActionChains:
         self.y_pos = 0
         self.webdriver = webdriver
         self.actions = ActionChains(webdriver)
+        HL_Util.increaseMousemovementSpeed()
 
     ##### Action chain methods #####
 
@@ -52,8 +53,6 @@ class HL_ActionChains:
         elif y_relative > viewport_height:
             print("not possible, out of viewport")
         x, y = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
-        print("x: " + str(x) + " y: " + str(y))
-        print("xpos: " + str(self.x_pos) + " ypos: " + str(self.y_pos))
         self.move_to(x, y)
         return self
 
@@ -85,7 +84,7 @@ class HL_ActionChains:
         if len(words) > 0:
             for i in range(len(words)-1):
                 self.write_word(words[i])
-                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters
+                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
                 self.write_character(" ")
             self.write_word(words[-1])
 
@@ -95,7 +94,7 @@ class HL_ActionChains:
         if len(characters) > 0:
             for i in range(len(characters)-1):
                 self.write_character(characters[i])
-                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters
+                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
             self.write_character(characters[-1])
         self.actions.pause(HL_Util.std_positive(0.2, 0.08, 0.01)) # Closing a word
 
@@ -223,5 +222,4 @@ class TheoreticalCursor():
                 delay = initialDelay
             delay -= 1
         sample_points = [round(j * minimalDiff) for j in sample_points]
-        print(sample_points)
         return sample_points

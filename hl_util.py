@@ -5,6 +5,8 @@ import numpy as np
 
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.actions.pointer_input import PointerInput
+from selenium.webdriver.remote.webelement import WebElement
 
 class HL_Util:
     # (normal distribution)
@@ -28,3 +30,19 @@ class HL_Util:
         while sample < minimal:
             sample += random.random() * (mean - minimal)
         return sample
+
+    def create_pointer_move(self, duration=1, x=None, y=None, origin=None):
+        action = dict(type="pointerMove", duration=duration)
+        action["x"] = x
+        action["y"] = y
+        if isinstance(origin, WebElement):
+            action["origin"] = {"element-6066-11e4-a52e-4f735466cecf": origin.id}
+        elif origin is not None:
+            action["origin"] = origin
+
+        self.add_action(action)
+
+    def increaseMousemovementSpeed():
+        PointerInput.create_pointer_move = HL_Util.create_pointer_move
+
+    
