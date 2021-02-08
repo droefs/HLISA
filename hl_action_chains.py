@@ -209,17 +209,17 @@ class TheoreticalCursor():
 
     # Samples points to which the cusor will move
     def sample_points(self, minimalDiff):
-        interval = 60 # Once in 'interval' pixels, the cursor is actually moved.
         sample_points = []
-        initialDelay = interval
-        delay = initialDelay
+        counter = 10
+        newCounterValue = counter
         for i in range(1, minimalDiff):
-            #sample_points.append(1-(1/i**(i/minimalDiff)))
-            #sample_points = [round(j * minimalDiff) for j in sample_points]
-            if i % 50 == 0:#delay == 0:            
+            if counter == 0:
                 sample_points.append(i/minimalDiff)
-                initialDelay *= 0.7
-                delay = initialDelay
-            delay -= 1
+                if i/minimalDiff <= 0.7:
+                    newCounterValue *= 1.05 # Accelerate
+                else:
+                    newCounterValue /= 1.10 # Decelerate
+                counter = round(newCounterValue)
+            counter -= 1
         sample_points = [round(j * minimalDiff) for j in sample_points]
         return sample_points

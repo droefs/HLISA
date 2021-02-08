@@ -20,7 +20,7 @@ class HL_Util:
             y = y_relative + np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2))
         
             coords_in_button = webdriver.execute_script("return document.elementFromPoint(" + str(x) + ", " + str(y) + ") === arguments[0];", element)
-            print(" speciale y: " + str(y))
+
             if coords_in_button:
                 return (x, y)
         return None
@@ -31,7 +31,7 @@ class HL_Util:
             sample += random.random() * (mean - minimal)
         return sample
 
-    def create_pointer_move(self, duration=1, x=None, y=None, origin=None):
+    def create_pointer_move(self, duration=50, x=None, y=None, origin=None):
         action = dict(type="pointerMove", duration=duration)
         action["x"] = x
         action["y"] = y
