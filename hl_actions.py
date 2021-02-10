@@ -32,36 +32,32 @@ class HL_Actions:
         time.sleep(random.random() + 0.5)    
         if x_diff != 0:
             logger.error("Scrolling horizontal not implemented")
+        self.scroll_vertical(y_diff)
+
+    def scroll_vertical(self, y_diff):
+        scroll_ticks = 0
+        current_y = self.webdriver.execute_script("return window.pageYOffset;")
         if y_diff > 0:
-            self.scroll_down(self.webdriver, y_diff)
+            max_y = self.webdriver.execute_script("return document.body.scrollHeight;")
+            y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
+            while y_diff > 0:
+                y_diff = self.scroll_tick(57, scroll_ticks, y_diff)
+                scroll_ticks += 1
         else:
-            self.scroll_up(self.webdriver, y_diff)
+            min_y = 0
+            y_diff = max(y_diff, min_y - current_y) # Prevent scrolling too far
+            while y_diff < 0:
+                y_diff = self.scroll_tick(-57, scroll_ticks, y_diff)
+                scroll_ticks += 1
 
-    def scroll_down(self, webdriver, y_diff):
-        current_y = webdriver.execute_script("return window.pageYOffset;")
-        max_y = webdriver.execute_script("return document.body.scrollHeight;")
-        y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
-        scroll_ticks = 0
-        while y_diff > 0:
-            webdriver.execute_script("window.scrollBy(0, 57)")
-            y_diff -= 57
-            time.sleep(0.05 + (random.random()/200))
-            scroll_ticks += 1
-            if scroll_ticks % 7 == 0:
-                time.sleep(0.5)
-
-    def scroll_up(self, webdriver, y_diff):
-        current_y = webdriver.execute_script("return window.pageYOffset;")
-        min_y = 0
-        y_diff = max(y_diff, min_y - current_y) # Prevent scrolling too far
-        scroll_ticks = 0
-        while y_diff < 0:
-            webdriver.execute_script("window.scrollBy(0, -57)")
-            y_diff += 57
-            time.sleep(0.05 + (random.random()/200))
-            scroll_ticks += 1
-            if scroll_ticks % 7 == 0:
-                time.sleep(0.5)
+    # Scrolls one tick
+    def scroll_tick(self, pixelAmount, scroll_ticks, y_diff):
+        self.webdriver.execute_script("window.scrollBy(0, " + str(pixelAmount) + ")")
+        y_diff -= pixelAmount
+        time.sleep(0.05 + (random.random()/200))
+        if scroll_ticks % 7 == 0:
+            time.sleep(0.5)
+        return y_diff
 
     # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
     # It would be detectable otherwise.
