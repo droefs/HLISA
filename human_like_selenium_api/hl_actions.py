@@ -6,7 +6,7 @@ import numpy as np
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 
-from HumanLikeSeleniumAPI.hl_util import HL_Util
+from human_like_selenium_api.hl_util import HL_Util
 
 class HL_Actions:
     def __init__(self, hl_action_chain, webdriver):

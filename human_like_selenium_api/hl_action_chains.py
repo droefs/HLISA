@@ -7,7 +7,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from HumanLikeSeleniumAPI.hl_util import HL_Util
+from human_like_selenium_api.hl_util import HL_Util
 
 class HL_ActionChains:
     
