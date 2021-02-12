@@ -4,13 +4,47 @@
 
 This API intends to replace and extend the Python version of the ActionChains object of the Selenium API. The documentation can be found below. The original API can be found [here](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html).
 
+## Installing and updating
+
+### Installing
+
+The package can be installed using pip. To do so, first clone this repository
+
+`git clone git@github.com:droefs/HumanLikeSeleniumAPI.git`
+
+Change directories into the project folder
+
+`cd HumanLikeSeleniumAPI`
+
+Activate the OpenWPM conda environment if applicable
+
+`conda activate openwpm`
+
+Now install the package using
+
+`pip install .`
+
+### Updating
+
+In the git repository, retrieve the newest version
+
+`git pull`
+
+Activate the OpenWPM conda environment if applicable
+
+`conda activate openwpm`
+
+Update the package using
+
+`pip install . --upgrade`
+
 ## Action chains
 
 ### Example
 
-`from HumanLikeSeleniumAPI.hl_action_chains import HL_ActionChains`
+`from human_like_selenium_api.hl_action_chains import HL_ActionChains`
 
-`from HumanLikeSeleniumAPI.hl_actions import HL_Actions`
+`from human_like_selenium_api.hl_actions import HL_Actions`
 
 **The chain pattern works just like the Selenium ActionChains:**
 
@@ -83,9 +117,9 @@ These functions are part of the HL_Actions class. The extension functions **do n
 
 ### Example
 
-`from HumanLikeSeleniumAPI.hl_action_chains import HL_ActionChains`
+`from human_like_selenium_api.hl_action_chains import HL_ActionChains`
 
-`from HumanLikeSeleniumAPI.hl_actions import HL_Actions`
+`from human_like_selenium_api.hl_actions import HL_Actions`
 
 `actions = HL_ActionChains(webdriver)`
 
