@@ -40,6 +40,12 @@ Update the package using
 
 ## Action chains
 
+### Limitations
+
+- It is not possible to create multiple instances of the HL_ActionChains class. Creating multiple instances will cause the mouse moves to end at a wrong location.
+- It is not possible to use HL_ActionChains mouse movements after calling mouse movement functions from the original Selenium ActionChains API.
+- Not all functions are yet implemented. Please let me know if any function is needed with priority.
+
 ### Example
 
 `from human_like_selenium_api.hl_action_chains import HL_ActionChains`

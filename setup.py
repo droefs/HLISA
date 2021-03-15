@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='human_like_selenium_api',
-      version='0.1.0',
+      version='0.1.1',
       description='A reimplementation of the Selenium API, emulating human behaviour',
       url='https://github.com/droefs/HumanLikeSeleniumAPI',
       maintainer='droefs',

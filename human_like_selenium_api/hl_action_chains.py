@@ -75,7 +75,39 @@ class HL_ActionChains:
             self.write_character(" ")
         self.write_sentence(sentences[len(sentences)-1])
 
+    def click_and_hold(self, on_element=None):
+        raise NotImplementedError("This functionality is not yet implemented")
 
+    def double_click(self, on_element=None):
+        raise NotImplementedError("This functionality is not yet implemented")
+        
+    def drag_and_drop(self, source, target):
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def drag_and_drop_by_offset(self, source, xoffset, yoffset):
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def key_down(self, value, element=None):
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def key_up(self, value, element=None):
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def move_to_element_with_offset(self, to_element, xoffset, yoffset):
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def release(self, on_element=None):
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def send_keys_to_element(self, element, keys_to_send):
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def reset_actions():
+        raise NotImplementedError("This functionality is not yet implemented")
+
+    def context_click(on_element=None):
+        raise NotImplementedError("This functionality is not yet implemented")
+    
     ##### Util functions #####
 
     def write_sentence(self, sentence):
