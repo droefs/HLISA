@@ -76,7 +76,10 @@ class HL_ActionChains:
         self.write_sentence(sentences[len(sentences)-1])
 
     def click_and_hold(self, on_element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+        if element is not None:
+            self.move_to_element(element)
+        self.actions.click_and_hold()
+        return self
 
     def double_click(self, on_element=None):
         raise NotImplementedError("This functionality is not yet implemented")
@@ -97,7 +100,10 @@ class HL_ActionChains:
         raise NotImplementedError("This functionality is not yet implemented")
 
     def release(self, on_element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+        if element is not None:
+            self.move_to_element(element)
+        self.actions.release()
+        return self
 
     def send_keys_to_element(self, element, keys_to_send):
         raise NotImplementedError("This functionality is not yet implemented")
