@@ -90,6 +90,10 @@ Update the package using
 
 **send_keys**(**keys_to_send*)
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Note:** characters that are pressed realistically, as if they were typed on a US-International keyboard, are: 0-9, a-z, A-Z, keys in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[selenium.webdriver.common.keys.Keys](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys) and all of the following: !@#$%^&*()_+{}|:<>?-=[]\;,./
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Dead keys](https://en.wikipedia.org/wiki/Dead_key) in the US-International layout can cause detection.
+
 ### Not implemented, but can be implemented:
 
 **click_and_hold**(*on_element=None*)

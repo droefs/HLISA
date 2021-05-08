@@ -76,8 +76,8 @@ class HL_ActionChains:
         self.write_sentence(sentences[len(sentences)-1])
 
     def click_and_hold(self, on_element=None):
-        if element is not None:
-            self.move_to_element(element)
+        if on_element is not None:
+            self.move_to_element(on_element)
         self.actions.click_and_hold()
         return self
 
@@ -100,8 +100,8 @@ class HL_ActionChains:
         raise NotImplementedError("This functionality is not yet implemented")
 
     def release(self, on_element=None):
-        if element is not None:
-            self.move_to_element(element)
+        if on_element is not None:
+            self.move_to_element(on_element)
         self.actions.release()
         return self
 
@@ -137,9 +137,16 @@ class HL_ActionChains:
         self.actions.pause(HL_Util.std_positive(0.2, 0.08, 0.01)) # Closing a word
 
     def write_character(self, character):
+        special_characters = "!@#$%^&*()_+{}|:<>?"
+        if character.isupper() or character in special_characters:
+            self.actions.key_down("\ue008")
+            self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.005)) # Time after shift press
         self.actions.key_down(character)
         self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.013)) # Dwell time
         self.actions.key_up(character)
+        if character.isupper() or character in special_characters:
+            self.actions.pause(HL_Util.std_positive(0.03, 0.015, 0.003)) # Time before shift release
+            self.actions.key_up("\ue008")
 
 class TheoreticalCursor():
 
