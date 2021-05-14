@@ -49,11 +49,15 @@ class HL_ActionChains:
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
         y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
         if y_relative < 0:
-            print("not possible, out of viewport")
+            print("Warning: click not possible, out of viewport")
         elif y_relative > viewport_height:
-            print("not possible, out of viewport")
-        x, y = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
-        self.move_to(x, y)
+            print("Warning: click not possible, out of viewport")
+        coordinates = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
+        if coordinates:
+            x, y = coordinates
+            self.move_to(x, y)
+        else:
+            print("Warning: element could not be clicked on")
         return self
 
     def perform(self):

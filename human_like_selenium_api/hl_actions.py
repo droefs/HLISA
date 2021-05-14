@@ -17,7 +17,6 @@ class HL_Actions:
     def move_to_element_outside_viewport(self, element):
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
         y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
-        print("y relative: " + str(y_relative) + " pageyoffset: " + str(self.webdriver.execute_script("return window.pageYOffset;")))
         if y_relative < 0:
             self.scroll_by(0, y_relative)
         elif y_relative > viewport_height:
