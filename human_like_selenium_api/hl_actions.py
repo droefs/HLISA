@@ -55,7 +55,7 @@ class HL_Actions:
         y_diff -= pixelAmount
         time.sleep(0.05 + (random.random()/200))
         if scroll_ticks % 7 == 0:
-            time.sleep(0.5)
+            time.sleep(HL_Util.std_positive(0.5, 0.1, 0))
         return y_diff
 
     # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
