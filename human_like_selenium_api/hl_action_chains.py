@@ -210,12 +210,14 @@ class TheoreticalCursor():
         
         # Compute how much the cursor should be moved
         moveX, moveY = self.compute_move_amount(currentX, currentY, xMismatchCompensation, yMismatchCompensation)
-        
+
         # Check if the move is within the viewport, if it is then actually move the cursor (this is realistic, as no mouse events are sends if the cursor is outside the viewport for a real user)
         viewportWidth = webdriver.execute_script("return window.innerWidth")
         viewportHeight = webdriver.execute_script("return window.innerHeight")
         if self.x_pos + moveX < viewportWidth and self.x_pos + moveX >= 0 and self.y_pos + moveY < viewportHeight and self.y_pos + moveY >= 0:
             self.move_real_cursor(moveX, moveY, currentX, currentY)
+            self.xMismatch += xMismatchCompensation
+            self.yMismatch += yMismatchCompensation
  
 
     def add_imperfections(self):
@@ -223,37 +225,34 @@ class TheoreticalCursor():
         ranY = round(np.random.normal(0, 0.6))
         self.ranSumX += ranX
         self.ranSumY += ranY
+        self.xMismatch += ranX
+        self.yMismatch += ranY
 
     def compute_move_amount(self, currentX, currentY, xMismatchCompensation, yMismatchCompensation):
-        moveX = currentX - self.previousX + self.ranSumX + xMismatchCompensation # How far the cursor is moved in an iteration
-        moveY = currentY - self.previousY + self.ranSumY + yMismatchCompensation
-        if round(self.roundingErrorX) != 0 or round(self.roundingErrorY) != 0: # To compensate for the fact that the cursor can only be moved whole pixels
-            moveX -= round(self.roundingErrorX)
-            self.roundingErrorX -= round(self.roundingErrorX)
-            moveY -= round(self.roundingErrorY)
-            self.roundingErrorY -= round(self.roundingErrorY)
+        moveX = ((currentX - self.previousX) + self.ranSumX) + xMismatchCompensation # How far the cursor is moved in an iteration
+        moveY = ((currentY - self.previousY) + self.ranSumY) + yMismatchCompensation
+         
+        moveX -= round(self.roundingErrorX) # To compensate for the fact that the cursor can only be moved whole pixels
+        moveY -= round(self.roundingErrorY)
         return moveX, moveY
 
     def compensate_mismatch(self, t, minimalDiff):
-        self.xMismatch += self.ranSumX
-        self.yMismatch += self.ranSumY
         xMismatchCompensation = round(self.xMismatch / ((1 - t) * minimalDiff**(0.5) + 1)) * -1
         yMismatchCompensation = round(self.yMismatch / ((1 - t) * minimalDiff**(0.5) + 1)) * -1
-        self.xMismatch += xMismatchCompensation
-        self.yMismatch += yMismatchCompensation
         return xMismatchCompensation, yMismatchCompensation
 
     def move_real_cursor(self, moveX, moveY, currentX, currentY):
         self.actions.move_by_offset(round(moveX), round(moveY))
-
+        self.roundingErrorX -= round(self.roundingErrorX)
+        self.roundingErrorY -= round(self.roundingErrorY)
         self.roundingErrorX += round(moveX) - moveX
         self.roundingErrorY += round(moveY) - moveY
         self.previousX = currentX
         self.previousY = currentY
         self.ranSumX = 0
         self.ranSumY = 0
-        self.x_pos += moveX
-        self.y_pos += moveY
+        self.x_pos += round(moveX)
+        self.y_pos += round(moveY)
 
 
     # Samples points to which the cusor will move
