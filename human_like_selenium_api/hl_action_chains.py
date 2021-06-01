@@ -29,6 +29,7 @@ class HL_ActionChains:
         self.actions.click_and_hold()
         self.actions.pause(np.random.normal(0.092, 0.018))
         self.actions.release()
+        self.addDelayAfterAction()
         return self
 
     # Moves to a position in the viewport
@@ -39,6 +40,7 @@ class HL_ActionChains:
         t_cursor = TheoreticalCursor(self.x_pos, self.y_pos, x, y, self.webdriver, self.actions)
         self.x_pos = t_cursor.x_pos
         self.y_pos = t_cursor.y_pos
+        self.addDelayAfterAction()
         return self
 
     def move_by_offset(self, x, y):
@@ -78,6 +80,7 @@ class HL_ActionChains:
             self.actions.pause(HL_Util.std_positive(0.6, 0.4, 0.05)) # After closing a sentence
             self.write_character(" ")
         self.write_sentence(sentences[len(sentences)-1])
+        self.addDelayAfterAction()
 
     def click_and_hold(self, on_element=None):
         if on_element is not None:
@@ -107,6 +110,7 @@ class HL_ActionChains:
         if on_element is not None:
             self.move_to_element(on_element)
         self.actions.release()
+        self.addDelayAfterAction()
         return self
 
     def send_keys_to_element(self, element, keys_to_send):
@@ -151,6 +155,9 @@ class HL_ActionChains:
         if character.isupper() or character in special_characters:
             self.actions.pause(HL_Util.std_positive(0.03, 0.015, 0.003)) # Time before shift release
             self.actions.key_up("\ue008")
+
+    def addDelayAfterAction(self):
+        self.actions.pause(HL_Util.std_positive(0.3, 0.1, 0.025))
 
 class TheoreticalCursor():
 

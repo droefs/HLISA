@@ -123,7 +123,7 @@ Update the package using
 
 ## Extension
 
-These functions are part of the HL_Actions class. The extension functions **do not** support the chain pattern. They can **not** be queued up. The function actions are executed directly when the method is called.
+These functions are part of the `HL_Actions` class. The extension functions do **not** support the chain pattern. They can **not** be queued up. The function actions are executed **directly** when the method is called, in contrast to normal `(HL)_ActionChains` which are only executed after .perform() is called. The `HL_ActionsChains` passed to `HL_Actions` needs to be empty (`.perform()` has to be called) before a scroll function is called, as the scroll functions will execute all actions stored in the `HL_ActionChains`.
 
 ### Example
 
@@ -133,7 +133,7 @@ These functions are part of the HL_Actions class. The extension functions **do n
 
 `actions = HL_ActionChains(webdriver)`
 
-`extension = HL_Actions(actions, webdriver)`
+`extension = HL_Actions(actions, webdriver) # the actions needs to be empty`
 
 `extension.scroll_by(0, 500)`
 

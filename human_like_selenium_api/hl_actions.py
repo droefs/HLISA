@@ -21,17 +21,17 @@ class HL_Actions:
             self.scroll_by(0, y_relative)
         elif y_relative > viewport_height:
             self.scroll_by(0, y_relative - viewport_height/2)
-        x, y = HL_Util.behavorial_element_coordinates("", self.webdriver, element)  
+        x, y = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
         self.hl_action_chain.move_to(x, y)
         self.hl_action_chain.perform()
 
     # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
     # It would be detectable otherwise.
-    def scroll_by(self, x_diff, y_diff):
-        time.sleep(random.random() + 0.5)    
+    def scroll_by(self, x_diff, y_diff):    
         if x_diff != 0:
             logger.error("Scrolling horizontal not implemented")
         self.scroll_vertical(y_diff)
+        time.sleep(random.random() + 0.5)
 
     def scroll_vertical(self, y_diff):
         scroll_ticks = 0
