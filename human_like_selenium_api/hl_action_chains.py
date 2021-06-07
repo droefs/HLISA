@@ -18,6 +18,9 @@ class HL_ActionChains:
         self.actions = ActionChains(webdriver)
         HL_Util.increaseMousemovementSpeed()
 
+    def addDelayAfterAction(self):
+        self.actions.pause(HL_Util.std_positive(0.3, 0.1, 0.025))
+
     ##### Action chain methods #####
 
     # Clicks an element.
@@ -155,9 +158,6 @@ class HL_ActionChains:
         if character.isupper() or character in special_characters:
             self.actions.pause(HL_Util.std_positive(0.03, 0.015, 0.003)) # Time before shift release
             self.actions.key_up("\ue008")
-
-    def addDelayAfterAction(self):
-        self.actions.pause(HL_Util.std_positive(0.3, 0.1, 0.025))
 
 class TheoreticalCursor():
 
