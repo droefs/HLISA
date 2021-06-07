@@ -25,12 +25,17 @@ class HL_Util:
                 return (x, y)
         return None
 
+    # Returns a number from a normal distribution that is larger or equal to parameter 'minimal'.
+    # Due to the minimum value, the returned values will not form a normal distribution.
+    # To minimize this effect, values that would have been smaller than the minimum are not drawn
+    # again, but get added a random small value. The new number will never become larger as the mean.
     def std_positive(mean, std, minimal):
         sample = np.random.normal(mean, std)
         while sample < minimal:
             sample += random.random() * (mean - minimal)
         return sample
 
+    # The function to replace the original Selenium function that does not support specifying the duration.
     def create_pointer_move(self, duration=50, x=None, y=None, origin=None):
         action = dict(type="pointerMove", duration=duration)
         action["x"] = x
@@ -42,6 +47,7 @@ class HL_Util:
 
         self.add_action(action)
 
+    # Replace a function in the original Selenium API to increase mouse movement speed.
     def increaseMousemovementSpeed():
         PointerInput.create_pointer_move = HL_Util.create_pointer_move
 
