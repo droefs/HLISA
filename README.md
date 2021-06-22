@@ -1,8 +1,6 @@
-# HumanLikeSeleniumAPI
+# HLISA
 
-### (a better name is welcome)
-
-This API intends to replace and extend the Python version of the ActionChains object of the Selenium API. The documentation can be found below. The original API can be found [here](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html).
+This API intends to replace and extend the Python version of the ActionChains object of the Selenium API. The documentation can be found below. The original Selenium API can be found [here](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html).
 
 ## Installing and updating
 
@@ -10,11 +8,11 @@ This API intends to replace and extend the Python version of the ActionChains ob
 
 The package can be installed using pip. To do so, first clone this repository
 
-`git clone git@github.com:droefs/HumanLikeSeleniumAPI.git`
+`git clone git@github.com:droefs/HLISA.git`
 
 Change directories into the project folder
 
-`cd HumanLikeSeleniumAPI`
+`cd HLISA`
 
 Activate the OpenWPM conda environment if applicable
 
@@ -48,9 +46,9 @@ Update the package using
 
 ### Example
 
-`from human_like_selenium_api.hl_action_chains import HL_ActionChains`
+`from hlisa.hl_action_chains import HL_ActionChains`
 
-`from human_like_selenium_api.hl_actions import HL_Actions`
+`from hlisa.hl_actions import HL_Actions`
 
 **The chain pattern works just like the Selenium ActionChains:**
 
