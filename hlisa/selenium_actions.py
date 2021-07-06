@@ -10,10 +10,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 from hlisa.util import HL_Util
 
 class HL_Selenium_Actions:
+
+    x_pos = 0
+    y_pos = 0
     
     def __init__(self, webdriver):
-        self.x_pos = 0
-        self.y_pos = 0
         self.webdriver = webdriver
         self.actions = ActionChains(webdriver)
         HL_Util.increaseMousemovementSpeed()
@@ -36,7 +37,7 @@ class HL_Selenium_Actions:
         return self
 
     def move_by_offset(self, x, y):
-        self.move_to(self.x_pos + x, self.y_pos + y)
+        self.move_to(HL_Selenium_Actions.x_pos + x, self.y_pos + y)
         return self
 
     def move_to_element(self, element):
@@ -121,9 +122,9 @@ class HL_Selenium_Actions:
     #   x: x-coordinate to move to
     #   y: y-coordinate to move to
     def move_to(self, x, y):
-        t_cursor = TheoreticalCursor(self.x_pos, self.y_pos, x, y, self.webdriver, self.actions)
-        self.x_pos = t_cursor.x_pos
-        self.y_pos = t_cursor.y_pos
+        t_cursor = TheoreticalCursor(HL_Selenium_Actions.x_pos, self.y_pos, x, y, self.webdriver, self.actions)
+        HL_Selenium_Actions.x_pos = t_cursor.x_pos
+        HL_Selenium_Actions.y_pos = t_cursor.y_pos
         self.addDelayAfterAction()
         return self
 
