@@ -6,14 +6,14 @@ import numpy as np
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 
-from hlisa.hl_util import HL_Util
+from hlisa.util import HL_Util
+from hlisa.selenium_actions import HL_Selenium_Actions
 
-class HL_Actions:
+class HL_Additional_Actions:
     scroll_tick_size = 57
 
-    def __init__(self, hl_action_chain, webdriver):
+    def __init__(self, webdriver):
         self.webdriver = webdriver
-        self.hl_action_chain = hl_action_chain
 
     # Function that defines a short pause between actions
     def shortPauze(self):
@@ -28,8 +28,9 @@ class HL_Actions:
         elif y_relative > viewport_height:
             self.scroll_by(0, y_relative - viewport_height/2)
         x, y = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
-        self.hl_action_chain.move_to(x, y)
-        self.hl_action_chain.perform()
+        selenium_actions = HL_Selenium_Actions(self.webdriver)
+        selenium_actions.move_to(x, y)
+        selenium_actions.perform()
 
     # This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
     # It would be detectable otherwise.

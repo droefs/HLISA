@@ -7,13 +7,14 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from hlisa.hl_util import HL_Util
+from hlisa.util import HL_Util
 
-class HL_ActionChains:
+class HL_Selenium_Actions:
+
+    x_pos = 0
+    y_pos = 0
     
     def __init__(self, webdriver):
-        self.x_pos = 0
-        self.y_pos = 0
         self.webdriver = webdriver
         self.actions = ActionChains(webdriver)
         HL_Util.increaseMousemovementSpeed()
@@ -35,19 +36,8 @@ class HL_ActionChains:
         self.addDelayAfterAction()
         return self
 
-    # Moves to a position in the viewport
-    # Args:
-    #   x: x-coordinate to move to
-    #   y: y-coordinate to move to
-    def move_to(self, x, y):
-        t_cursor = TheoreticalCursor(self.x_pos, self.y_pos, x, y, self.webdriver, self.actions)
-        self.x_pos = t_cursor.x_pos
-        self.y_pos = t_cursor.y_pos
-        self.addDelayAfterAction()
-        return self
-
     def move_by_offset(self, x, y):
-        self.move_to(self.x_pos + x, self.y_pos + y)
+        self.move_to(HL_Selenium_Actions.x_pos + x, self.y_pos + y)
         return self
 
     def move_to_element(self, element):
@@ -125,6 +115,19 @@ class HL_ActionChains:
     def context_click(on_element=None):
         raise NotImplementedError("This functionality is not yet implemented")
     
+    ##### Non-Selenium action chain methods #####
+
+    # Moves to a position in the viewport
+    # Args:
+    #   x: x-coordinate to move to
+    #   y: y-coordinate to move to
+    def move_to(self, x, y):
+        t_cursor = TheoreticalCursor(HL_Selenium_Actions.x_pos, self.y_pos, x, y, self.webdriver, self.actions)
+        HL_Selenium_Actions.x_pos = t_cursor.x_pos
+        HL_Selenium_Actions.y_pos = t_cursor.y_pos
+        self.addDelayAfterAction()
+        return self
+
     ##### Util functions #####
 
     def write_sentence(self, sentence):

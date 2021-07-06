@@ -1,6 +1,6 @@
 # HLISA
 
-This API intends to replace and extend the Python version of the ActionChains object of the Selenium API. The documentation can be found below. The original Selenium API can be found [here](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html).
+This API replaces and extends the Python version of the ActionChains object of the Selenium API. The documentation can be found below. The original Selenium API can be found [here](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html).
 
 ## Installing and updating
 
@@ -36,47 +36,60 @@ Update the package using
 
 `pip install . --upgrade`
 
-## Action chains
+## Usage
 
-### Limitations
-
-- It is not possible to create multiple instances of the HL_ActionChains class. Creating multiple instances will cause the mouse moves to end at a wrong location.
-- It is not possible to use HL_ActionChains mouse movements after calling mouse movement functions from the original Selenium ActionChains API.
-- Not all functions are yet implemented. Please let me know if any function is needed with priority.
+The HLISA_ActionChains can be used just like the Selenium ActionChains object. It is **not** possible to use the standard Selenium ActionChains object alongside HLISA. For details, see the limitations section.
 
 ### Example
 
-`from hlisa.hl_action_chains import HL_ActionChains`
-
-`from hlisa.hl_actions import HL_Actions`
+```
+from hlisa.hlisa_action_chains import HLISA_ActionChains
+human_like_actions = HLISA_ActionChains(webdriver)
+human_like_actions.click()
+human_like_actions.perform()
+```
 
 **The chain pattern works just like the Selenium ActionChains:**
 
-`actions = HL_ActionChains(webdriver)`
+```
+actions = HLISA_ActionChains(webdriver)
+menu = webdriver.find_element(By.CSS_SELECTOR, ".nav")
+hidden_submenu = webdriver.find_element(By.CSS_SELECTOR, ".nav #submenu1")
+actions.move_to_element(menu).click(hidden_submenu).perform()
+```
 
-`menu = driver.find_element(By.CSS_SELECTOR, ".nav")`
+**And so does queuing up:**
 
-`hidden_submenu = driver.find_element(By.CSS_SELECTOR, ".nav #submenu1")`
+```
+menu = webdriver.find_element(By.CSS_SELECTOR, ".nav")
+hidden_submenu = webdriver.find_element(By.CSS_SELECTOR, ".nav #submenu1")
+actions = HLISA_ActionChains(webdriver)`
+actions.move_to_element(menu)
+actions.click(hidden_submenu)
+actions.perform()
+```
 
-`actions.move_to_element(menu).click(hidden_submenu).perform()`
+## Migrating from Selenium ActionChains to HLISA ActionChains
 
-**Just as queuing up:**
+The HLISA ActionChains API is a strict superset of the Selenium ActionChains API (as soon as it is completely implemented). Therefore, it is possible to migrate in two steps:
 
-`menu = driver.find_element(By.CSS_SELECTOR, ".nav")`
+1: import the HLISA ActionChains object:
 
-`hidden_submenu = driver.find_element(By.CSS_SELECTOR, ".nav #submenu1")`
+`from hlisa.hlisa_action_chains import HLISA_ActionChains`
 
-`actions = HL_ActionChains(webdriver)`
+2: replace all occurences of `ActionChains` by `HLISA_ActionChains`:
 
-`actions.move_to_element(menu)`
+`actions = ActionChains(driver)` becomes `actions = HLISA_ActionChains(driver)`
 
-`actions.click(hidden_submenu)`
+## API:
 
-`actions.perform()`
+### Selenium actions:
 
-### Implemented:
+#### Implemented:
 
 **click**(*on_element=None*)
+
+**click_and_hold**(*on_element=None*)
 
 **move_by_offset**(*xoffset, yoffset*)
 
@@ -86,15 +99,15 @@ Update the package using
 
 **perform**()
 
+**release**(*on_element=None*)
+
 **send_keys**(**keys_to_send*)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Note:** characters that are pressed realistically, as if they were typed on a US-International keyboard, are: 0-9, a-z, A-Z, keys in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[selenium.webdriver.common.keys.Keys](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys) and all of the following: !@#$%^&*()_+{}|:>?-=[]\;,./
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Dead keys](https://en.wikipedia.org/wiki/Dead_key) in the US-International layout can cause detection.
 
-### Not implemented, but can be implemented:
-
-**click_and_hold**(*on_element=None*)
+#### Not implemented, but can be implemented:
 
 **double_click**(*on_element=None*)
 
@@ -108,34 +121,16 @@ Update the package using
 
 **move_to_element_with_offset**(*to_element, xoffset, yoffset*)
 
-**release**(*on_element=None*)
-
 **send_keys_to_element**(*element, *keys_to_send*)
-
-### Can not be implemented:
-
-**context_click**(*on_element=None*)
 
 **reset_actions**()
 
+### Can not be implemented human like:
 
-## Extension
+**context_click**(*on_element=None*)
 
-These functions are part of the `HL_Actions` class. The extension functions do **not** support the chain pattern. They can **not** be queued up. The function actions are executed **directly** when the method is called, in contrast to normal `(HL)_ActionChains` which are only executed after .perform() is called. The `HL_ActionsChains` passed to `HL_Actions` needs to be empty (`.perform()` has to be called) before a scroll function is called, as the scroll functions will execute all actions stored in the `HL_ActionChains`.
 
-### Example
-
-`from human_like_selenium_api.hl_action_chains import HL_ActionChains`
-
-`from human_like_selenium_api.hl_actions import HL_Actions`
-
-`actions = HL_ActionChains(webdriver)`
-
-`extension = HL_Actions(actions, webdriver) # the actions needs to be empty`
-
-`extension.scroll_by(0, 500)`
-
-### Implemented:
+### Additional actions:
 
 **move_to_element_outside_viewport**(*element*)
 
@@ -148,6 +143,20 @@ Scrolls by *x_diff* and *y_diff* pixels. **Warning: up to 56 pixels can be scrol
 **scroll_to**(*x, y*)
 
 Scrolls to pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled more than specified in the parameters to prevent detection.**
+
+
+### Limitations
+
+- Not all functions are implemented yet.
+- It is not possible to call interactions on Elements, like so:
+
+`text_field = webdriver.find_element_by_id("text_field")`
+
+`text_field.send_keys("HLISA")`
+
+This will function, but the interaction is performed by Selenium, not HLISA, and therefore does not seem human like.
+
+- It is not possible to use HL_ActionChains mouse movements after calling mouse movement functions from the original Selenium ActionChains API.
 
 ## Further notes
 
