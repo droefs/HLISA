@@ -7,8 +7,8 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from hlisa.hl_util import HL_Util
-from hlisa.hl_action_chains import HL_ActionChains
+from hlisa.util import HL_Util
+from hlisa.selenium_actions import HL_Selenium_Actions
 
 class HLISA_ActionChains:
 
@@ -22,7 +22,7 @@ class HLISA_ActionChains:
     # Args:	
     #   on_element: The element to click. If None, clicks on current mouse position.
     def click(self, element=None):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.click(element)
         self.chain.append(lambda: actions.perform())
         return self
@@ -31,7 +31,7 @@ class HLISA_ActionChains:
     # Args:	
     #   on_element: The element to mouse down. If None, clicks on current mouse position.
     def click_and_hold(self, on_element=None):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.click_and_hold(on_element)
         self.chain.append(lambda: actions.perform())
         return self
@@ -85,7 +85,7 @@ class HLISA_ActionChains:
     #    xoffset: X offset to move to, as a positive or negative integer.
     #    yoffset: Y offset to move to, as a positive or negative integer.
     def move_by_offset(self, x, y):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.move_by_offset(x, y)
         self.chain.append(lambda: actions.perform())
         return self
@@ -94,7 +94,7 @@ class HLISA_ActionChains:
     # Args:	
     #    to_element: The WebElement to move to.
     def move_to_element(self, element):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.move_to_element(element)
         self.chain.append(lambda: actions.perform())
         return self
@@ -110,7 +110,7 @@ class HLISA_ActionChains:
 
     # Pause all inputs for the specified duration in seconds
     def pause(self, seconds):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.pause(seconds)
         self.chain.append(lambda: actions.perform())
         return self
@@ -126,7 +126,7 @@ class HLISA_ActionChains:
     # Args:
     #    on_element: The element to mouse up. If None, releases on current mouse position.
     def release(self, on_element=None):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.release(on_element)
         self.chain.append(lambda: actions.perform())
         return self
@@ -139,7 +139,7 @@ class HLISA_ActionChains:
     # Args:	
     #    keys_to_send: The keys to send. Modifier keys constants can be found in the ‘Keys’ class.
     def send_keys(self, keys_to_send):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.send_keys(keys_to_send)
         self.chain.append(lambda: actions.perform())
         return self
@@ -151,14 +151,10 @@ class HLISA_ActionChains:
     def send_keys_to_element(self, element, keys_to_send):
         raise NotImplementedError("This functionality is not yet implemented")
 
-    ##### Additional non-Selenium action chain methods #####
+    ##### Additional actions #####
 
     def move_to(self, x, y):
-        actions = HL_ActionChains(self.webdriver)
+        actions = HL_Selenium_Actions(self.webdriver)
         actions.move_to(x, y)
         self.chain.append(lambda: actions.perform())
         return self
-
-    ##### Additional non-action chain methods #####
-
-    

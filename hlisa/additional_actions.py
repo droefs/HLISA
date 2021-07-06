@@ -6,9 +6,9 @@ import numpy as np
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 
-from hlisa.hl_util import HL_Util
+from hlisa.util import HL_Util
 
-class HL_Actions:
+class HL_Additional_Actions:
     scroll_tick_size = 57
 
     def __init__(self, hl_action_chain, webdriver):
