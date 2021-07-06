@@ -9,6 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from hlisa.util import HL_Util
 from hlisa.selenium_actions import HL_Selenium_Actions
+from hlisa.additional_actions import HL_Additional_Actions
 
 # This object holds its own chain of actions in self.chain.
 # Every API call on this object adds the action to the chain,
@@ -95,7 +96,7 @@ class HLISA_ActionChains:
         self.chain.append(lambda: actions.perform())
         return self
 
-    # Moving the mouse to the middle of an element.
+    #  Moving the mouse to a random location in an element.
     # Args:	
     #    to_element: The WebElement to move to.
     def move_to_element(self, element):
@@ -157,8 +158,37 @@ class HLISA_ActionChains:
 
     ##### Additional actions #####
 
+    #   Move the mouse a given location.
+    # Args:
+    #   x: x position to move to.
+    #   y: y position to move to.
     def move_to(self, x, y):
         actions = HL_Selenium_Actions(self.webdriver)
         self.chain.append(lambda: actions.move_to(x, y))
         self.chain.append(lambda: actions.perform())
         return self
+
+    # Moving the mouse to a random location in an element. The element can be outside the viewport.
+    # Args:	
+    #    to_element: The WebElement to move to.
+    def move_to_element_outside_viewport(self, element):
+        additional_actions = HL_Additional_Actions(self.webdriver)
+        self.chain.append(lambda: additional_actions.move_to_element_outside_viewport(element))
+
+    # Scrolls the viewport by an offset. Scrolling happens in fixed steps of 57 pixels to prevent detection.
+    # NOTE: The scrolled distance can thus deviate up to 56 pixels from the distance specified.
+    # Args:
+    # x_diff: X offset to scroll by.
+    # y_diff: Y offset to scroll by.
+    def scroll_by(self, x_diff, y_diff):
+        additional_actions = HL_Additional_Actions(self.webdriver)
+        self.chain.append(lambda: additional_actions.scroll_by(x_diff, y_diff))
+
+    # Scrolls the viewport to a location. Scrolling happens in fixed steps of 57 pixels to prevent detection.
+    # NOTE: The scrolled distance can thus deviate up to 56 pixels from the distance specified.
+    # Args:
+    # x_diff: X location to scroll to.
+    # y_diff: Y location to scroll to.
+    def scroll_to(self, x_diff, y_diff):
+        additional_actions = HL_Additional_Actions(self.webdriver)
+        self.chain.append(lambda: additional_actions.scroll_to(x_diff, y_diff))
