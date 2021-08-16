@@ -77,7 +77,7 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 `from hlisa.hlisa_action_chains import HLISA_ActionChains`
 
-2: replace all occurences of `ActionChains` by `HLISA_ActionChains`:
+2: replace all occurrences of `ActionChains` by `HLISA_ActionChains`:
 
 `actions = ActionChains(driver)` becomes `actions = HLISA_ActionChains(driver)`
 
