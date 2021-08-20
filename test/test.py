@@ -20,6 +20,7 @@ class HLISATests(BaseCommand):
         webdriver.maximize_window()
         webdriver.get('http://localhost:8000/')
 
+        # Clicking
         actions = HLISA_ActionChains(webdriver)
 
         button1 = webdriver.find_element_by_id("button1")
