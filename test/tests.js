@@ -11,37 +11,40 @@ function sendMessage(message) {
       fetch(f);
   }
   
-  $('#button1').on("click", function() {clickTest()});
+  $('#button1').on("mousedown", function() {clickTest()});
+  $('#button1').on("mouseup", function() {
+    button1Timings.push({
+      "dwellTime": performance.now() - pressTime
+    });
+  });
   
   let clicks = 0;
-  clickTime = performance.now();
+  let pressTime = performance.now();
   let button1Clicks = []
+  let button1Timings = []
 
   function clickTest() {
-    let previousClickTime = clickTime;
-    clickTime = performance.now();
+    pressTime = performance.now();
 
-    // Log clicks
     button1Clicks.push({
       "x": event.pageX,
-      "y": event.pageY,
-      "dwellTime": clickTime - previousClickTime
+      "y": event.pageY
     });
 
     clicks += 1;
     if (clicks == 10) {
-      if (clicksLookBotlike(button1Clicks))
+      if (clicksLookBotlike(button1Clicks, button1Timings))
         sendMessage("Click test failed");
       else
         sendMessage("Click test succeeded");
     }
   }
 
-  function clicksLookBotlike(button1Clicks) {
+  function clicksLookBotlike(button1Clicks, button1Timings) {
     let buttonCoordinates = document.getElementById("button1").getBoundingClientRect();
     let botlikeClicks = 0;
-			for (let i = 0; i < button1Clicks.length; i++) {
-				if (button1Clicks[i]["dwellTime"] < 5) {
+			for (let i = 0; i < button1Timings.length; i++) {
+        if (button1Timings[i]["dwellTime"] < 5) {
 					botlikeClicks++;
 				}
 				else if (Math.abs(button1Clicks[i]["x"] - (buttonCoordinates.left + buttonCoordinates.width / 2)) < 2 &&
