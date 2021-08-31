@@ -112,8 +112,12 @@ class HL_Selenium_Actions:
     def reset_actions():
         raise NotImplementedError("This functionality is not yet implemented")
 
-    def context_click(on_element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+    def context_click(self, on_element=None):
+        if on_element is not None:
+            self.move_to_element(on_element)
+        self.actions.context_click()
+        self.addDelayAfterAction()
+        return self
     
     ##### Non-Selenium action chain methods #####
 

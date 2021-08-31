@@ -45,8 +45,11 @@ class HLISA_ActionChains:
     # Performs a context-click (right click) on an element.
     # Args:	
     #   on_element: The element to context-click. If None, clicks on current mouse position.
-    def context_click(on_element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+    def context_click(self, on_element=None):
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.context_click(on_element))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     # Double-clicks an element.
     # Args:	

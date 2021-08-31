@@ -10,6 +10,9 @@ function sendMessage(message) {
       });
       fetch(f);
   }
+
+
+  // Clicking test:
   
   $('#button1').on("mousedown", function() {clickTest()});
   $('#button1').on("mouseup", function() {
@@ -34,9 +37,9 @@ function sendMessage(message) {
     clicks += 1;
     if (clicks == 10) {
       if (clicksLookBotlike(button1Clicks, button1Timings))
-        sendMessage("Click test failed");
+        sendMessage("Test 1: Click test failed");
       else
-        sendMessage("Click test succeeded");
+        sendMessage("Test 1: Click test succeeded");
     }
   }
 
@@ -53,4 +56,16 @@ function sendMessage(message) {
 				}
       }
     return botlikeClicks > button1Clicks.length / 2;
+  }
+
+  // Context clicking test:
+
+  $('#button2').on("mousedown", function() {contextClickTest(event)});
+
+  function contextClickTest(event) {
+    
+    if (event.which === 3)
+      sendMessage("Test 2 succeeded (Context click test)");
+    else
+      sendMessage("Test 2 failed: (Context click test)");
   }

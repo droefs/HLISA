@@ -91,6 +91,8 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 **click_and_hold**(*on_element=None*)
 
+**context_click**(*on_element=None*) **Note:** This function is NOT human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *context_click()* function.
+
 **move_by_offset**(*xoffset, yoffset*)
 
 **move_to_element**(*to_element*)
@@ -125,11 +127,6 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 **reset_actions**()
 
-### Can not be implemented human like:
-
-**context_click**(*on_element=None*)
-
-
 ### Additional actions:
 
 **move_to_element_outside_viewport**(*element*)
@@ -157,6 +154,8 @@ Scrolls to pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled m
 This will function, but the interaction is performed by Selenium, not HLISA, and therefore does not seem human like.
 
 - It is not possible to use HL_ActionChains mouse movements after calling mouse movement functions from the original Selenium ActionChains API.
+
+- The *context_click()* function is not human like.
 
 ## Further notes
 
