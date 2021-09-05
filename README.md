@@ -6,35 +6,13 @@ This API replaces and extends the Python version of the ActionChains object of t
 
 ### Installing
 
-The package can be installed using pip. To do so, first clone this repository
+The package can be installed using pip:
 
-`git clone git@github.com:droefs/HLISA.git`
+`pip install HLISA`
 
-Change directories into the project folder
+And upgraded in the same fashion:
 
-`cd HLISA`
-
-Activate the OpenWPM conda environment if applicable
-
-`conda activate openwpm`
-
-Now install the package using
-
-`pip install .`
-
-### Updating
-
-In the git repository, retrieve the newest version
-
-`git pull`
-
-Activate the OpenWPM conda environment if applicable
-
-`conda activate openwpm`
-
-Update the package using
-
-`pip install . --upgrade`
+`pip install HLISA --upgrade`
 
 ## Usage
 
@@ -43,7 +21,7 @@ The HLISA_ActionChains can be used just like the Selenium ActionChains object. I
 ### Example
 
 ```
-from hlisa.hlisa_action_chains import HLISA_ActionChains
+from HLISA.hlisa_action_chains import HLISA_ActionChains
 human_like_actions = HLISA_ActionChains(webdriver)
 human_like_actions.click()
 human_like_actions.perform()
@@ -75,7 +53,7 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 1: import the HLISA ActionChains object:
 
-`from hlisa.hlisa_action_chains import HLISA_ActionChains`
+`from HLISA.hlisa_action_chains import HLISA_ActionChains`
 
 2: replace all occurrences of `ActionChains` by `HLISA_ActionChains`:
 

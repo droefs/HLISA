@@ -7,9 +7,9 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from hlisa.util import HL_Util
-from hlisa.selenium_actions import HL_Selenium_Actions
-from hlisa.additional_actions import HL_Additional_Actions
+from HLISA.util import HL_Util
+from HLISA.selenium_actions import HL_Selenium_Actions
+from HLISA.additional_actions import HL_Additional_Actions
 
 # This object holds its own chain of actions in self.chain.
 # Every API call on this object adds the action to the chain,
