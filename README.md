@@ -14,6 +14,8 @@ And upgraded in the same fashion:
 
 `pip install HLISA --upgrade`
 
+(When using OpenWPM, it might be necessary to activate the correct conda environment before installing or upgrading HLISA: `conda activate openwpm`).
+
 ## Usage
 
 The HLISA_ActionChains can be used just like the Selenium ActionChains object. It is **not** possible to use the standard Selenium ActionChains object alongside HLISA. For details, see the limitations section.
