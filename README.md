@@ -109,6 +109,10 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 ### Additional actions:
 
+**move_to**(*x, y*)
+
+Moves the mouse cursor to the specified coordinates relative to the viewport. The position after the movement will correspond to MouseEvent.clientX and MouseEvent.clientY as specified by [UI Events specification](https://w3c.github.io/uievents/#event-type-mousemove).
+
 **move_to_element_outside_viewport**(*element*)
 
 Scrolls the viewport, then moves the mouse to the element.
