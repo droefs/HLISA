@@ -34,9 +34,9 @@ class HLISATests(BaseCommand):
 
         # Test whether cursor location is correct after scroll:
 
-        actions.move_by_offset(100, 100)
         actions.scroll_by(0, 100)
-        actions.move_to(300, 300)
+        button3 = webdriver.find_element_by_id("button3")
+        actions.click(button3)
 
         actions.pause(5)
         actions.perform()

@@ -37,9 +37,9 @@ function sendMessage(message) {
     clicks += 1;
     if (clicks == 10) {
       if (clicksLookBotlike(button1Clicks, button1Timings))
-        sendMessage("Test 1: Click test failed");
+        sendMessage("Test 1: failed (click test)");
       else
-        sendMessage("Test 1: Click test succeeded");
+        sendMessage("Test 1: succeeded (click test)");
     }
   }
 
@@ -65,9 +65,9 @@ function sendMessage(message) {
   function contextClickTest(event) {
     
     if (event.which === 3)
-      sendMessage("Test 2 succeeded (Context click test)");
+      sendMessage("Test 2: succeeded (Context click test)");
     else
-      sendMessage("Test 2 failed: (Context click test)");
+      sendMessage("Test 2: failed: (Context click test)");
   }
 
   // Test whether cursor location is correct after scroll:
@@ -75,11 +75,11 @@ function sendMessage(message) {
   $('#button3').on("mousedown", function() {cursorLocationAfterScroll(event)});
 
   function cursorLocationAfterScroll(event) {
-    sendMessage("Test 3 succeeded (Cursor location after scroll test)");
+    sendMessage("Test 3: succeeded (Cursor location after scroll test)");
   }
 
   $('#button4').on("mousedown", function() {cursorLocationAfterScroll2(event)});
 
   function cursorLocationAfterScroll2(event) {
-    sendMessage("Test 3 failed (Cursor location after scroll test)");
+    sendMessage("Test 3: failed (Cursor location after scroll test)");
   }
