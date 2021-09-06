@@ -13,10 +13,14 @@ class HL_Selenium_Actions:
 
     x_pos = 0
     y_pos = 0
+    browser_resets_cursor_location = False
+    page_location = ""
     
     def __init__(self, webdriver):
         self.webdriver = webdriver
         self.actions = ActionChains(webdriver)
+        if HL_Selenium_Actions.page_location == "":
+            HL_Selenium_Actions.page_location = self.webdriver.execute_script("return (location.host + location.pathname)")
         HL_Util.increaseMousemovementSpeed()
 
     def addDelayAfterAction(self):
@@ -126,6 +130,11 @@ class HL_Selenium_Actions:
     #   x: x-coordinate to move to
     #   y: y-coordinate to move to
     def move_to(self, x, y):
+        current_page_location = self.webdriver.execute_script("return (location.host + location.pathname)")
+        if current_page_location != HL_Selenium_Actions.page_location and HL_Selenium_Actions.browser_resets_cursor_location:
+            HL_Selenium_Actions.page_location = current_page_location
+            HL_Selenium_Actions.x_pos = 0
+            HL_Selenium_Actions.y_pos = 0
         t_cursor = TheoreticalCursor(HL_Selenium_Actions.x_pos, HL_Selenium_Actions.y_pos, x, y, self.webdriver, self.actions)
         HL_Selenium_Actions.x_pos = t_cursor.x_pos
         HL_Selenium_Actions.y_pos = t_cursor.y_pos

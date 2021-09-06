@@ -128,7 +128,7 @@ Scrolls to pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled m
 
 ### Limitations
 
-- HLISA does not support a remote end.
+- HLISA does not support a remote end (Selenium Server).
 - Not all functions are implemented yet.
 - It is not possible to call interactions on Elements, like so:
 

@@ -18,9 +18,10 @@ from HLISA.additional_actions import HL_Additional_Actions
 # called.
 class HLISA_ActionChains:
 
-    def __init__(self, webdriver):
+    def __init__(self, webdriver, browser_resets_cursor_location=True):
         self.webdriver = webdriver
         self.chain = []
+        HL_Selenium_Actions.browser_resets_cursor_location = browser_resets_cursor_location
 
     ##### Standard Selenium action chain methods #####
 

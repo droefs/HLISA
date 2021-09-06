@@ -11,6 +11,13 @@ function sendMessage(message) {
       fetch(f);
   }
 
+function trackCursor(e) {
+  console.log("A mousemove ended at: (" + e.clientX + ", " + e.clientY + ")");
+  $('#cursor').css({'left': (e.pageX-10) + "px"});
+  $('#cursor').css({'top': (e.pageY-10) + "px"});
+}
+
+document.addEventListener("mousemove", function(e) {trackCursor(e)});
 
   // Clicking test:
   

@@ -5,6 +5,7 @@
     <title>HLISA Tests</title>
   </head>
   <body>
+    <img id="cursor" style="position:absolute; left: -100px; top: -100px; width: 20px; height: 20px;z-index:-1;" src="cursor.png">
     <button onclick="" id="button1" style="border-radius: 120px; width:100px; height: 100px;">Test button 1</button>
     <button onclick="" id="button2" style="border-radius: 120px; width:100px; height: 100px; margin-top: 200px; margin-left: 300px">Test button 2</button>
     <button onclick="" id="button3" style="position: absolute; border-radius: 0px; width:100px; height: 20px; margin-top: 400px; margin-left: 0px">Test button 3</button>
@@ -14,7 +15,7 @@
     <p>Lorum ipsum</p>
     <p>Lorum ipsum</p>
     <p>Lorum ipsum</p>
-    <p>Lorum ipsum</p>
+    <p><a id="page2link" href="page2.html">To page two</a></p>
     <p>Lorum ipsum</p>
     <p>Lorum ipsum</p>
     <p>Lorum ipsum</p>
@@ -43,10 +44,5 @@
 
     <script src="jquery.js"></script>
     <script src="tests.js"></script>
-    <script>
-      document.addEventListener("mousemove", function(e) {
-        console.log("A mousemove ended at: (" + e.clientX + ", " + e.clientY + ")");
-      });
-    </script>
   </body>
 </html>

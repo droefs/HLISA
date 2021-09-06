@@ -37,6 +37,21 @@ class HLISATests(BaseCommand):
         actions.scroll_by(0, 100)
         button3 = webdriver.find_element_by_id("button3")
         actions.click(button3)
+        
+        actions.perform()
 
-        actions.pause(5)
+        # Test whether the cursor location is correcter after a different page has been loaded:
+
+        actions.reset_actions()
+        page2link = webdriver.find_element_by_id("page2link")
+        actions.click(page2link)
+        actions.perform()
+
+        actions.reset_actions()
+        button1 = webdriver.find_element_by_id("button1")
+        actions.click(button1)
+
+        # End of tests
+
+        actions.pause(50)
         actions.perform()
