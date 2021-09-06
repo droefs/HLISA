@@ -89,6 +89,8 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Dead keys](https://en.wikipedia.org/wiki/Dead_key) in the US-International layout can cause detection.
 
+**reset_actions**()
+
 #### Not implemented, but can be implemented:
 
 **double_click**(*on_element=None*)
@@ -104,8 +106,6 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 **move_to_element_with_offset**(*to_element, xoffset, yoffset*)
 
 **send_keys_to_element**(*element, *keys_to_send*)
-
-**reset_actions**()
 
 ### Additional actions:
 
@@ -128,6 +128,7 @@ Scrolls to pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled m
 
 ### Limitations
 
+- HLISA does not support a remote end.
 - Not all functions are implemented yet.
 - It is not possible to call interactions on Elements, like so:
 

@@ -139,9 +139,10 @@ class HLISA_ActionChains:
         self.chain.append(lambda: actions.perform())
         return self
 
-    # Clears actions that are already stored locally and on the remote end
-    def reset_actions():
-        raise NotImplementedError("This functionality is not yet implemented")
+    # Clears actions that are already stored locally
+    def reset_actions(self):
+        self.chain = []
+        return self
 
     # Sends keys to current focused element.
     # Args:	
