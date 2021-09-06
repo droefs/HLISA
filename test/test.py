@@ -15,7 +15,7 @@ class HLISATests(BaseCommand):
         extension_socket,
     ) -> None:
 
-        from hlisa.hlisa_action_chains import HLISA_ActionChains
+        from HLISA.hlisa_action_chains import HLISA_ActionChains
 
         webdriver.maximize_window()
         webdriver.get('http://localhost:8000/')
@@ -31,6 +31,12 @@ class HLISATests(BaseCommand):
 
         button2 = webdriver.find_element_by_id("button2")
         actions.context_click(button2)
+
+        # Test whether cursor location is correct after scroll:
+
+        actions.move_by_offset(100, 100)
+        actions.scroll_by(0, 100)
+        actions.move_to(300, 300)
 
         actions.pause(5)
         actions.perform()

@@ -69,3 +69,17 @@ function sendMessage(message) {
     else
       sendMessage("Test 2 failed: (Context click test)");
   }
+
+  // Test whether cursor location is correct after scroll:
+
+  $('#button3').on("mousedown", function() {cursorLocationAfterScroll(event)});
+
+  function cursorLocationAfterScroll(event) {
+    sendMessage("Test 3 succeeded (Cursor location after scroll test)");
+  }
+
+  $('#button4').on("mousedown", function() {cursorLocationAfterScroll2(event)});
+
+  function cursorLocationAfterScroll2(event) {
+    sendMessage("Test 3 failed (Cursor location after scroll test)");
+  }
