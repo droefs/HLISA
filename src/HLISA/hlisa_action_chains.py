@@ -64,7 +64,10 @@ class HLISA_ActionChains:
     #   source: The element to mouse down.
     #   target: The element to mouse up.
     def drag_and_drop(self, source, target):
-        raise NotImplementedError("This functionality is not yet implemented")
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.drag_and_drop(source, target))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     # Holds down the left mouse button on the source element,
     #    then moves to the target offset and releases the mouse button.

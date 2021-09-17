@@ -89,7 +89,11 @@ class HL_Selenium_Actions:
         raise NotImplementedError("This functionality is not yet implemented")
         
     def drag_and_drop(self, source, target):
-        raise NotImplementedError("This functionality is not yet implemented")
+        self.click_and_hold(source)
+        self.pause(np.random.normal(0.07, 0.01))
+        self.release(target)
+        self.addDelayAfterAction()
+        return self
 
     def drag_and_drop_by_offset(self, source, xoffset, yoffset):
         raise NotImplementedError("This functionality is not yet implemented")

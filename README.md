@@ -73,6 +73,10 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 **context_click**(*on_element=None*) **Note:** This function is NOT human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *context_click()* function.
 
+**drag_and_drop**(*source, target*)
+
+Warning: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).
+
 **move_by_offset**(*xoffset, yoffset*)
 
 **move_to_element**(*to_element*)
@@ -93,9 +97,7 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 #### Not implemented, but can be implemented:
 
-**double_click**(*on_element=None*)
-
-**drag_and_drop**(*source, target*)
+**double_click**(*on_element=None*) 
 
 **drag_and_drop_by_offset**(*source, xoffset, yoffset*)
 
@@ -108,6 +110,8 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 **send_keys_to_element**(*element, *keys_to_send*)
 
 ### Additional actions:
+
+These actions are not provided in the standard Selenium API (version 3.141), but they are provided in HLISA for convenience.
 
 **move_to**(*x, y*)
 
@@ -123,8 +127,7 @@ Scrolls by *x_diff* and *y_diff* pixels. **Warning: up to 56 pixels can be scrol
 
 **scroll_to**(*x, y*)
 
-Scrolls to pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled more than specified in the parameters to prevent detection.**
-
+Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled more than specified in the parameters to prevent detection.**
 
 ### Limitations
 

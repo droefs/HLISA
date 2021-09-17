@@ -42,14 +42,17 @@ class HLISATests(BaseCommand):
 
         # Test whether the cursor location is correcter after a different page has been loaded:
 
-        actions.reset_actions()
-        page2link = webdriver.find_element_by_id("page2link")
-        actions.click(page2link)
-        actions.perform()
+        webdriver.get('http://localhost:8000/page2.html')
 
         actions.reset_actions()
         button1 = webdriver.find_element_by_id("button1")
         actions.click(button1)
+
+        # Test drag and drop:
+
+        draggable_element = webdriver.find_element_by_id("draggable_element")
+        drag_endpoint = webdriver.find_element_by_id("drag_endpoint")
+        actions.drag_and_drop(draggable_element, drag_endpoint)
 
         # End of tests
 
