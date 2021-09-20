@@ -81,6 +81,8 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 
 **move_to_element**(*to_element*)
 
+**move_to_element_with_offset**(*to_element, xoffset, yoffset*)
+
 **pause**(*seconds*)
 
 **perform**()
@@ -104,8 +106,6 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 **key_down**(*value, element=None*)
 
 **key_up**(*value, element=None*)
-
-**move_to_element_with_offset**(*to_element, xoffset, yoffset*)
 
 **send_keys_to_element**(*element, *keys_to_send*)
 

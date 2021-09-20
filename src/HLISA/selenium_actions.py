@@ -105,7 +105,11 @@ class HL_Selenium_Actions:
         raise NotImplementedError("This functionality is not yet implemented")
 
     def move_to_element_with_offset(self, to_element, xoffset, yoffset):
-        raise NotImplementedError("This functionality is not yet implemented")
+        left_relative = to_element.rect['x'] - self.webdriver.execute_script("return window.pageXOffset;")
+        top_relative = to_element.rect['y'] - self.webdriver.execute_script("return window.pageYOffset;")
+        self.move_to(left_relative + xoffset, top_relative + yoffset)
+        self.addDelayAfterAction()
+        return self
 
     def release(self, on_element=None):
         if on_element is not None:

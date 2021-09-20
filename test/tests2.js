@@ -32,3 +32,18 @@ $('#draggable_element').on("dragstart", function() {event.dataTransfer.setData("
 
 $('#drag_endpoint').on("dragover", function() {event.preventDefault();});
 $('#drag_endpoint').on("drop", function() {event.preventDefault(); event.target.appendChild(document.getElementById(event.dataTransfer.getData("data"))); sendMessage("Test 5: succeeded (Drag and drop test)");});
+
+function elementWithOffsetTest(event) {
+  let rect = document.getElementById("element_with_offset").getBoundingClientRect();
+  let left_relative = rect['left'] - window.pageXOffset + 12;
+  let top_relative = rect['top'] - window.pageYOffset + 34;
+  if (event.clientX == left_relative && event.clientY == top_relative) {
+    sendMessage("Test 6: succeeded (Element with offset test)");
+  }
+  else {
+    sendMessage("Test 6: failed (Element with offset test)");
+    console.log("Target: (" + left_relative + ", " + top_relative + ", clicked on: (" + event.clientX + ", " + event.clientY + ")");
+  }
+}
+
+$('#element_with_offset').on("click", function() {elementWithOffsetTest(event)});

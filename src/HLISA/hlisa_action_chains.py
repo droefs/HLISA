@@ -119,7 +119,10 @@ class HLISA_ActionChains:
     #    xoffset: X offset to move to.
     #    yoffset: Y offset to move to.
     def move_to_element_with_offset(self, to_element, xoffset, yoffset):
-        raise NotImplementedError("This functionality is not yet implemented")
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.move_to_element_with_offset(to_element, xoffset, yoffset))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     # Pause all inputs for the specified duration in seconds
     def pause(self, seconds):

@@ -54,6 +54,12 @@ class HLISATests(BaseCommand):
         drag_endpoint = webdriver.find_element_by_id("drag_endpoint")
         actions.drag_and_drop(draggable_element, drag_endpoint)
 
+        # Element with offset test:
+
+        element_with_offset = webdriver.find_element_by_id("element_with_offset")
+        actions.move_to_element_with_offset(element_with_offset, 12, 34)
+        actions.click()
+
         # End of tests
 
         actions.pause(50)
