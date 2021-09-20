@@ -6,6 +6,7 @@ import numpy as np
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import MoveTargetOutOfBoundsException
 
 from HLISA.util import HL_Util
 
@@ -186,7 +187,12 @@ class HL_Selenium_Actions:
 class TheoreticalCursor():
 
     def __init__(self, x_start, y_start, x, y, webdriver, actions):
-        self.init_variables(x_start, y_start)        
+        windowWidth = webdriver.execute_script("return window.innerWidth;")
+        windowHeight = webdriver.execute_script("return window.innerHeight;")
+        if (x > windowWidth or y > windowHeight):
+            raise MoveTargetOutOfBoundsException("(HLISA) (" + str(x) + ", " + str(y) + ") is out of bounds of viewport width (" + str(windowWidth) + ") and height (" + str(windowHeight) + ")")
+        
+        self.init_variables(x_start, y_start)
         minimalDiff = self.calculatePointsAndDistances(x, y)
 
         self.sample_points = self.sample_points(minimalDiff)
