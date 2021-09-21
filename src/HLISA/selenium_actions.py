@@ -86,8 +86,18 @@ class HL_Selenium_Actions:
         self.actions.click_and_hold()
         return self
 
-    def double_click(self, on_element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+    def double_click(self, element=None):
+        if element is not None:
+            self.move_to_element(element)
+        self.actions.click_and_hold()
+        self.actions.pause(np.random.normal(0.083, 0.034))
+        self.actions.release()
+        self.actions.pause(np.random.normal(0.075, 0.026))
+        self.actions.click_and_hold()
+        self.actions.pause(np.random.normal(0.051, 0.016))
+        self.actions.release()
+        self.addDelayAfterAction()
+        return self
         
     def drag_and_drop(self, source, target):
         self.click_and_hold(source)

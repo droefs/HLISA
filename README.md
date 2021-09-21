@@ -73,6 +73,8 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 **context_click**(*on_element=None*) **Note:** This function is NOT human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *context_click()* function.
 
+**double_click**(*on_element=None*)
+
 **drag_and_drop**(*source, target*)
 
 Warning: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).
@@ -98,8 +100,6 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 **reset_actions**()
 
 #### Not implemented, but can be implemented:
-
-**double_click**(*on_element=None*) 
 
 **drag_and_drop_by_offset**(*source, xoffset, yoffset*)
 

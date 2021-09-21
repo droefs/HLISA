@@ -56,7 +56,10 @@ class HLISA_ActionChains:
     # Args:	
     #   on_element: The element to double-click. If None, clicks on current mouse position.
     def double_click(self, on_element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.double_click(on_element))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     # Holds down the left mouse button on the source element,
     # then moves to the target element and releases the mouse button.

@@ -60,6 +60,11 @@ class HLISATests(BaseCommand):
         actions.move_to_element_with_offset(element_with_offset, 12, 34)
         actions.click()
 
+        # Double click test:
+
+        double_click_element = webdriver.find_element_by_id("double_click")
+        actions.double_click(double_click_element)
+
         # End of tests
 
         actions.pause(50)
