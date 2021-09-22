@@ -97,6 +97,10 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 
 **send_keys**(**keys_to_send*)
 
+**send_keys_to_element**(*element, *keys_to_send*)
+
+Note: if the element can not be clicked on, for example because it is hidden behind a different element, it will not be selected.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Note:** characters that are pressed realistically, as if they were typed on a US-International keyboard, are: 0-9, a-z, A-Z, keys in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[selenium.webdriver.common.keys.Keys](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys) and all of the following: !@#$%^&*()_+{}|:>?-=[]\;,./
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Dead keys](https://en.wikipedia.org/wiki/Dead_key) in the US-International layout can cause detection.
@@ -108,8 +112,6 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 **key_down**(*value, element=None*)
 
 **key_up**(*value, element=None*)
-
-**send_keys_to_element**(*element, *keys_to_send*)
 
 ### Additional actions:
 

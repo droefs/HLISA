@@ -71,6 +71,11 @@ class HLISATests(BaseCommand):
         drag_endpoint_offset = webdriver.find_element_by_id("drag_endpoint_offset")
         actions.drag_and_drop_by_offset(draggable_element_offset, 500, 80)
 
+        # Send keys to element test:
+
+        send_keys_to_element_test = webdriver.find_element_by_id("send_keys_to_element_test")
+        actions.send_keys_to_element(send_keys_to_element_test, "test test")
+
         # End of tests
 
         actions.pause(50)

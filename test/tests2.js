@@ -27,6 +27,12 @@ function newPageCursorlocationTest(event) {
     sendMessage("Test 4: succeeded (New page cursor location test)");
 }
 
+$('#button2').on("mousedown", function() {newPageCursorlocationTestFail(event)});
+
+function newPageCursorlocationTestFail(event) {
+    sendMessage("Test 4: failed (New page cursor location test)");
+}
+
 // Drag and drop test
 
 $('#draggable_element').on("dragstart", function() {event.dataTransfer.setData("data", event.target.id);});
@@ -96,3 +102,33 @@ $('#draggable_element_offset').on("dragstart", function() {event.dataTransfer.se
 
 $('#drag_endpoint_offset').on("dragover", function() {event.preventDefault();});
 $('#drag_endpoint_offset').on("drop", function() {event.preventDefault(); event.target.appendChild(document.getElementById(event.dataTransfer.getData("data2"))); sendMessage("Test 8: succeeded (Drag and drop with offset test)");});
+
+// Send keys to element test
+
+let keydownTime = performance.now();
+let keyupTime = performance.now();
+let keySendToElementFailure = false;
+let keySendToElementCount = 0;
+
+function flightTimeTest() {
+  keydownTime = performance.now();
+  if (keydownTime - keyupTime < 5) {
+    keySendToElementFailure = false;
+    sendMessage("Test 9: failed (Send keys to element test) (This happens by chance once in approximately every 25 keys send due to the random distribution)");
+  }
+}
+
+function dwellTimeTest() {
+  keyupTime = performance.now();
+  if (keyupTime - keydownTime < 5) {
+    keySendToElementFailure = false;
+    sendMessage("Test 10: failed (Send keys to element test) (This happens by chance once in approximately every 25 keys send due to the random distribution)");
+  }
+  keySendToElementCount++;
+  if (keySendToElementCount > 8 && !keySendToElementFailure) {
+    sendMessage("Test 9, 10: succeeded (Send keys to element test)");
+  }
+}
+
+$('#send_keys_to_element_test').on("keydown", function() {flightTimeTest()});
+$('#send_keys_to_element_test').on("keyup", function() {dwellTimeTest()});

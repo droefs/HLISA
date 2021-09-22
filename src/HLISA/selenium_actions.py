@@ -137,7 +137,10 @@ class HL_Selenium_Actions:
         return self
 
     def send_keys_to_element(self, element, keys_to_send):
-        raise NotImplementedError("This functionality is not yet implemented")
+        self.click(element)
+        self.send_keys(keys_to_send)
+        self.addDelayAfterAction()
+        return self
 
     def reset_actions():
         raise NotImplementedError("This functionality is not yet implemented")

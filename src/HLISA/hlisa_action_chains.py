@@ -171,7 +171,10 @@ class HLISA_ActionChains:
     #    element: The element to send keys.
     #    keys_to_send: The keys to send. Modifier keys constants can be found in the ‘Keys’ class.
     def send_keys_to_element(self, element, keys_to_send):
-        raise NotImplementedError("This functionality is not yet implemented")
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.send_keys_to_element(element, keys_to_send))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     ##### Additional actions #####
 
