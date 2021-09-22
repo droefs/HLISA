@@ -34,6 +34,8 @@ $('#draggable_element').on("dragstart", function() {event.dataTransfer.setData("
 $('#drag_endpoint').on("dragover", function() {event.preventDefault();});
 $('#drag_endpoint').on("drop", function() {event.preventDefault(); event.target.appendChild(document.getElementById(event.dataTransfer.getData("data"))); sendMessage("Test 5: succeeded (Drag and drop test)");});
 
+// Move to element with offset test
+
 function elementWithOffsetTest(event) {
   let rect = document.getElementById("element_with_offset").getBoundingClientRect();
   let left_relative = rect['left'] - window.pageXOffset + 12;
@@ -87,3 +89,10 @@ $('#double_click').on("dblclick", function() {doubleClickTest();});
 
 $('#double_click').on("mousedown", function() {storeMouseDown();});
 $('#double_click').on("mouseup", function() {checkDwellTime();});
+
+// Drag and drop with offset test
+
+$('#draggable_element_offset').on("dragstart", function() {event.dataTransfer.setData("data2", event.target.id);});
+
+$('#drag_endpoint_offset').on("dragover", function() {event.preventDefault();});
+$('#drag_endpoint_offset').on("drop", function() {event.preventDefault(); event.target.appendChild(document.getElementById(event.dataTransfer.getData("data2"))); sendMessage("Test 8: succeeded (Drag and drop with offset test)");});

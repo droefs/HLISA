@@ -79,7 +79,10 @@ class HLISA_ActionChains:
     #    xoffset: X offset to move to.
     #    yoffset: Y offset to move to.
     def drag_and_drop_by_offset(self, source, xoffset, yoffset):
-        raise NotImplementedError("This functionality is not yet implemented")
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.drag_and_drop_by_offset(source, xoffset, yoffset))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     # Sends a key press only, without releasing it.
     #    Should only be used with modifier keys (Control, Alt and Shift).

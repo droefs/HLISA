@@ -101,13 +101,20 @@ class HL_Selenium_Actions:
         
     def drag_and_drop(self, source, target):
         self.click_and_hold(source)
-        self.pause(np.random.normal(0.07, 0.01))
-        self.release(target)
+        self.pause(np.random.normal(0.07, 0.02))
+        self.move_to_element(target)
+        self.release()
         self.addDelayAfterAction()
         return self
 
     def drag_and_drop_by_offset(self, source, xoffset, yoffset):
-        raise NotImplementedError("This functionality is not yet implemented")
+        self.click_and_hold(source)
+        self.pause(np.random.normal(0.07, 0.02))
+        self.move_by_offset(xoffset, yoffset)
+        self.pause(np.random.normal(0.07, 0.02))
+        self.release()
+        self.addDelayAfterAction()
+        return self
 
     def key_down(self, value, element=None):
         raise NotImplementedError("This functionality is not yet implemented")

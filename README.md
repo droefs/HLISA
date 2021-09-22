@@ -79,6 +79,10 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 Warning: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).
 
+**drag_and_drop_by_offset**(*source, xoffset, yoffset*)
+
+Warning: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).
+
 **move_by_offset**(*xoffset, yoffset*)
 
 **move_to_element**(*to_element*)
@@ -100,8 +104,6 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 **reset_actions**()
 
 #### Not implemented, but can be implemented:
-
-**drag_and_drop_by_offset**(*source, xoffset, yoffset*)
 
 **key_down**(*value, element=None*)
 

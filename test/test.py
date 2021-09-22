@@ -65,6 +65,12 @@ class HLISATests(BaseCommand):
         double_click_element = webdriver.find_element_by_id("double_click")
         actions.double_click(double_click_element)
 
+        # Test drag and drop with offset:
+
+        draggable_element_offset = webdriver.find_element_by_id("draggable_element_offset")
+        drag_endpoint_offset = webdriver.find_element_by_id("drag_endpoint_offset")
+        actions.drag_and_drop_by_offset(draggable_element_offset, 500, 80)
+
         # End of tests
 
         actions.pause(50)
