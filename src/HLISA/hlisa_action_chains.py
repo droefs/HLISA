@@ -90,14 +90,20 @@ class HLISA_ActionChains:
     #    value: The modifier key to send. Values are defined in Keys class.
     #    element: The element to send keys. If None, sends a key to current focused element.
     def key_down(self, value, element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.key_down(value, element))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     # Releases a modifier key.
     # Args:	
     #    value: The modifier key to send. Values are defined in Keys class.
     #    element: The element to send keys. If None, sends a key to current focused element.
     def key_up(self, value, element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+        actions = HL_Selenium_Actions(self.webdriver)
+        self.chain.append(lambda: actions.key_up(value, element))
+        self.chain.append(lambda: actions.perform())
+        return self
 
     # Moving the mouse to an offset from current mouse position.
     # Args:	

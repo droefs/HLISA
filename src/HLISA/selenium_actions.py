@@ -79,11 +79,13 @@ class HL_Selenium_Actions:
             self.write_character(" ")
         self.write_sentence(sentences[len(sentences)-1])
         self.addDelayAfterAction()
+        return self
 
     def click_and_hold(self, on_element=None):
         if on_element is not None:
             self.move_to_element(on_element)
         self.actions.click_and_hold()
+        self.addDelayAfterAction()
         return self
 
     def double_click(self, element=None):
@@ -117,10 +119,18 @@ class HL_Selenium_Actions:
         return self
 
     def key_down(self, value, element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+        if element is not None:
+            self.click(element)
+        self.actions.key_down(value)
+        self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.013)) # Specific version of addDelayAfterAction()
+        return self
 
     def key_up(self, value, element=None):
-        raise NotImplementedError("This functionality is not yet implemented")
+        if element is not None:
+            self.click(element)
+        self.actions.key_up(value)
+        self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Specific version of addDelayAfterAction()
+        return self
 
     def move_to_element_with_offset(self, to_element, xoffset, yoffset):
         left_relative = to_element.rect['x'] - self.webdriver.execute_script("return window.pageXOffset;")
@@ -139,7 +149,6 @@ class HL_Selenium_Actions:
     def send_keys_to_element(self, element, keys_to_send):
         self.click(element)
         self.send_keys(keys_to_send)
-        self.addDelayAfterAction()
         return self
 
     def reset_actions():

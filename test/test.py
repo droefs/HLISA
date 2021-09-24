@@ -76,6 +76,14 @@ class HLISATests(BaseCommand):
         send_keys_to_element_test = webdriver.find_element_by_id("send_keys_to_element_test")
         actions.send_keys_to_element(send_keys_to_element_test, "test test")
 
+        # Key up and key down test:
+
+        key_up_key_down_test = webdriver.find_element_by_id("key_up_key_down_test")
+        actions.key_down("a", key_up_key_down_test)
+        actions.key_up("a")
+        actions.key_down("b")
+        actions.key_up("b")
+
         # End of tests
 
         actions.pause(50)

@@ -110,25 +110,30 @@ let keyupTime = performance.now();
 let keySendToElementFailure = false;
 let keySendToElementCount = 0;
 
-function flightTimeTest() {
+function flightTimeTest(testName) {
   keydownTime = performance.now();
   if (keydownTime - keyupTime < 5) {
     keySendToElementFailure = false;
-    sendMessage("Test 9: failed (Send keys to element test) (This happens by chance once in approximately every 25 keys send due to the random distribution)");
+    sendMessage(testName + "(This happens by chance once in approximately every 25 keys send due to the random distribution)");
   }
 }
 
-function dwellTimeTest() {
+function dwellTimeTest(testName, testNumbers) {
   keyupTime = performance.now();
   if (keyupTime - keydownTime < 5) {
     keySendToElementFailure = false;
-    sendMessage("Test 10: failed (Send keys to element test) (This happens by chance once in approximately every 25 keys send due to the random distribution)");
+    sendMessage(testName + "(This happens by chance once in approximately every 25 keys send due to the random distribution)");
   }
   keySendToElementCount++;
   if (keySendToElementCount > 8 && !keySendToElementFailure) {
-    sendMessage("Test 9, 10: succeeded (Send keys to element test)");
+    sendMessage("Test " + testNumbers + ": succeeded (Send keys to element test)");
   }
 }
 
-$('#send_keys_to_element_test').on("keydown", function() {flightTimeTest()});
-$('#send_keys_to_element_test').on("keyup", function() {dwellTimeTest()});
+$('#send_keys_to_element_test').on("keydown", function() {flightTimeTest("Test 9: failed (Send keys to element test) ")});
+$('#send_keys_to_element_test').on("keyup", function() {dwellTimeTest("Test 10: failed (Send keys to element test) ", "9, 10")});
+
+// Key up key down test
+
+$('#key_up_key_down_test').on("keydown", function() {flightTimeTest("Test 11: failed (Key up test) ")});
+$('#key_up_key_down_test').on("keyup", function() {dwellTimeTest("Test 12: failed (Key down test) ", "11, 12")});

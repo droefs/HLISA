@@ -83,6 +83,10 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 
 Warning: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).
 
+**key_down**(*value, element=None*)
+
+**key_up**(*value, element=None*)
+
 **move_by_offset**(*xoffset, yoffset*)
 
 **move_to_element**(*to_element*)
@@ -109,10 +113,6 @@ Note: if the element can not be clicked on, for example because it is hidden beh
 
 #### Not implemented, but can be implemented:
 
-**key_down**(*value, element=None*)
-
-**key_up**(*value, element=None*)
-
 ### Additional actions:
 
 These actions are not provided in the standard Selenium API (version 3.141), but they are provided in HLISA for convenience.
@@ -136,7 +136,6 @@ Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. **War
 ### Limitations
 
 - HLISA does not support a remote end (Selenium Server).
-- Not all functions are implemented yet.
 - It is not possible to call interactions on Elements, like so:
 
 `text_field = webdriver.find_element_by_id("text_field")`
