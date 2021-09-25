@@ -1,6 +1,6 @@
 # HLISA
 
-This API replaces and extends the Python version of the ActionChains object of the Selenium API. The documentation can be found below. The original Selenium API can be found [here](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html).
+HLISA is a drop-in replacement for the ActionChains object of the Selenium [API](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html) (Python only), featuring more human-like interaction. Besides providing all functionality the original Selenium ActionChains offers, additional interaction functionality is provided. Calling interaction on elements (`element.click()`) is not provided.
 
 ## Installing and updating
 
@@ -18,18 +18,19 @@ And upgraded in the same fashion:
 
 ## Usage
 
-The HLISA_ActionChains can be used just like the Selenium ActionChains object. It is **not** possible to use the standard Selenium ActionChains object alongside HLISA. For details, see the limitations section.
+The HLISA_ActionChains can be used just like the Selenium ActionChains object. It is however not possible to use standard Selenium interaction methods before using HLISA in a single session. This means that executing a Selenium ActionChain before executing an HLISA_ActionChain is not possible. Similarly, calling interaction on Elements (`element.click()`) can not be used before executing HLISA_ActionChains. Using Selenium actions to perform web page interaction before using HLISA in a single session can result in unexpected behavior.
 
-### Example
+### Usage example
 
 ```
 from HLISA.hlisa_action_chains import HLISA_ActionChains
+
 human_like_actions = HLISA_ActionChains(webdriver)
 human_like_actions.click()
 human_like_actions.perform()
 ```
 
-**The chain pattern works just like the Selenium ActionChains:**
+**The chain pattern works exactly like the Selenium ActionChains:**
 
 ```
 actions = HLISA_ActionChains(webdriver)
@@ -49,9 +50,21 @@ actions.click(hidden_submenu)
 actions.perform()
 ```
 
+### Difference in element selection
+
+In contrast to Selenium ActionChains, HLISA_ActionChains functions do not select items when the elements are hidden (for example behind an image). This can cause different results. If an item is not selected because it is hidden, HLISA prints a message to the console. 
+
+### More fine-grained control
+
+By default, HLISA introduces delays within actions to make its interaction with web pages more human-like. An additional delay is added after every action to make the collection of interactions more human-like as well. In case you want to control the delay between actions yourself, use the `addDelayAfter`-flag when adding an action to the HLISA_ActionChain:
+
+`actions.click(addDelayAfter=False)`
+
+This flag ensures no delay is added after the action is completed. Delays within the action are unaffected.
+
 ## Migrating from Selenium ActionChains to HLISA ActionChains
 
-The HLISA ActionChains API is a strict superset of the Selenium ActionChains API (as soon as it is completely implemented). Therefore, it is possible to migrate in two steps:
+The functionality HLISA_ActionChains provides is a superset of the functionality provided by Selenium ActionChains. Therefore, migrating is trivial if the existing codebase only uses Selenium ActionChains:
 
 1: import the HLISA ActionChains object:
 
@@ -61,17 +74,25 @@ The HLISA ActionChains API is a strict superset of the Selenium ActionChains API
 
 `actions = ActionChains(driver)` becomes `actions = HLISA_ActionChains(driver)`
 
+If the syntax form of directly calling interactions on Elements is used (`element.click()`) in the existing codebase, migrating entails rewriting this syntax into ActionChains syntax. Depending on the existing codebase, this can be a time-consuming process.
+
+3: only applicable if `element.click()`-like syntax (calling interaction directly on elements) was used: replace this type of syntax with HLISA_ActionChains syntax (which is equal to Selenium's ActionChains syntax). For example, `element.click()` becomes `HLISA_ActionChains(driver).click(element).perform()`.
+
 ## API:
 
-### Selenium actions:
+Instantiate the HLISA_ActionChains object by calling:
 
-#### Implemented:
+**HLISA_ActionChains**(*webdriver, browser_resets_cursor_location=True*)
+
+If your combination of Selenium and web browser do not reset the virtual cursor position to (0, 0) on a new page load, specify *browser_resets_cursor_location=False*. If mouse movements end up in wrong locations, or if elements are not selected, chances are this setting needs to altered.
+
+### Actions provided by both Selenium's ActionChains object and HLISA:
 
 **click**(*on_element=None*)
 
 **click_and_hold**(*on_element=None*)
 
-**context_click**(*on_element=None*) **Note:** This function is NOT human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *context_click()* function.
+**context_click**(*on_element=None*) **Note:** This function is **not** human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *context_click()* function.
 
 **double_click**(*on_element=None*)
 
@@ -103,19 +124,15 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 
 **send_keys_to_element**(*element, *keys_to_send*)
 
-Note: if the element can not be clicked on, for example because it is hidden behind a different element, it will not be selected.
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Note:** characters that are pressed realistically, as if they were typed on a US-International keyboard, are: 0-9, a-z, A-Z, keys in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[selenium.webdriver.common.keys.Keys](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys) and all of the following: !@#$%^&*()_+{}|:>?-=[]\;,./
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Dead keys](https://en.wikipedia.org/wiki/Dead_key) in the US-International layout can cause detection.
 
 **reset_actions**()
 
-#### Not implemented, but can be implemented:
+### Additional actions available in HLISA:
 
-### Additional actions:
-
-These actions are not provided in the standard Selenium API (version 3.141), but they are provided in HLISA for convenience.
+These actions are not provided by the standard Selenium API (version 3.141), but they are provided by HLISA to support more human-like scrolling. Also some actions are provided for convenience.
 
 **move_to**(*x, y*)
 
@@ -136,18 +153,41 @@ Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. **War
 ### Limitations
 
 - HLISA does not support a remote end (Selenium Server).
-- It is not possible to call interactions on Elements, like so:
+- It is not possible to call interactions on Elements (`element.click()`-like syntax):
 
 `text_field = webdriver.find_element_by_id("text_field")`
 
-`text_field.send_keys("HLISA")`
+`text_field.send_keys("keys")`
 
-This will function, but the interaction is performed by Selenium, not HLISA, and therefore does not seem human like.
+This syntax has to be replaced by ActionChains syntax:
 
-- It is not possible to use HL_ActionChains mouse movements after calling mouse movement functions from the original Selenium ActionChains API.
+`text_field = webdriver.find_element_by_id("text_field")`
+
+`HLISA_ActionChains(webdriver).send_keys(text_field, "keys").perform()`
+
+- It is not possible to use HLISA functionality after calling mouse movement functions of the original Selenium ActionChains API.
 
 - The *context_click()* function is not human like.
 
+- HLISA is slow - it interacts with a web page web only as fast as a standard human would. This contrasts to Selenium which interacts with web pages in a superhuman fashion - just like a standard robot would. Please note that although HLISA is slow, this is only caused by intentionally introduced delays; HLISA is not significantly more resource intensive than Selenium.
+
 ## Further notes
 
-Apart from special keys (as noted above), Selenium and HLISA can be immediately detected if a headful instance of the browser is minimized while actions are being performed by Selenium or HLISA. This can be prevented by never minimizing the window with Selenium or HLISA active.
+Apart from special keys (as noted above), Selenium and HLISA can be immediately detected if a headful instance of the browser is minimized while actions are being performed by Selenium or HLISA. This can be prevented by never minimizing the window when Selenium or HLISA is active.
+
+## How does it work?
+
+HLISA uses the Selenium API to interact with web pages. Some actions only feature additional delays. For example, HLISA_ActionChains(wd)[.click()](https://github.com/droefs/HLISA/blob/962d5bbc6b8dca64171dbc465be69f9e5dcd1bd4/src/HLISA/selenium_actions.py#L35) is implemented as:
+
+```
+    def click(self, element=None):
+        if element is not None:
+            self.move_to_element(element)
+        self.actions.click_and_hold()
+        self.actions.pause(np.random.normal(0.092, 0.018))
+        self.actions.release()
+        self.addDelayAfterAction()
+        return self
+```
+
+Other functions add additional actions. For example, a HLISA mouse movement consists of hundreds of tiny Selenium mouse movements that together form a jittery curve.
