@@ -36,7 +36,7 @@ class HL_Additional_Actions:
     # It would be detectable otherwise.
     def scroll_by(self, x_diff, y_diff, addDelayAfter=True):    
         if x_diff != 0:
-            logger.error("Scrolling horizontal not implemented")
+            print("Scrolling horizontal not implemented")
         self.scroll_vertical(y_diff)
         if addDelayAfter:
             self.shortPauze()
@@ -45,7 +45,7 @@ class HL_Additional_Actions:
         scroll_ticks = 0
         current_y = self.webdriver.execute_script("return window.pageYOffset;")
         if y_diff > 0:
-            max_y = self.webdriver.execute_script("return document.body.scrollHeight;")
+            max_y = self.webdriver.execute_script("return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);")
             y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
             while y_diff > 0:
                 y_diff = self.scroll_tick(self.scroll_tick_size, scroll_ticks, y_diff)
