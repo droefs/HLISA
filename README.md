@@ -60,7 +60,43 @@ By default, HLISA introduces delays within actions to make its interaction with 
 
 `actions.click(addDelayAfter=False)`
 
-This flag ensures no delay is added after the action is completed. Delays within the action are unaffected.
+This flag ensures no delay is added after the action is completed. Delays within the action are unaffected. This also holds for composite actions, for example `.click` with an element specified `.click(element)`: this first moves the mouse to the element, then performs a click. Even if `addDelayAfter=False` is specified, there will be a pause between the mouse movement and the click (only the delay after the click is removed). To remove both delays, call `.move_to_element(element, addDelayAfter=False)` and `.click(addDelayAfter=False)` instead of `.click(element, addDelayAfter=False)`. This allows for complete control over delays between actions, because no delay or a custom delay can be specified this way. Example:
+
+Standard delay after the mouse movement, standard delay after the click:
+
+```
+HLISA_ActionChains(wd)
+.click(element)
+.perform()
+```
+
+Standard delay after the mouse movement, no delay after the click:
+
+```
+HLISA_ActionChains(wd)
+.click(element, addDelayAfter=False)
+.perform()
+```
+
+No delay after the mouse movement, no delay after the click:
+
+```
+HLISA_ActionChains(wd)
+.move_to_element(element, addDelayAfter=False)
+.click(addDelayAfter=False)
+.perform()
+```
+
+Custom delay after the mouse movement, custom delay after the click:
+
+```
+HLISA_ActionChains(wd)
+.move_to_element(element, addDelayAfter=False)
+.pause(0.1)
+.click(addDelayAfter=False)
+.pause(0.2)
+.perform()
+```
 
 ## Migrating from Selenium ActionChains to HLISA ActionChains
 

@@ -32,20 +32,21 @@ class HL_Selenium_Actions:
     # Clicks an element.
     # Args:	
     #   on_element: The element to click. If None, clicks on current mouse position.
-    def click(self, element=None):
+    def click(self, element=None, addDelayAfter=True):
         if element is not None:
             self.move_to_element(element)
         self.actions.click_and_hold()
         self.actions.pause(np.random.normal(0.092, 0.018))
         self.actions.release()
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
 
-    def move_by_offset(self, x, y):
-        self.move_to(HL_Selenium_Actions.x_pos + x, HL_Selenium_Actions.y_pos + y)
+    def move_by_offset(self, x, y, addDelayAfter=True):
+        self.move_to(HL_Selenium_Actions.x_pos + x, HL_Selenium_Actions.y_pos + y, addDelayAfter)
         return self
 
-    def move_to_element(self, element):
+    def move_to_element(self, element, addDelayAfter=True):
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
         y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
         if y_relative < 0:
@@ -55,7 +56,7 @@ class HL_Selenium_Actions:
         coordinates = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
         if coordinates:
             x, y = coordinates
-            self.move_to(x, y)
+            self.move_to(x, y, addDelayAfter)
         else:
             print("Warning: element could not be clicked on")
         return self
@@ -69,7 +70,7 @@ class HL_Selenium_Actions:
         self.actions.pause(seconds)
         return self
 
-    def send_keys(self, keys_to_send):
+    def send_keys(self, keys_to_send, addDelayAfter=True):
         sentences = keys_to_send.split(". ")
         for i in range(len(sentences)-1):
             self.write_sentence(sentences[i])
@@ -78,17 +79,19 @@ class HL_Selenium_Actions:
             self.actions.pause(HL_Util.std_positive(0.6, 0.4, 0.05)) # After closing a sentence
             self.write_character(" ")
         self.write_sentence(sentences[len(sentences)-1])
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
 
-    def click_and_hold(self, on_element=None):
+    def click_and_hold(self, on_element=None, addDelayAfter=True):
         if on_element is not None:
             self.move_to_element(on_element)
         self.actions.click_and_hold()
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
 
-    def double_click(self, element=None):
+    def double_click(self, element=None, addDelayAfter=True):
         if element is not None:
             self.move_to_element(element)
         self.actions.click_and_hold()
@@ -98,67 +101,73 @@ class HL_Selenium_Actions:
         self.actions.click_and_hold()
         self.actions.pause(np.random.normal(0.051, 0.016))
         self.actions.release()
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
         
-    def drag_and_drop(self, source, target):
+    def drag_and_drop(self, source, target, addDelayAfter=True):
         self.click_and_hold(source)
         self.pause(np.random.normal(0.07, 0.02))
         self.move_to_element(target)
         self.release()
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
 
-    def drag_and_drop_by_offset(self, source, xoffset, yoffset):
+    def drag_and_drop_by_offset(self, source, xoffset, yoffset, addDelayAfter=True):
         self.click_and_hold(source)
         self.pause(np.random.normal(0.07, 0.02))
         self.move_by_offset(xoffset, yoffset)
         self.pause(np.random.normal(0.07, 0.02))
         self.release()
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
 
-    def key_down(self, value, element=None):
+    def key_down(self, value, element=None, addDelayAfter=True):
         if element is not None:
             self.click(element)
         self.actions.key_down(value)
-        self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.013)) # Specific version of addDelayAfterAction()
+        if addDelayAfter:
+            self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.013)) # Specific version of addDelayAfterAction()
         return self
 
-    def key_up(self, value, element=None):
+    def key_up(self, value, element=None, addDelayAfter=True):
         if element is not None:
             self.click(element)
         self.actions.key_up(value)
-        self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Specific version of addDelayAfterAction()
+        if addDelayAfter:
+            self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Specific version of addDelayAfterAction()
         return self
 
-    def move_to_element_with_offset(self, to_element, xoffset, yoffset):
+    def move_to_element_with_offset(self, to_element, xoffset, yoffset, addDelayAfter=True):
         left_relative = to_element.rect['x'] - self.webdriver.execute_script("return window.pageXOffset;")
         top_relative = to_element.rect['y'] - self.webdriver.execute_script("return window.pageYOffset;")
-        self.move_to(left_relative + xoffset, top_relative + yoffset)
-        self.addDelayAfterAction()
+        self.move_to(left_relative + xoffset, top_relative + yoffset, addDelayAfter)
         return self
 
-    def release(self, on_element=None):
+    def release(self, on_element=None, addDelayAfter=True):
         if on_element is not None:
             self.move_to_element(on_element)
         self.actions.release()
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
 
-    def send_keys_to_element(self, element, keys_to_send):
+    def send_keys_to_element(self, element, keys_to_send, addDelayAfter=True):
         self.click(element)
-        self.send_keys(keys_to_send)
+        self.send_keys(keys_to_send, addDelayAfter)
         return self
 
     def reset_actions():
         raise NotImplementedError("This functionality is not yet implemented")
 
-    def context_click(self, on_element=None):
+    def context_click(self, on_element=None, addDelayAfter=True):
         if on_element is not None:
             self.move_to_element(on_element)
         self.actions.context_click()
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
     
     ##### Non-Selenium action chain methods #####
@@ -167,7 +176,7 @@ class HL_Selenium_Actions:
     # Args:
     #   x: x-coordinate to move to
     #   y: y-coordinate to move to
-    def move_to(self, x, y):
+    def move_to(self, x, y, addDelayAfter=True):
         current_page_location = self.webdriver.execute_script("return (location.host + location.pathname)")
         if current_page_location != HL_Selenium_Actions.page_location and HL_Selenium_Actions.browser_resets_cursor_location:
             HL_Selenium_Actions.page_location = current_page_location
@@ -176,7 +185,8 @@ class HL_Selenium_Actions:
         t_cursor = TheoreticalCursor(HL_Selenium_Actions.x_pos, HL_Selenium_Actions.y_pos, x, y, self.webdriver, self.actions)
         HL_Selenium_Actions.x_pos = t_cursor.x_pos
         HL_Selenium_Actions.y_pos = t_cursor.y_pos
-        self.addDelayAfterAction()
+        if addDelayAfter:
+            self.addDelayAfterAction()
         return self
 
     ##### Util functions #####
