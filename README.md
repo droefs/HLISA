@@ -2,6 +2,10 @@
 
 HLISA is a drop-in replacement for the ActionChains object of the Selenium [API](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html) (Python only), featuring more human-like interaction. Besides providing all functionality the original Selenium ActionChains offers, additional interaction functionality is provided. Calling interaction on elements (`element.click()`) is not provided.
 
+## Demo
+
+![Demo of HLISA and default Selenium in action](https://github.com/droefs/HLISA/raw/master/hlisa_demo.gif "Demo of HLISA and default Selenium in action")
+
 ## Installing and updating
 
 ### Installing
