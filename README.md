@@ -166,6 +166,8 @@ Warning: this functionality might not work, [just as in Selenium](https://github
 
 **reset_actions**()
 
+**Note:** in contrast to Selenium's `reset_actions()`, which [sometimes](https://stackoverflow.com/questions/67614276/perform-and-reset-actions-in-actionchains-not-working-selenium-python) does [not function as expected](https://github.com/SeleniumHQ/selenium/issues/6837), HLISA's `reset_actions()` does work as described. Consequently, it works not exactly the same as Selenium's `reset_actions()`.
+
 ### Additional actions available in HLISA:
 
 These actions are not provided by the standard Selenium API (version 3.141), but they are provided by HLISA to support more human-like scrolling. Also some actions are provided for convenience.
