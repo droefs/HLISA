@@ -128,69 +128,211 @@ If your combination of Selenium and web browser do not reset the virtual cursor 
 
 ### Actions provided by both Selenium's ActionChains object and HLISA:
 
-**click**(*on_element=None*)
+**click**(*on_element=None*, *addDelayAfterAction=True*)
 
-**click_and_hold**(*on_element=None*)
+Clicks using the left mouse button. If an element is given, clicks on the given element.  
+**Arguments:**
 
-**context_click**(*on_element=None*) **Note:** This function is **not** human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *context_click()* function.
+- *(optional)* **on_element**: The element to click.
 
-**double_click**(*on_element=None*)
+---
 
-**drag_and_drop**(*source, target*)
+**click_and_hold**(*on_element=None*, *addDelayAfterAction=True*)
 
-Warning: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).
+Holds down the left mouse button. If an element is given, holds down the mouse on the given element.  
+**Arguments:**
 
-**drag_and_drop_by_offset**(*source, xoffset, yoffset*)
+- *(optional)* **on_element**: The element to hold down the mouse button on.
 
-Warning: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).
+---
 
-**key_down**(*value, element=None*)
+**context_click**(*on_element=None*)
 
-**key_up**(*value, element=None*)
+Clicks using the right mouse button. If an element is given, clicks on the given element. **Note:** This function is **not** human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *context_click()* function.  
+**Arguments:**
 
-**move_by_offset**(*xoffset, yoffset*)
+- *(optional)* **on_element**: The element to click on with the right mouse button.
 
-**move_to_element**(*to_element*)
+---
 
-**move_to_element_with_offset**(*to_element, xoffset, yoffset*)
+**double_click**(*on_element=None*, *addDelayAfterAction=True*)
+
+Double-clicks. If an element is given, double-clicks on the given element.  
+**Arguments:**
+
+- *(optional)* **on_element**: The element to double-click on.
+
+---
+
+**drag_and_drop**(*source, target*, *addDelayAfterAction=True*)
+
+Moves the mouse to the source element, holds down the left mouse button, moves the mouse to the target element, releases the mouse button. **Note**: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).  
+**Arguments:**
+
+- **source**: the element to drag.
+- **target**: the element to end the drag on.
+
+---
+
+**drag_and_drop_by_offset**(*source, xoffset, yoffset*, *addDelayAfterAction=True*)
+
+Moves the mouse to the source element, holds down the left mouse button, moves the mouse by the given offset, releases the mouse button. **Note**: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).  
+**Arguments:**
+
+- **source**: the element to drag.
+- **xoffset**: the horizontal distance to move the mouse.
+- **yoffset**: the vertical distance to move the mouse.
+
+---
+
+**key_down**(*value, element=None*, *addDelayAfterAction=True*)
+
+Sends a key down event. If an element is specified, the event is send to the given element.  
+**Arguments:**
+
+- **value**: the key to send a key down event for.
+- *(optional)* **element**: the element to send the key down event to.
+
+---
+
+**key_up**(*value, element=None*, *addDelayAfterAction=True*)
+
+Sends a key release event. If an element is specified, the event is send to the given element.  
+**Arguments:**
+
+- **value**: the key to send a key down event for.
+- *(optional)* **element**: the element to send the key up event to.
+
+---
+
+**move_by_offset**(*xoffset, yoffset*, *addDelayAfterAction=True*)
+
+Moves the mouse by the given offset.  
+**Arguments:**
+
+- **xoffset**: the horizontal distance to move the mouse.
+- **yoffset**: the vertical distance to move the mouse.
+
+---
+
+**move_to_element**(*to_element*, *addDelayAfterAction=True*)
+
+Moves to the given element.  
+**Arguments:**
+
+- **to_element**: the element to move to.
+
+---
+
+**move_to_element_with_offset**(*to_element, xoffset, yoffset*, *addDelayAfterAction=True*)
+
+Moves to the given offset of an element's top left corner.  
+**Arguments:**
+
+- **to_element**: the element to which the offset is relative.
+- **xoffset**: the horizontal distance from the left top corner the mouse should move to.
+- **yoffset**: the vertical distance from the left top corner the mouse should move to.
+
+---
 
 **pause**(*seconds*)
 
+Introduces a pause between actions.  
+**Arguments:**
+
+- **seconds**: the time to pause, in seconds.
+
+---
+
 **perform**()
 
-**release**(*on_element=None*)
+Executes all actions on the chain.  
+**Arguments:**
 
-**send_keys**(**keys_to_send*)
+-
 
-**send_keys_to_element**(*element, *keys_to_send*)
+---
+
+**release**(*on_element=None*, *addDelayAfterAction=True*)
+
+Releases the left mouse button. If an element is given, releases the mouse on the given element.  
+**Arguments:**
+
+- *(optional)* **on_element**: the element to release the mouse button on.
+
+---
+
+**send_keys**(*keys_to_send, element*, *addDelayAfterAction=True*)
+
+Types the given text. If an element is specified, the element is selected before typing starts.  
+**Arguments:**
+
+- **keys_to_send**: a string containing the text to send.
+- *(optional)* **element**: the element to send the keys to.
+
+---
+
+**send_keys_to_element**(*element, *keys_to_send*, *addDelayAfterAction=True*)
+
+Selects the given element and types the given text.  
+**Arguments:**
+
+- **element**: the element to send the keys to.
+- **keys_to_send**: a string containing the text to send.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Note:** characters that are pressed realistically, as if they were typed on a US-International keyboard, are: 0-9, a-z, A-Z, keys in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[selenium.webdriver.common.keys.Keys](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys) and all of the following: !@#$%^&*()_+{}|:>?-=[]\;,./
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Dead keys](https://en.wikipedia.org/wiki/Dead_key) in the US-International layout can cause detection.
 
+---
+
 **reset_actions**()
 
-**Note:** in contrast to Selenium's `reset_actions()`, which [sometimes](https://stackoverflow.com/questions/67614276/perform-and-reset-actions-in-actionchains-not-working-selenium-python) does [not function as expected](https://github.com/SeleniumHQ/selenium/issues/6837), HLISA's `reset_actions()` does work as described. Consequently, it works not exactly the same as Selenium's `reset_actions()`.
+Removes all actions from the chain. **Note:** in contrast to Selenium's `reset_actions()`, which [sometimes](https://stackoverflow.com/questions/67614276/perform-and-reset-actions-in-actionchains-not-working-selenium-python) does [not function as expected](https://github.com/SeleniumHQ/selenium/issues/6837), HLISA's `reset_actions()` does work as described. Consequently, it works not exactly the same as Selenium's `reset_actions()`.  
+**Arguments:**
+
+-
 
 ### Additional actions available in HLISA:
 
 These actions are not provided by the standard Selenium API (version 3.141), but they are provided by HLISA to support more human-like scrolling. Also some actions are provided for convenience.
 
-**move_to**(*x, y*)
+**move_to**(*x, y*, *addDelayAfterAction=True*)
 
-Moves the mouse cursor to the specified coordinates relative to the viewport. The position after the movement will correspond to MouseEvent.clientX and MouseEvent.clientY as specified by [UI Events specification](https://w3c.github.io/uievents/#event-type-mousemove).
+Moves the mouse cursor to the specified coordinates relative to the viewport. The position after the movement will correspond to MouseEvent.clientX and MouseEvent.clientY as specified by [UI Events specification](https://w3c.github.io/uievents/#event-type-mousemove).  
+**Arguments:**
 
-**move_to_element_outside_viewport**(*element*)
+- **x**: the x position, relative to the current viewport, to move to.
+- **y**: the y position, relative to the current viewport, to move to.
 
-Scrolls the viewport, then moves the mouse to the element.
+---
 
-**scroll_by**(*x_diff, y_diff*)
+**move_to_element_outside_viewport**(*element*, *addDelayAfterAction=True*)
 
-Scrolls by *x_diff* and *y_diff* pixels. **Warning: up to 56 pixels can be scrolled more than specified in the parameter to prevent detection.**
+Scrolls the viewport, then moves the mouse to the element.  
+**Arguments:**
 
-**scroll_to**(*x, y*)
+- **element**: the element to move to (may or may not be outside the current viewport). 
 
-Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled more than specified in the parameters to prevent detection.**
+---
+
+**scroll_by**(*x_diff, y_diff*, *addDelayAfterAction=True*)
+
+Scrolls by *x_diff* and *y_diff* pixels. **Warning: up to 56 pixels can be scrolled more than specified in the parameter to prevent detection.**  
+**Arguments:**
+
+- **x_dif**: the horizontal distance to scroll. 0 to not scroll horizontally.
+- **x_dif**: the vertical distance to scroll. 0 to not scroll vertically.
+
+---
+
+**scroll_to**(*x, y*, *addDelayAfterAction=True*)
+
+Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled more than specified in the parameters to prevent detection.**  
+**Arguments:**
+
+- **x**: the x coordinate to scroll the top left corner of the viewport to.
+- **y**: the y coordinate to scroll the top left corner of the viewport to.
 
 ### Limitations
 

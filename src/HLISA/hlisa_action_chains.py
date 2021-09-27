@@ -28,36 +28,36 @@ class HLISA_ActionChains:
     # Clicks an element.
     # Args:	
     #   on_element: The element to click. If None, clicks on current mouse position.
-    def click(self, element=None):
+    def click(self, element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.click(element))
+        self.chain.append(lambda: actions.click(element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
     # Holds down the left mouse button on an element.
     # Args:	
     #   on_element: The element to mouse down. If None, clicks on current mouse position.
-    def click_and_hold(self, on_element=None):
+    def click_and_hold(self, on_element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.click_and_hold(on_element))
+        self.chain.append(lambda: actions.click_and_hold(on_element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
     # Performs a context-click (right click) on an element.
     # Args:	
     #   on_element: The element to context-click. If None, clicks on current mouse position.
-    def context_click(self, on_element=None):
+    def context_click(self, on_element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.context_click(on_element))
+        self.chain.append(lambda: actions.context_click(on_element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
     # Double-clicks an element.
     # Args:	
     #   on_element: The element to double-click. If None, clicks on current mouse position.
-    def double_click(self, on_element=None):
+    def double_click(self, on_element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.double_click(on_element))
+        self.chain.append(lambda: actions.double_click(on_element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -66,9 +66,9 @@ class HLISA_ActionChains:
     # Args:	
     #   source: The element to mouse down.
     #   target: The element to mouse up.
-    def drag_and_drop(self, source, target):
+    def drag_and_drop(self, source, target, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.drag_and_drop(source, target))
+        self.chain.append(lambda: actions.drag_and_drop(source, target, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -78,9 +78,9 @@ class HLISA_ActionChains:
     #    source: The element to mouse down.
     #    xoffset: X offset to move to.
     #    yoffset: Y offset to move to.
-    def drag_and_drop_by_offset(self, source, xoffset, yoffset):
+    def drag_and_drop_by_offset(self, source, xoffset, yoffset, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.drag_and_drop_by_offset(source, xoffset, yoffset))
+        self.chain.append(lambda: actions.drag_and_drop_by_offset(source, xoffset, yoffset, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -89,9 +89,9 @@ class HLISA_ActionChains:
     # Args:	
     #    value: The modifier key to send. Values are defined in Keys class.
     #    element: The element to send keys. If None, sends a key to current focused element.
-    def key_down(self, value, element=None):
+    def key_down(self, value, element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.key_down(value, element))
+        self.chain.append(lambda: actions.key_down(value, element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -99,9 +99,9 @@ class HLISA_ActionChains:
     # Args:	
     #    value: The modifier key to send. Values are defined in Keys class.
     #    element: The element to send keys. If None, sends a key to current focused element.
-    def key_up(self, value, element=None):
+    def key_up(self, value, element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.key_up(value, element))
+        self.chain.append(lambda: actions.key_up(value, element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -109,18 +109,18 @@ class HLISA_ActionChains:
     # Args:	
     #    xoffset: X offset to move to, as a positive or negative integer.
     #    yoffset: Y offset to move to, as a positive or negative integer.
-    def move_by_offset(self, x, y):
+    def move_by_offset(self, x, y, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.move_by_offset(x, y))
+        self.chain.append(lambda: actions.move_by_offset(x, y, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
     #  Moving the mouse to a random location in an element.
     # Args:	
     #    to_element: The WebElement to move to.
-    def move_to_element(self, element):
+    def move_to_element(self, element, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.move_to_element(element))
+        self.chain.append(lambda: actions.move_to_element(element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -130,9 +130,9 @@ class HLISA_ActionChains:
     #    to_element: The WebElement to move to.
     #    xoffset: X offset to move to.
     #    yoffset: Y offset to move to.
-    def move_to_element_with_offset(self, to_element, xoffset, yoffset):
+    def move_to_element_with_offset(self, to_element, xoffset, yoffset, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.move_to_element_with_offset(to_element, xoffset, yoffset))
+        self.chain.append(lambda: actions.move_to_element_with_offset(to_element, xoffset, yoffset, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -152,9 +152,9 @@ class HLISA_ActionChains:
     # Releasing a held mouse button on an element.
     # Args:
     #    on_element: The element to mouse up. If None, releases on current mouse position.
-    def release(self, on_element=None):
+    def release(self, on_element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.release(on_element))
+        self.chain.append(lambda: actions.release(on_element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -166,9 +166,9 @@ class HLISA_ActionChains:
     # Sends keys to current focused element.
     # Args:	
     #    keys_to_send: The keys to send. Modifier keys constants can be found in the ‘Keys’ class.
-    def send_keys(self, keys_to_send):
+    def send_keys(self, keys_to_send, element=None, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.send_keys(keys_to_send))
+        self.chain.append(lambda: actions.send_keys(keys_to_send, element, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -176,9 +176,9 @@ class HLISA_ActionChains:
     # Args:	
     #    element: The element to send keys.
     #    keys_to_send: The keys to send. Modifier keys constants can be found in the ‘Keys’ class.
-    def send_keys_to_element(self, element, keys_to_send):
+    def send_keys_to_element(self, element, keys_to_send, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.send_keys_to_element(element, keys_to_send))
+        self.chain.append(lambda: actions.send_keys_to_element(element, keys_to_send, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
@@ -188,33 +188,36 @@ class HLISA_ActionChains:
     # Args:
     #   x: x position to move to.
     #   y: y position to move to.
-    def move_to(self, x, y):
+    def move_to(self, x, y, addDelayAfter=True):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.move_to(x, y))
+        self.chain.append(lambda: actions.move_to(x, y, addDelayAfter))
         self.chain.append(lambda: actions.perform())
         return self
 
     # Moving the mouse to a random location in an element. The element can be outside the viewport.
     # Args:	
     #    to_element: The WebElement to move to.
-    def move_to_element_outside_viewport(self, element):
+    def move_to_element_outside_viewport(self, element, addDelayAfter=True):
         additional_actions = HL_Additional_Actions(self.webdriver)
-        self.chain.append(lambda: additional_actions.move_to_element_outside_viewport(element))
+        self.chain.append(lambda: additional_actions.move_to_element_outside_viewport(element, addDelayAfter))
+        return self
 
     # Scrolls the viewport by an offset. Scrolling happens in fixed steps of 57 pixels to prevent detection.
     # NOTE: The scrolled distance can thus deviate up to 56 pixels from the distance specified.
     # Args:
     # x_diff: X offset to scroll by.
     # y_diff: Y offset to scroll by.
-    def scroll_by(self, x_diff, y_diff):
+    def scroll_by(self, x_diff, y_diff, addDelayAfter=True):
         additional_actions = HL_Additional_Actions(self.webdriver)
-        self.chain.append(lambda: additional_actions.scroll_by(x_diff, y_diff))
+        self.chain.append(lambda: additional_actions.scroll_by(x_diff, y_diff, addDelayAfter))
+        return self
 
     # Scrolls the viewport to a location. Scrolling happens in fixed steps of 57 pixels to prevent detection.
     # NOTE: The scrolled distance can thus deviate up to 56 pixels from the distance specified.
     # Args:
     # x_diff: X location to scroll to.
     # y_diff: Y location to scroll to.
-    def scroll_to(self, x_diff, y_diff):
+    def scroll_to(self, x_diff, y_diff, addDelayAfter=True):
         additional_actions = HL_Additional_Actions(self.webdriver)
-        self.chain.append(lambda: additional_actions.scroll_to(x_diff, y_diff))
+        self.chain.append(lambda: additional_actions.scroll_to(x_diff, y_diff, addDelayAfter))
+        return self

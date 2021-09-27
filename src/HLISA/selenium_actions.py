@@ -70,7 +70,9 @@ class HL_Selenium_Actions:
         self.actions.pause(seconds)
         return self
 
-    def send_keys(self, keys_to_send, addDelayAfter=True):
+    def send_keys(self, keys_to_send, element=None, addDelayAfter=True):
+        if element is not None:
+            self.click(element)
         sentences = keys_to_send.split(". ")
         for i in range(len(sentences)-1):
             self.write_sentence(sentences[i])
@@ -155,8 +157,7 @@ class HL_Selenium_Actions:
         return self
 
     def send_keys_to_element(self, element, keys_to_send, addDelayAfter=True):
-        self.click(element)
-        self.send_keys(keys_to_send, addDelayAfter)
+        self.send_keys(keys_to_send, element, addDelayAfter)
         return self
 
     def reset_actions():
