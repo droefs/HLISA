@@ -247,9 +247,6 @@ Introduces a pause between actions.
 **perform**()
 
 Executes all actions on the chain.  
-**Arguments:**
-
--
 
 ---
 
@@ -289,9 +286,8 @@ Selects the given element and types the given text.
 **reset_actions**()
 
 Removes all actions from the chain. **Note:** in contrast to Selenium's `reset_actions()`, which [sometimes](https://stackoverflow.com/questions/67614276/perform-and-reset-actions-in-actionchains-not-working-selenium-python) does [not function as expected](https://github.com/SeleniumHQ/selenium/issues/6837), HLISA's `reset_actions()` does work as described. Consequently, it works not exactly the same as Selenium's `reset_actions()`.  
-**Arguments:**
 
--
+---
 
 ### Additional actions available in HLISA:
 
@@ -318,7 +314,7 @@ Scrolls the viewport, then moves the mouse to the element.
 
 **scroll_by**(*x_diff, y_diff*, *addDelayAfterAction=True*)
 
-Scrolls by *x_diff* and *y_diff* pixels. **Warning: up to 56 pixels can be scrolled more than specified in the parameter to prevent detection.**  
+Scrolls by *x_diff* and *y_diff* pixels. Scrolling happens in fixed steps of 57 pixels to prevent detection. **Warning: up to 56 pixels can be scrolled more than specified in the parameter to prevent detection.**  
 **Arguments:**
 
 - **x_dif**: the horizontal distance to scroll. 0 to not scroll horizontally.
@@ -328,11 +324,13 @@ Scrolls by *x_diff* and *y_diff* pixels. **Warning: up to 56 pixels can be scrol
 
 **scroll_to**(*x, y*, *addDelayAfterAction=True*)
 
-Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. **Warning: up to 56 pixels can be scrolled more than specified in the parameters to prevent detection.**  
+Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. Scrolling happens in fixed steps of 57 pixels to prevent detection. **Warning: up to 56 pixels can be scrolled more than specified in the parameters to prevent detection.**  
 **Arguments:**
 
 - **x**: the x coordinate to scroll the top left corner of the viewport to.
 - **y**: the y coordinate to scroll the top left corner of the viewport to.
+
+---
 
 ### Limitations
 
