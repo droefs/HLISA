@@ -345,7 +345,7 @@ This syntax has to be replaced by ActionChains syntax:
 
 `text_field = webdriver.find_element_by_id("text_field")`
 
-`HLISA_ActionChains(webdriver).send_keys(text_field, "keys").perform()`
+`HLISA_ActionChains(webdriver).send_keys("keys", text_field).perform()`
 
 - It is not possible to use HLISA functionality after calling mouse movement functions of the original Selenium ActionChains API.
 
