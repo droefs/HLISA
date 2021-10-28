@@ -226,10 +226,20 @@ class HL_Selenium_Actions:
 
 class TheoreticalCursor():
 
+    def roundNumber(self, number):
+        if number % 1 != 0:
+            print("WARNING: please provide integers as coordinates in move_to functions to prevent unexpected behavior.")
+            return int(number)
+        else:
+            return number
+
     def __init__(self, x_start, y_start, x, y, webdriver, actions):
+        x = self.roundNumber(x)
+        y = self.roundNumber(y)
+        
         windowWidth = webdriver.execute_script("return window.innerWidth;")
         windowHeight = webdriver.execute_script("return window.innerHeight;")
-        if (x > windowWidth or y > windowHeight):
+        if (x > windowWidth or y > windowHeight or x < 0 or y < 0):
             raise MoveTargetOutOfBoundsException("(HLISA) (" + str(x) + ", " + str(y) + ") is out of bounds of viewport width (" + str(windowWidth) + ") and height (" + str(windowHeight) + ")")
         
         self.init_variables(x_start, y_start)
