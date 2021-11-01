@@ -2,6 +2,7 @@ import math
 import time
 import random
 import numpy as np
+import inspect
 
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
@@ -19,10 +20,16 @@ class HL_Selenium_Actions:
     
     def __init__(self, webdriver):
         self.webdriver = webdriver
-        self.actions = ActionChains(webdriver)
+        # Determine whether monkey patching is still necessary (starting from Selenium 4 its not necessary anymore):
+        # (Selenium 4 introduced an optional third argument to the constructor of ActionChains to specify mouse
+        # movement speed, so if there are less than 3 arguments, monkeypatch, otherwise use the new feature).
+        if len(inspect.getfullargspec(ActionChains.__init__)[0]) < 3:
+            self.actions = ActionChains(webdriver)
+            HL_Util.increaseMousemovementSpeed()
+        else:
+            self.actions = ActionChains(webdriver, 50)
         if HL_Selenium_Actions.page_location == "":
             HL_Selenium_Actions.page_location = self.webdriver.execute_script("return (location.host + location.pathname)")
-        HL_Util.increaseMousemovementSpeed()
 
     def addDelayAfterAction(self):
         self.actions.pause(HL_Util.std_positive(0.3, 0.1, 0.025))
