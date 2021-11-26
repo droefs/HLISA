@@ -14,12 +14,15 @@ class HL_Util:
     def behavorial_element_coordinates(self, webdriver, element):
         x_relative = int(element.rect['x']) - webdriver.execute_script("return window.pageXOffset;")
         y_relative = int(element.rect['y']) - webdriver.execute_script("return window.pageYOffset;")
+        viewport_width = webdriver.execute_script("return window.innerWidth")
+        viewport_height = webdriver.execute_script("return window.innerHeight")
         counter = 0
-        for i in range(10): # Try 10 random positions, as some positions are not in round buttons.
+        for i in range(100): # Try 10 random positions, as some positions are not in round buttons.
             x = x_relative + int(np.random.normal(int(element.rect['width']*0.5), int(element.rect['width']*0.2)))
             y = y_relative + int(np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2)))
             coords_in_button = webdriver.execute_script("return document.elementFromPoint(" + str(x) + ", " + str(y) + ") === arguments[0];", element)
-
+            if x < 0 or y < 0 or x > viewport_width or y > viewport_height:
+                coords_in_button = False # If the element is partly in the viewport, a part of the element is outside of it. In that case, try again. This is not the best solution (non-deterministic), it would be better to limit the sample space.
             if coords_in_button:
                 return (x, y)
         return None
