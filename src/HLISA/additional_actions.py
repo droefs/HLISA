@@ -56,6 +56,13 @@ class HL_Additional_Actions:
             while y_diff < 0:
                 y_diff = self.scroll_tick((-1 * self.scroll_tick_size), scroll_ticks, y_diff)
                 scroll_ticks += 1
+        new_y = self.webdriver.execute_script("return window.pageYOffset;")
+        scrolled_distance = abs(current_y - new_y)
+        if scrolled_distance <= abs(y_diff - self.scroll_tick_size):
+            if y_diff >= 0:
+                self.scroll_vertical(y_diff - scrolled_distance)
+            else:
+                self.scroll_vertical(y_diff + scrolled_distance)
 
     # Scrolls one tick
     def scroll_tick(self, pixelAmount, scroll_ticks, y_diff):
