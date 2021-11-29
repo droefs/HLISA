@@ -146,3 +146,13 @@ class HLISA_ActionChains:
         additional_actions = HL_Additional_Actions(self.webdriver)
         self.chain.append(lambda: additional_actions.scroll_to(x_diff, y_diff, addDelayAfter))
         return self
+
+    def back(self):
+        HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd")) + self.webdriver.execute_script("return (location.host + location.pathname)")
+        self.webdriver.back()
+        return self
+
+    def forward(self):
+        HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd")) + self.webdriver.execute_script("return (location.host + location.pathname)")
+        self.webdriver.forward()
+        return self

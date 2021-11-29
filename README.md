@@ -332,6 +332,20 @@ Scrolls to let the viewport top left corner be at pixel *x* and pixel *y*. Scrol
 
 ---
 
+### Other actions:
+
+**back**()
+
+The browser is instructed to go back one page in the browsing history. This function needs to be used instead of the back() function Selenium's **webdriver** object. 
+
+---
+
+**forward**()
+
+The browser is instructed to go forward one page in the browsing history. This function needs to be used instead of the forward() function of Selenium's **webdriver** object.
+
+---
+
 ### Limitations
 
 - HLISA does not support a remote end (Selenium Server).
@@ -352,6 +366,8 @@ This syntax has to be replaced by ActionChains syntax:
 - The *context_click()* function is not human like.
 
 - HLISA is slow - it interacts with a web page web only as fast as a standard human would. This contrasts to Selenium which interacts with web pages in a superhuman fashion - just like a standard robot would. Please note that although HLISA is slow, this is only caused by intentionally introduced delays; HLISA is not significantly more resource intensive than Selenium.
+
+- The **back**() and **forward**() functions of Selenium's **webdriver** object are not combatible with HLISA. Instead, the HLISA_ActionChains provides the functions back() and forward() to be used instead, exposing the same functionality.
 
 ## Further notes
 
