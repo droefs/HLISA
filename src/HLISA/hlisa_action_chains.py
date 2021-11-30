@@ -148,11 +148,11 @@ class HLISA_ActionChains:
         return self
 
     def back(self):
-        HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd")) + self.webdriver.execute_script("return (location.host + location.pathname)")
+        HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
         self.webdriver.back()
         return self
 
     def forward(self):
-        HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd")) + self.webdriver.execute_script("return (location.host + location.pathname)")
+        HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
         self.webdriver.forward()
         return self

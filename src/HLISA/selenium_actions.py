@@ -29,7 +29,7 @@ class HL_Selenium_Actions:
         else:
             self.actions = ActionChains(webdriver, 50)
         if HL_Selenium_Actions.page_identifier == "":
-            HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd")) + self.webdriver.execute_script("return (location.host + location.pathname)")
+            HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
 
     def addDelayAfterAction(self):
         self.actions.pause(HL_Util.std_positive(0.3, 0.1, 0.025))
@@ -185,7 +185,7 @@ class HL_Selenium_Actions:
     #   x: x-coordinate to move to
     #   y: y-coordinate to move to
     def move_to(self, x, y, addDelayAfter=True):
-        current_page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd")) + self.webdriver.execute_script("return (location.host + location.pathname)")
+        current_page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
         if current_page_identifier != HL_Selenium_Actions.page_identifier and HL_Selenium_Actions.browser_resets_cursor_location:
             HL_Selenium_Actions.page_identifier = current_page_identifier
             HL_Selenium_Actions.x_pos = 0
