@@ -58,7 +58,7 @@ class HL_Additional_Actions:
                 scroll_ticks += 1
         new_y = self.webdriver.execute_script("return window.pageYOffset;")
         scrolled_distance = abs(current_y - new_y)
-        if scrolled_distance <= abs(y_diff - self.scroll_tick_size):
+        if scrolled_distance <= abs(y_diff) - self.scroll_tick_size:
             if y_diff >= 0:
                 self.scroll_vertical(y_diff - scrolled_distance)
             else:
