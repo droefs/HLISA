@@ -1,6 +1,7 @@
 import math
 import time
 import random
+import logging
 import numpy as np
 
 from selenium.webdriver import Firefox
@@ -36,7 +37,7 @@ class HL_Additional_Actions:
     # It would be detectable otherwise.
     def scroll_by(self, x_diff, y_diff, addDelayAfter=True):    
         if x_diff != 0:
-            print("Scrolling horizontal not implemented")
+            logging.critical("Scrolling horizontal not implemented")
         self.scroll_vertical(y_diff)
         if addDelayAfter:
             self.shortPauze()

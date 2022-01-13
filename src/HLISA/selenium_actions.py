@@ -3,6 +3,7 @@ import time
 import random
 import numpy as np
 import inspect
+import logging
 
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
@@ -57,15 +58,15 @@ class HL_Selenium_Actions:
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
         y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
         if y_relative < 0:
-            print("Warning: click not possible, out of viewport")
+            logging.error("click not possible, out of viewport")
         elif y_relative > viewport_height:
-            print("Warning: click not possible, out of viewport")
+            logging.error("click not possible, out of viewport")
         coordinates = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
         if coordinates:
             x, y = coordinates
             self.move_to(x, y, addDelayAfter)
         else:
-            print("Warning: element could not be clicked on")
+            logging.error("element could not be clicked on")
         return self
 
     def perform(self):
@@ -235,7 +236,7 @@ class TheoreticalCursor():
 
     def roundNumber(self, number):
         if number % 1 != 0:
-            print("WARNING: please provide integers as coordinates in move_to functions to prevent unexpected behavior.")
+            logging.warning("please provide integers as coordinates in move_to functions to prevent unexpected behavior.")
             return int(number)
         else:
             return number
