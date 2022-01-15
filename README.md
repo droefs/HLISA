@@ -389,3 +389,23 @@ HLISA uses the Selenium API to interact with web pages. Some actions only featur
 ```
 
 Other functions add additional actions. For example, a HLISA mouse movement consists of hundreds of tiny Selenium mouse movements that together form a jittery curve.
+
+## Publication and citation
+
+For more details, please see [our IMC 2021 publication](https://doi.org/10.1145/3487552.3487843). If you use HLISA in your research, please cite the publication, for example by using this BibTeX entry:
+
+```
+@inproceedings{GJKKR21,
+  author    = {Daniel Go{\ss}en and
+               Hugo Jonker and
+               Stefan Karsch and
+               Benjamin Krumnow and
+               David Roefs},
+  title     = {{HLISA:} towards a more reliable measurement tool},
+  booktitle	= {Proceedings of the 21st ACM Internet Measurement Conference ({IMC'21})},
+  pages		= {380--389},
+  year      = {2021},
+  url       = {https://doi.org/10.1145/3487552.3487843},
+  doi       = {10.1145/3487552.3487843}
+}
+```
