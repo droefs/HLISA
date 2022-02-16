@@ -100,6 +100,8 @@ class HLISA_ActionChains:
     def perform(self):
         for action in self.chain:
             action()
+        if HL_Selenium_Actions.selenium_version >= 4:
+            self.reset_actions()
         return self
 
     def release(self, on_element=None, addDelayAfter=True):

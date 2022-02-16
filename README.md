@@ -246,7 +246,7 @@ Introduces a pause between actions.
 
 **perform**()
 
-Executes all actions on the chain.  
+  Executes all actions on the chain. If you are using `selenium` version 4 or later, calling `perform()` will also remove all actions from the chain (like `reset_actions()` does). If you use a `selenium` version prior to version 4, actions are not removed. This is consistent with how Selenium's `perform()` function behavior changed between version 3 and 4.
 
 ---
 

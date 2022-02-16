@@ -18,6 +18,7 @@ class HL_Selenium_Actions:
     y_pos = 0
     browser_resets_cursor_location = False
     page_identifier = ""
+    selenium_version = -1 # -1: unknown; 3: selenium < 4; 4: selenium >= 4
     
     def __init__(self, webdriver):
         self.webdriver = webdriver
@@ -25,9 +26,11 @@ class HL_Selenium_Actions:
         # (Selenium 4 introduced an optional third argument to the constructor of ActionChains to specify mouse
         # movement speed, so if there are less than 3 arguments, monkeypatch, otherwise use the new feature).
         if len(inspect.getfullargspec(ActionChains.__init__)[0]) < 3:
+            HL_Selenium_Actions.selenium_version = 3
             self.actions = ActionChains(webdriver)
             HL_Util.increaseMousemovementSpeed()
         else:
+            HL_Selenium_Actions.selenium_version = 4
             self.actions = ActionChains(webdriver, 50)
         if HL_Selenium_Actions.page_identifier == "":
             HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
