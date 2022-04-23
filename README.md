@@ -166,7 +166,7 @@ Double-clicks. If an element is given, double-clicks on the given element.
 
 **drag_and_drop**(*source, target*, *addDelayAfterAction=True*)
 
-Moves the mouse to the source element, holds down the left mouse button, moves the mouse to the target element, releases the mouse button. **Note**: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).  
+Moves the mouse to the source element, holds down the left mouse button, moves the mouse to the target element, releases the mouse button. **Note:** This function is **not** human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *drag_and_drop()* function. **Note**: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).  
 **Arguments:**
 
 - **source**: the element to drag.
@@ -176,7 +176,7 @@ Moves the mouse to the source element, holds down the left mouse button, moves t
 
 **drag_and_drop_by_offset**(*source, xoffset, yoffset*, *addDelayAfterAction=True*)
 
-Moves the mouse to the source element, holds down the left mouse button, moves the mouse by the given offset, releases the mouse button. **Note**: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).  
+Moves the mouse to the source element, holds down the left mouse button, moves the mouse by the given offset, releases the mouse button. **Note:** This function is **not** human like because functionality to implement it is missing in Selenium. Although clearly not human like, it is still more human like than the normal Selenium *drag_and_drop_by_offset()* function. **Note**: this functionality might not work, [just as in Selenium](https://github.com/SeleniumHQ/selenium/issues/8345).  
 **Arguments:**
 
 - **source**: the element to drag.
@@ -364,6 +364,8 @@ This syntax has to be replaced by ActionChains syntax:
 - It is not possible to use HLISA functionality after calling mouse movement functions of the original Selenium ActionChains API.
 
 - The *context_click()* function is not human like.
+- The *drag_and_drop()* function is not human like.
+- The *drag_and_drop_by_offset()* function is not human like.
 
 - HLISA is slow - it interacts with a web page web only as fast as a standard human would. This contrasts to Selenium which interacts with web pages in a superhuman fashion - just like a standard robot would. Please note that although HLISA is slow, this is only caused by intentionally introduced delays; HLISA is not significantly more resource intensive than Selenium.
 

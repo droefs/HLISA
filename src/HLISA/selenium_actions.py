@@ -119,20 +119,13 @@ class HL_Selenium_Actions:
         return self
         
     def drag_and_drop(self, source, target, addDelayAfter=True):
-        self.click_and_hold(source)
-        self.pause(np.random.normal(0.07, 0.02))
-        self.move_to_element(target)
-        self.release()
+        self.actions.drag_and_drop(source, target)
         if addDelayAfter:
             self.addDelayAfterAction()
         return self
 
     def drag_and_drop_by_offset(self, source, xoffset, yoffset, addDelayAfter=True):
-        self.click_and_hold(source)
-        self.pause(np.random.normal(0.07, 0.02))
-        self.move_by_offset(xoffset, yoffset)
-        self.pause(np.random.normal(0.07, 0.02))
-        self.release()
+        self.actions.drag_and_drop_by_offset(source, xoffset, yoffset)
         if addDelayAfter:
             self.addDelayAfterAction()
         return self
