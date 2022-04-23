@@ -20,10 +20,13 @@ class HL_Util:
         for i in range(100): # Try 10 random positions, as some positions are not in round buttons.
             x = x_relative + int(np.random.normal(int(element.rect['width']*0.5), int(element.rect['width']*0.2)))
             y = y_relative + int(np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2)))
-            coords_in_button = webdriver.execute_script("return document.elementFromPoint(" + str(x) + ", " + str(y) + ") === arguments[0];", element)
+            coords_in_button = webdriver.execute_script(f"return document.elementFromPoint({x}, {y}) === arguments[0];", element)
+            coords_in_descendant = webdriver.execute_script(f"""
+                let el = document.elementFromPoint({x}, {y});
+                return [...arguments[0].querySelectorAll('*')].includes(el);""", element)
             if x < 0 or y < 0 or x > viewport_width or y > viewport_height:
                 coords_in_button = False # If the element is partly in the viewport, a part of the element is outside of it. In that case, try again. This is not the best solution (non-deterministic), it would be better to limit the sample space.
-            if coords_in_button:
+            if coords_in_button or coords_in_descendant:
                 return (x, y)
         return None
 
