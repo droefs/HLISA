@@ -119,13 +119,21 @@ class HL_Selenium_Actions:
         return self
         
     def drag_and_drop(self, source, target, addDelayAfter=True):
+        self.move_to_element(source)
         self.actions.drag_and_drop(source, target)
+        HL_Selenium_Actions.x_pos = int(target.rect['x'] + target.rect['width'] * 0.5)
+        HL_Selenium_Actions.y_pos = int(target.rect['y'] + target.rect['height'] * 0.5)
         if addDelayAfter:
             self.addDelayAfterAction()
         return self
 
     def drag_and_drop_by_offset(self, source, xoffset, yoffset, addDelayAfter=True):
+        self.move_to_element(source)
+        HL_Selenium_Actions.x_pos = int(source.rect['x'] + source.rect['width'] * 0.5)
+        HL_Selenium_Actions.y_pos = int(source.rect['y'] + source.rect['height'] * 0.5)
         self.actions.drag_and_drop_by_offset(source, xoffset, yoffset)
+        HL_Selenium_Actions.x_pos += xoffset
+        HL_Selenium_Actions.y_pos += yoffset
         if addDelayAfter:
             self.addDelayAfterAction()
         return self

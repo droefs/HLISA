@@ -22,7 +22,7 @@ webdriver.get('http://localhost:8000/')
 
 # Clicking test:
 actions = HLISA_ActionChains(webdriver)
-actions.scroll_by(100, 100)
+actions.scroll_by(0, 100)
 button1 = webdriver.find_element_by_id("button1")
 for i in range(10):
     actions.click(button1)
