@@ -6,11 +6,13 @@ import numpy as np
 
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 from HLISA.selenium_actions import HL_Selenium_Actions
 from HLISA.util import (behavorial_element_coordinates,
                         get_current_scrolling_position,
-                        std_positive)
+                        std_positive,
+                        get_scrollable_elements)
 
 class HL_Additional_Actions:
     scroll_tick_size = 57
@@ -30,40 +32,60 @@ class HL_Additional_Actions:
         """
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
         y_relative = int(element.rect['y']) - get_current_scrolling_position(self.webdriver)["y"]
-        if y_relative < 0:
-            self.scroll_by(0, y_relative)
-        elif y_relative > viewport_height:
-            self.scroll_by(0, y_relative - viewport_height/2)
+        y_diff = None
+        if y_relative < 0 or y_relative > viewport_height:
+            y_diff = y_relative if y_relative < 0 else y_relative - viewport_height/2
+
+        if y_diff != None:
+            self.scroll_by(0, y_diff)
+            if get_current_scrolling_position(self.webdriver)["y"] == 0:
+                self.scroll_by_page_element(element, 0, y_diff)
+
         x, y = behavorial_element_coordinates(self.webdriver, element)
         selenium_actions = HL_Selenium_Actions(self.webdriver)
         selenium_actions.move_to(x, y, addDelayAfter)
         selenium_actions.perform()
 
+    def scroll_by_page_element(self, element, x_diff, y_diff, addDelayAfter=True):
+        """ Attempts scrolling via elements on the page
 
-    def scroll_by(self, x_diff, y_diff, addDelayAfter=True):
+            @param element: the element of interest to search for scrollable parent
+            elements
+        """
+        start = get_current_scrolling_position(self.webdriver)["y"]
+        scrollable_elements = get_scrollable_elements(self.webdriver, element)
+        while scrollable_elements and \
+                start == get_current_scrolling_position(self.webdriver)["y"]:
+            scroll = scrollable_elements.pop()
+            self.scroll_by(x_diff, y_diff, addDelayAfter, scroll)
+
+
+    def scroll_by(self, x_diff, y_diff, addDelayAfter=True, element=None):
         """ This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
             It would be detectable otherwise.
         """
         if x_diff != 0:
             logging.critical("Scrolling horizontal not implemented")
-        self.scroll_vertical(y_diff)
+        self.scroll_vertical(y_diff, element)
         if addDelayAfter:
             self.shortPauze()
 
-    def scroll_vertical(self, y_diff):
+
+    def scroll_vertical(self, y_diff, element=None):
+        start = get_current_scrolling_position(self.webdriver)["y"]
         scroll_ticks = 0
         current_y = get_current_scrolling_position(self.webdriver)["y"]
         if y_diff > 0:
             max_y = self.webdriver.execute_script("return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);")
             y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
             while y_diff > 0:
-                y_diff = self.scroll_tick(self.scroll_tick_size, scroll_ticks, y_diff)
+                y_diff = self.scroll_tick(self.scroll_tick_size, scroll_ticks, y_diff, element)
                 scroll_ticks += 1
         else:
             min_y = 0
             y_diff = max(y_diff, min_y - current_y) # Prevent scrolling too far
             while y_diff < 0:
-                y_diff = self.scroll_tick((-1 * self.scroll_tick_size), scroll_ticks, y_diff)
+                y_diff = self.scroll_tick((-1 * self.scroll_tick_size), scroll_ticks, y_diff, element)
                 scroll_ticks += 1
         new_y = get_current_scrolling_position(self.webdriver)["y"]
         scrolled_distance = abs(current_y - new_y)
@@ -74,11 +96,13 @@ class HL_Additional_Actions:
                 self.scroll_vertical(y_diff + scrolled_distance)
 
 
-
-    def scroll_tick(self, pixelAmount, scroll_ticks, y_diff):
-        """ Scrolls one tick
+    def scroll_tick(self, pixelAmount, scroll_ticks, y_diff, element=None):
+        """ Scrolls one tick on the window or a given element
         """
-        self.webdriver.execute_script("window.scrollBy(0, " + str(pixelAmount) + ")")
+        if element:
+            self.webdriver.execute_script("arguments[0].scrollBy(0, " + str(pixelAmount) + ")", element)
+        else:
+            self.webdriver.execute_script("window.scrollBy(0, " + str(pixelAmount) + ")")
         y_diff -= pixelAmount
         time.sleep(0.05 + (random.random()/200))
         if scroll_ticks % 7 == 0:

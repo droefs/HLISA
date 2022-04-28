@@ -65,3 +65,30 @@ def get_current_scrolling_position(webdriver):
     """
     return webdriver.execute_script("return {'x':window.pageXOffset, 'y':window.pageYOffset};")
 
+def get_scrollable_elements(webdriver, element):
+    """
+    """
+    script = """
+        let scrollNodes = [];
+        let node = arguments[0];
+
+        function getScrollParent(node) {
+          if (node == null) {
+            return null;
+          }
+          if (node.scrollHeight > node.clientHeight) {
+              return node;
+          } else {
+            return getScrollParent(node.parentNode);
+          }
+        }
+
+        while (node != null){
+          node = getScrollParent(node.parentNode);
+          if (node != null){
+              scrollNodes.push(node);
+          }
+        }
+        return scrollNodes;
+    """
+    return webdriver.execute_script(script, element)
