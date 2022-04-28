@@ -39,6 +39,7 @@ class HL_Additional_Actions:
         if y_diff != None:
             self.scroll_by(0, y_diff)
             if get_current_scrolling_position(self.webdriver)["y"] == 0:
+                # Fall back approach, if window.scrollBy does not work
                 self.scroll_by_page_element(element, 0, y_diff)
 
         x, y = behavorial_element_coordinates(self.webdriver, element)
@@ -66,13 +67,12 @@ class HL_Additional_Actions:
         """
         if x_diff != 0:
             raise NotImplementedError("Horizontal scrolling not yet implemented")
-        self.scroll_vertical(y_diff)
+        self.scroll_vertical(y_diff, element)
         if addDelayAfter:
             self.shortPauze()
 
 
     def scroll_vertical(self, y_diff, element=None):
-        start = get_current_scrolling_position(self.webdriver)["y"]
         scroll_ticks = 0
         current_y = get_current_scrolling_position(self.webdriver)["y"]
         if y_diff > 0:
