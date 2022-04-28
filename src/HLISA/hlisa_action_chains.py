@@ -10,13 +10,13 @@ from selenium.webdriver.common.action_chains import ActionChains
 from HLISA.selenium_actions import HL_Selenium_Actions
 from HLISA.additional_actions import HL_Additional_Actions
 
-# This object holds its own chain of actions in self.chain.
-# Every API call on this object adds the action to the chain,
-# and if the action is ActionChain based itself (meaning it 
-# only executes after a .perform()), the .perform() is also 
-# called.
 class HLISA_ActionChains:
-
+    """ This object holds its own chain of actions in self.chain.
+        Every API call on this object adds the action to the chain,
+        and if the action is ActionChain based itself (meaning it
+        only executes after a .perform()), the .perform() is also
+        called.
+    """
     def __init__(self, webdriver, browser_resets_cursor_location=True):
         self.webdriver = webdriver
         self.chain = []
