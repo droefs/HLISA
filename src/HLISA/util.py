@@ -3,6 +3,8 @@ import time
 import random
 import numpy as np
 
+from HLISA.errors import ElementBoundariesWereZeroException
+
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.actions.pointer_input import PointerInput
@@ -31,6 +33,13 @@ def behavorial_element_coordinates(webdriver, element):
     viewport_width = webdriver.execute_script("return window.innerWidth")
     viewport_height = webdriver.execute_script("return window.innerHeight")
     counter = 0
+    if element.rect['width'] == 0 or element.rect['height'] == 0:
+        error_msg = """
+            The element's plane was zero. To avoid this issue, you may want to use:
+                from HLISA.utils import best_effort_element_selection
+                element_to_click = best_effort_element_selection(driver, my_element)
+        """
+        raise ElementBoundariesWereZeroException(error_msg)
     for i in range(100): # Try 10 random positions, as some positions are not in round buttons.
         x = x_relative + int(np.random.normal(int(element.rect['width']*0.5), int(element.rect['width']*0.2)))
         y = y_relative + int(np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2)))
