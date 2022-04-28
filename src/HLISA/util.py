@@ -88,3 +88,4 @@ def best_effort_element_selection(webdriver, element):
             return res;"""
         candidates = webdriver.execute_script(script, element)
         return candidates
+    
