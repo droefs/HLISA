@@ -65,8 +65,8 @@ class HL_Additional_Actions:
             It would be detectable otherwise.
         """
         if x_diff != 0:
-            logging.critical("Scrolling horizontal not implemented")
-        self.scroll_vertical(y_diff, element)
+            raise NotImplementedError("Horizontal scrolling not yet implemented")
+        self.scroll_vertical(y_diff)
         if addDelayAfter:
             self.shortPauze()
 
