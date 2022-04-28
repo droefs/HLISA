@@ -53,10 +53,10 @@ class HL_Additional_Actions:
             @param element: the element of interest to search for scrollable parent
             elements
         """
-        start = get_current_scrolling_position(self.webdriver)["y"]
+        start = get_current_scrolling_position(self.webdriver, element)["y"]
         scrollable_elements = get_scrollable_elements(self.webdriver, element)
         while scrollable_elements and \
-                start == get_current_scrolling_position(self.webdriver)["y"]:
+                start == get_current_scrolling_position(self.webdriver, element)["y"]:
             scroll = scrollable_elements.pop()
             self.scroll_by(x_diff, y_diff, addDelayAfter, scroll)
 
@@ -75,11 +75,16 @@ class HL_Additional_Actions:
     def scroll_vertical(self, y_diff_original, element=None):
         y_diff = y_diff_original
         scroll_ticks = 0
-        current_y = get_current_scrolling_position(self.webdriver)["y"]
+        current_y = get_current_scrolling_position(self.webdriver, element)["y"]
         if y_diff > 0:
-            max_y = self.webdriver.execute_script("return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);")
-            max_y -= self.webdriver.execute_script("return innerHeight")
-            y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
+
+            # The three lines of code underneath can be uncommented when document.body.scrollHeight is
+            # replaced by the element.scrollHeight-equivalent when element is provided, and 
+            # when innerHeight is replaced by element.innerHeight-equivalent when element is provided.
+            # max_y = self.webdriver.execute_script("return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);")
+            # max_y -= self.webdriver.execute_script("return innerHeight")
+            # y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
+            
             while y_diff > 0:
                 y_diff = self.scroll_tick(self.scroll_tick_size, scroll_ticks, y_diff, element)
                 scroll_ticks += 1
@@ -89,7 +94,7 @@ class HL_Additional_Actions:
             while y_diff < 0:
                 y_diff = self.scroll_tick((-1 * self.scroll_tick_size), scroll_ticks, y_diff, element)
                 scroll_ticks += 1
-        new_y = get_current_scrolling_position(self.webdriver)["y"]
+        new_y = get_current_scrolling_position(self.webdriver, element)["y"]
         scrolled_distance = abs(current_y - new_y)
         if scrolled_distance == 0: # Scrolling is impossible
             return

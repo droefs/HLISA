@@ -60,9 +60,11 @@ def increaseMousemovementSpeed():
     """
     PointerInput.create_pointer_move = HL_Util.create_pointer_move
 
-def get_current_scrolling_position(webdriver):
+def get_current_scrolling_position(webdriver, element=None):
     """ Returns the x and y offset for scrolling
     """
+    if element:
+        return ({"x": int(element.get_attribute("scrollLeft")), "y": int(element.get_attribute("scrollTop"))})
     return webdriver.execute_script("return {'x':window.pageXOffset, 'y':window.pageYOffset};")
 
 def get_scrollable_elements(webdriver, element):
