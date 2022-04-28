@@ -17,7 +17,7 @@ class HL_Util:
         viewport_width = webdriver.execute_script("return window.innerWidth")
         viewport_height = webdriver.execute_script("return window.innerHeight")
         counter = 0
-        for i in range(100): # Try 10 random positions, as some positions are not in round buttons.
+        for i in range(10000): # Try 10000 random positions, as some positions are not in round buttons.
             x = x_relative + int(np.random.normal(int(element.rect['width']*0.5), int(element.rect['width']*0.2)))
             y = y_relative + int(np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2)))
             coords_in_button = webdriver.execute_script(f"return document.elementFromPoint({x}, {y}) === arguments[0];", element)

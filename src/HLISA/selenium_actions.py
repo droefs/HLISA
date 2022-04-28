@@ -59,17 +59,19 @@ class HL_Selenium_Actions:
 
     def move_to_element(self, element, addDelayAfter=True):
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
+        viewport_width = self.webdriver.execute_script("return window.innerWidth")
         y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
-        if y_relative < 0:
-            logging.error("click not possible, out of viewport")
-        elif y_relative > viewport_height:
-            logging.error("click not possible, out of viewport")
+        x_relative = int(element.rect['x']) - self.webdriver.execute_script("return window.pageXOffset;")
+        if y_relative < 0 or x_relative < 0:
+            raise Exception("Moving to the element is not possible, it is not in the viewport")
+        elif y_relative > viewport_height or x_relative > viewport_width:
+            raise Exception("Moving to the element is not possible, it is not in the viewport")
         coordinates = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
         if coordinates:
             x, y = coordinates
             self.move_to(x, y, addDelayAfter)
         else:
-            logging.error("element could not be clicked on")
+            raise Exception("The element could not be moved to. This is likely an error in HLISA, please raise an issue if it happens")
         return self
 
     def perform(self):
