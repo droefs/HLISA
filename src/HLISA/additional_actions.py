@@ -91,6 +91,8 @@ class HL_Additional_Actions:
                 scroll_ticks += 1
         new_y = get_current_scrolling_position(self.webdriver)["y"]
         scrolled_distance = abs(current_y - new_y)
+        if scrolled_distance == 0: # Scrolling is impossible
+            return
         if scrolled_distance < abs(y_diff_original) - self.scroll_tick_size:
             if y_diff_original >= 0:
                 self.scroll_vertical(y_diff_original - scrolled_distance)
