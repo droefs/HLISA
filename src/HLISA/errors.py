@@ -7,9 +7,3 @@ class OutOfViewportException(HLISAException):
   """ Indicates failing interaction due to leaving of the viewport
   """
   pass
-
-        
-
-          
-
-          
