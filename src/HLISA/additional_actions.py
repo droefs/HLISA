@@ -72,7 +72,8 @@ class HL_Additional_Actions:
             self.shortPauze()
 
 
-    def scroll_vertical(self, y_diff, element=None):
+    def scroll_vertical(self, y_diff_original, element=None):
+        y_diff = y_diff_original
         scroll_ticks = 0
         current_y = get_current_scrolling_position(self.webdriver)["y"]
         if y_diff > 0:
@@ -90,11 +91,11 @@ class HL_Additional_Actions:
                 scroll_ticks += 1
         new_y = get_current_scrolling_position(self.webdriver)["y"]
         scrolled_distance = abs(current_y - new_y)
-        if scrolled_distance <= abs(y_diff) - self.scroll_tick_size:
-            if y_diff >= 0:
-                self.scroll_vertical(y_diff - scrolled_distance)
+        if scrolled_distance < abs(y_diff_original) - self.scroll_tick_size:
+            if y_diff_original >= 0:
+                self.scroll_vertical(y_diff_original - scrolled_distance)
             else:
-                self.scroll_vertical(y_diff + scrolled_distance)
+                self.scroll_vertical(y_diff_original + scrolled_distance)
 
 
     def scroll_tick(self, pixelAmount, scroll_ticks, y_diff, element=None):
