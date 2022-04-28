@@ -74,3 +74,14 @@ def get_current_scrolling_position(webdriver):
     """
     return webdriver.execute_script("return {'x':window.pageXOffset, 'y':window.pageYOffset};")
 
+def best_effort_element_selection(webdriver, element):
+    """ Collection of best efforts approaches to select a clickable element
+    """
+    if element.rect["height"] == 0 or element.rect["width"] == 0:
+        script =f"""
+            let res = [];
+            return [...arguments[0].querySelectorAll('*')].forEach(el => {
+                if (el.clientWidth > 0 && el.clientHeight > 0){
+                    res.push(el);
+                }});""", element)
+         candidates = webdriver.execute_script(script)
