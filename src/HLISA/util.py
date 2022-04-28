@@ -2,7 +2,6 @@ import math
 import time
 import random
 import numpy as np
-
 from HLISA.errors import ElementBoundariesWereZeroException
 
 from selenium.webdriver import Firefox
@@ -36,7 +35,7 @@ def behavorial_element_coordinates(webdriver, element):
     if element.rect['width'] == 0 or element.rect['height'] == 0:
         error_msg = """
             The element's plane was zero. To avoid this issue, you may want to use:
-                from HLISA.utils import best_effort_element_selection
+                from HLISA.util import best_effort_element_selection
                 element_to_click = best_effort_element_selection(driver, my_element)
         """
         raise ElementBoundariesWereZeroException(error_msg)
@@ -77,11 +76,15 @@ def get_current_scrolling_position(webdriver):
 def best_effort_element_selection(webdriver, element):
     """ Collection of best efforts approaches to select a clickable element
     """
+    
     if element.rect["height"] == 0 or element.rect["width"] == 0:
-        script =f"""
+        script ="""
             let res = [];
-            return [...arguments[0].querySelectorAll('*')].forEach(el => {
+            arguments[0].querySelectorAll('*').forEach(el => {
                 if (el.clientWidth > 0 && el.clientHeight > 0){
                     res.push(el);
-                }});""", element)
-         candidates = webdriver.execute_script(script)
+                }
+            });
+            return res;"""
+        candidates = webdriver.execute_script(script, element)
+        return candidates
