@@ -10,7 +10,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import MoveTargetOutOfBoundsException
 
-from HLISA.util import HL_Util
+from HLISA.util import (behavorial_element_coordinates,
+                        get_current_scrolling_position,
+                        increaseMousemovementSpeed,
+                        std_positive)
 from HLISA.errors import HLISAException
 from HLISA.errors import OutOfViewportException
 
@@ -30,7 +33,7 @@ class HL_Selenium_Actions:
         if len(inspect.getfullargspec(ActionChains.__init__)[0]) < 3:
             HL_Selenium_Actions.selenium_version = 3
             self.actions = ActionChains(webdriver)
-            HL_Util.increaseMousemovementSpeed()
+            increaseMousemovementSpeed()
         else:
             HL_Selenium_Actions.selenium_version = 4
             self.actions = ActionChains(webdriver, 50)
@@ -38,7 +41,7 @@ class HL_Selenium_Actions:
             HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
 
     def addDelayAfterAction(self):
-        self.actions.pause(HL_Util.std_positive(0.3, 0.1, 0.025))
+        self.actions.pause(std_positive(0.3, 0.1, 0.025))
 
     ##### Action chain methods #####
 
@@ -62,12 +65,12 @@ class HL_Selenium_Actions:
     def move_to_element(self, element, addDelayAfter=True):
         viewport_height = self.webdriver.execute_script("return window.innerHeight")
         viewport_width = self.webdriver.execute_script("return window.innerWidth")
-        y_relative = int(element.rect['y']) - self.webdriver.execute_script("return window.pageYOffset;")
-        x_relative = int(element.rect['x']) - self.webdriver.execute_script("return window.pageXOffset;")
+        y_relative = int(element.rect['y']) - get_current_scrolling_position(self.webdriver)["y"]
+        x_relative = int(element.rect['x']) - get_current_scrolling_position(self.webdriver)["x"]
         if y_relative < 0 or x_relative < 0 or y_relative > viewport_height or x_relative > viewport_width:
             error_msg = "Moving to the element is not possible. The given element is outside of the viewport"
             raise OutOfViewportException(error_msg)
-        coordinates = HL_Util.behavorial_element_coordinates("", self.webdriver, element)
+        coordinates = behavorial_element_coordinates(self.webdriver, element)
         if coordinates:
             x, y = coordinates
             self.move_to(x, y, addDelayAfter)
@@ -92,9 +95,9 @@ class HL_Selenium_Actions:
         sentences = keys_to_send.split(". ")
         for i in range(len(sentences)-1):
             self.write_sentence(sentences[i])
-            self.actions.pause(HL_Util.std_positive(1.7, 0.7, 0.3)) # Closing a sentence
+            self.actions.pause(std_positive(1.7, 0.7, 0.3)) # Closing a sentence
             self.write_character(".") # Add the removed dot and space again
-            self.actions.pause(HL_Util.std_positive(0.6, 0.4, 0.05)) # After closing a sentence
+            self.actions.pause(std_positive(0.6, 0.4, 0.05)) # After closing a sentence
             self.write_character(" ")
         self.write_sentence(sentences[len(sentences)-1])
         if addDelayAfter:
@@ -148,7 +151,7 @@ class HL_Selenium_Actions:
             self.click(element)
         self.actions.key_down(value)
         if addDelayAfter:
-            self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.013)) # Specific version of addDelayAfterAction()
+            self.actions.pause(std_positive(0.06, 0.035, 0.013)) # Specific version of addDelayAfterAction()
         return self
 
     def key_up(self, value, element=None, addDelayAfter=True):
@@ -156,12 +159,12 @@ class HL_Selenium_Actions:
             self.click(element)
         self.actions.key_up(value)
         if addDelayAfter:
-            self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Specific version of addDelayAfterAction()
+            self.actions.pause(std_positive(0.21, 0.03, 0.011)) # Specific version of addDelayAfterAction()
         return self
 
     def move_to_element_with_offset(self, to_element, xoffset, yoffset, addDelayAfter=True):
-        left_relative = to_element.rect['x'] - self.webdriver.execute_script("return window.pageXOffset;")
-        top_relative = to_element.rect['y'] - self.webdriver.execute_script("return window.pageYOffset;")
+        left_relative = to_element.rect['x'] - get_current_scrolling_position(self.webdriver)["x"]
+        top_relative = to_element.rect['y'] - get_current_scrolling_position(self.webdriver)["y"]
         self.move_to(left_relative + xoffset, top_relative + yoffset, addDelayAfter)
         return self
 
@@ -210,35 +213,35 @@ class HL_Selenium_Actions:
     ##### Util functions #####
 
     def write_sentence(self, sentence):
-        self.actions.pause(HL_Util.std_positive(1.3, 1, 0.2)) # Opening a sentence
+        self.actions.pause(std_positive(1.3, 1, 0.2)) # Opening a sentence
         words = sentence.split(" ")
         if len(words) > 0:
             for i in range(len(words)-1):
                 self.write_word(words[i])
-                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
+                self.actions.pause(std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
                 self.write_character(" ")
             self.write_word(words[-1])
 
     def write_word(self, word):
-        self.actions.pause(HL_Util.std_positive(0.47, 0.21, 0.05)) # Opening a word
+        self.actions.pause(std_positive(0.47, 0.21, 0.05)) # Opening a word
         characters = list(word)
         if len(characters) > 0:
             for i in range(len(characters)-1):
                 self.write_character(characters[i])
-                self.actions.pause(HL_Util.std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
+                self.actions.pause(std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
             self.write_character(characters[-1])
-        self.actions.pause(HL_Util.std_positive(0.2, 0.08, 0.01)) # Closing a word
+        self.actions.pause(std_positive(0.2, 0.08, 0.01)) # Closing a word
 
     def write_character(self, character):
         special_characters = "!@#$%^&*()_+{}|:<>?"
         if character.isupper() or character in special_characters:
             self.actions.key_down("\ue008")
-            self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.005)) # Time after shift press
+            self.actions.pause(std_positive(0.06, 0.035, 0.005)) # Time after shift press
         self.actions.key_down(character)
-        self.actions.pause(HL_Util.std_positive(0.06, 0.035, 0.013)) # Dwell time
+        self.actions.pause(std_positive(0.06, 0.035, 0.013)) # Dwell time
         self.actions.key_up(character)
         if character.isupper() or character in special_characters:
-            self.actions.pause(HL_Util.std_positive(0.03, 0.015, 0.003)) # Time before shift release
+            self.actions.pause(std_positive(0.03, 0.015, 0.003)) # Time before shift release
             self.actions.key_up("\ue008")
 
 class TheoreticalCursor():
