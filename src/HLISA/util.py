@@ -26,8 +26,8 @@ def behavorial_element_coordinates(webdriver, element):
     """ Takes an element and returns coordinates somewhere in the element. If the element is not visable, it returns 0.
         Uses a normal distribution.
     """
-    x_relative = int(element.rect['x']) - webdriver.execute_script("return window.pageXOffset;")
-    y_relative = int(element.rect['y']) - webdriver.execute_script("return window.pageYOffset;")
+    x_relative = int(element.rect['x']) - get_current_scrolling_position(webdriver)["x"]
+    y_relative = int(element.rect['y']) - get_current_scrolling_position(webdriver)["y"]
     viewport_width = webdriver.execute_script("return window.innerWidth")
     viewport_height = webdriver.execute_script("return window.innerHeight")
     counter = 0
