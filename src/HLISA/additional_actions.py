@@ -80,7 +80,7 @@ class HL_Additional_Actions:
         self.shortPauze()  
         current_x = self.webdriver.execute_script("return window.pageXOffset;")
         if current_x != x:
-            raise Exception("Scrolling horizontal not yet implemented")
+            raise NotImplementedError("Scrolling horizontal not yet implemented")
         current_y = self.webdriver.execute_script("return window.pageYOffset;")
         y_diff = y - current_y
         self.scroll_by(x, y_diff, addDelayAfter)
