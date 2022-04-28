@@ -93,7 +93,7 @@ class HL_Additional_Actions:
         self.shortPauze()
         current_x = get_current_scrolling_position(self.webdriver)["x"]
         if current_x != x:
-            logger.error("Scrolling horizontal not yet implemented")
+            raise NotImplementedError("Horizontal scrolling not yet implemented")
         current_y = get_current_scrolling_position(self.webdriver)["y"]
         y_diff = y - current_y
         self.scroll_by(x, y_diff, addDelayAfter)
