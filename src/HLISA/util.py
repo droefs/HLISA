@@ -76,7 +76,6 @@ def get_current_scrolling_position(webdriver):
 def best_effort_element_selection(webdriver, element):
     """ Collection of best efforts approaches to select a clickable element
     """
-    
     if element.rect["height"] == 0 or element.rect["width"] == 0:
         script ="""
             let res = [];
