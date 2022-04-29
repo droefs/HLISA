@@ -76,15 +76,7 @@ class HL_Additional_Actions:
         y_diff = y_diff_original
         scroll_ticks = 0
         current_y = get_current_scrolling_position(self.webdriver, element)["y"]
-        if y_diff > 0:
-
-            # The three lines of code underneath can be uncommented when document.body.scrollHeight is
-            # replaced by the element.scrollHeight-equivalent when element is provided, and 
-            # when innerHeight is replaced by element.innerHeight-equivalent when element is provided.
-            # max_y = self.webdriver.execute_script("return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);")
-            # max_y -= self.webdriver.execute_script("return innerHeight")
-            # y_diff = min(y_diff, max_y - current_y) # Prevent scrolling too far
-            
+        if y_diff > 0:            
             while y_diff > 0:
                 y_diff = self.scroll_tick(self.scroll_tick_size, scroll_ticks, y_diff, element)
                 scroll_ticks += 1
