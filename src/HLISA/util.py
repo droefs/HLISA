@@ -68,10 +68,40 @@ def increaseMousemovementSpeed():
     """
     PointerInput.create_pointer_move = HL_Util.create_pointer_move
 
-def get_current_scrolling_position(webdriver):
+def get_current_scrolling_position(webdriver, element=None):
     """ Returns the x and y offset for scrolling
     """
+    if element:
+        return ({"x": int(element.get_attribute("scrollLeft")), "y": int(element.get_attribute("scrollTop"))})
     return webdriver.execute_script("return {'x':window.pageXOffset, 'y':window.pageYOffset};")
+
+def get_scrollable_elements(webdriver, element):
+    """
+    """
+    script = """
+        let scrollNodes = [];
+        let node = arguments[0];
+
+        function getScrollParent(node) {
+          if (node == null) {
+            return null;
+          }
+          if (node.scrollHeight > node.clientHeight) {
+              return node;
+          } else {
+            return getScrollParent(node.parentNode);
+          }
+        }
+
+        while (node != null){
+          node = getScrollParent(node.parentNode);
+          if (node != null){
+              scrollNodes.push(node);
+          }
+        }
+        return scrollNodes;
+    """
+    return webdriver.execute_script(script, element)
 
 def best_effort_element_selection(webdriver, element):
     """ Collection of best efforts approaches to select a clickable element
@@ -87,4 +117,3 @@ def best_effort_element_selection(webdriver, element):
             return res;"""
         candidates = webdriver.execute_script(script, element)
         return candidates
-    
