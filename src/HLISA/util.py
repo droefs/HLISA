@@ -35,8 +35,13 @@ def behavorial_element_coordinates(webdriver, element):
     if element.rect['width'] == 0 or element.rect['height'] == 0:
         error_msg = """
             The element's plane was zero. To avoid this issue, you may want to use:
-                from HLISA.util import best_effort_element_selection
-                element_to_click = best_effort_element_selection(driver, my_element)
+                from HLISA.util import best_effort_element_selection as best_selection
+                from HLISA.errors import ElementBoundariesWereZeroException
+                try:
+                    click_with_HLISA(driver, el)
+                except ElementBoundariesWereZeroException:
+                    best_el = best_selection(driver, el)
+                    click_with_HLISA(driver, best_el[0])
         """
         raise ElementBoundariesWereZeroException(error_msg)
     for i in range(100): # Try 10 random positions, as some positions are not in round buttons.
