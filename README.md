@@ -26,7 +26,7 @@ The HLISA_ActionChains can be used just like the Selenium ActionChains object. I
 
 ### Usage example
 
-```
+```python
 from HLISA.hlisa_action_chains import HLISA_ActionChains
 
 human_like_actions = HLISA_ActionChains(webdriver)
@@ -36,7 +36,7 @@ human_like_actions.perform()
 
 **The chain pattern works exactly like the Selenium ActionChains:**
 
-```
+```python
 actions = HLISA_ActionChains(webdriver)
 menu = webdriver.find_element(By.CSS_SELECTOR, ".nav")
 hidden_submenu = webdriver.find_element(By.CSS_SELECTOR, ".nav #submenu1")
@@ -45,7 +45,7 @@ actions.move_to_element(menu).click(hidden_submenu).perform()
 
 **And so does queuing up:**
 
-```
+```python
 menu = webdriver.find_element(By.CSS_SELECTOR, ".nav")
 hidden_submenu = webdriver.find_element(By.CSS_SELECTOR, ".nav #submenu1")
 actions = HLISA_ActionChains(webdriver)`
@@ -68,7 +68,7 @@ This flag ensures no delay is added after the action is completed. Delays within
 
 Standard delay after the mouse movement, standard delay after the click:
 
-```
+```python
 HLISA_ActionChains(wd)
 .click(element)
 .perform()
@@ -76,7 +76,7 @@ HLISA_ActionChains(wd)
 
 Standard delay after the mouse movement, no delay after the click:
 
-```
+```python
 HLISA_ActionChains(wd)
 .click(element, addDelayAfter=False)
 .perform()
@@ -84,7 +84,7 @@ HLISA_ActionChains(wd)
 
 No delay after the mouse movement, no delay after the click:
 
-```
+```python
 HLISA_ActionChains(wd)
 .move_to_element(element, addDelayAfter=False)
 .click(addDelayAfter=False)
@@ -93,7 +93,7 @@ HLISA_ActionChains(wd)
 
 Custom delay after the mouse movement, custom delay after the click:
 
-```
+```python
 HLISA_ActionChains(wd)
 .move_to_element(element, addDelayAfter=False)
 .pause(0.1)
@@ -379,7 +379,7 @@ Apart from special keys (as noted above), Selenium and HLISA can be immediately 
 
 HLISA uses the Selenium API to interact with web pages. Some actions only feature additional delays. For example, HLISA_ActionChains(wd)[.click()](https://github.com/droefs/HLISA/blob/962d5bbc6b8dca64171dbc465be69f9e5dcd1bd4/src/HLISA/selenium_actions.py#L35) is implemented as:
 
-```
+```python
     def click(self, element=None):
         if element is not None:
             self.move_to_element(element)
@@ -396,7 +396,7 @@ Other functions add additional actions. For example, a HLISA mouse movement cons
 
 For more details, please see [our IMC 2021 publication](https://doi.org/10.1145/3487552.3487843). If you use HLISA in your research, please cite the publication, for example by using this BibTeX entry:
 
-```
+```python
 @inproceedings{GJKKR21,
   author    = {Daniel Go{\ss}en and
                Hugo Jonker and
