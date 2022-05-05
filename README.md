@@ -396,7 +396,7 @@ Other functions add additional actions. For example, a HLISA mouse movement cons
 
 For more details, please see [our IMC 2021 publication](https://doi.org/10.1145/3487552.3487843). If you use HLISA in your research, please cite the publication, for example by using this BibTeX entry:
 
-```python
+```
 @inproceedings{GJKKR21,
   author    = {Daniel Go{\ss}en and
                Hugo Jonker and
