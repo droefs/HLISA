@@ -108,6 +108,18 @@ def get_scrollable_elements(webdriver, element):
     """
     return webdriver.execute_script(script, element)
 
+def element_is_scrollable(webdriver, element):
+    """
+    """
+    script = """
+        let node = arguments[0];
+        if (node == null) {
+            return false;
+        }
+        return node.scrollHeight > node.clientHeight;
+    """
+    return webdriver.execute_script(script, element)
+
 def best_effort_element_selection(webdriver, element):
     """ Collection of best efforts approaches to select a clickable element
     """

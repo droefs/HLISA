@@ -12,7 +12,10 @@ from HLISA.selenium_actions import HL_Selenium_Actions
 from HLISA.util import (behavorial_element_coordinates,
                         get_current_scrolling_position,
                         std_positive,
-                        get_scrollable_elements)
+                        get_scrollable_elements,
+                        element_is_scrollable)
+
+from HLISA.errors import UnscrollableElementException
 
 class HL_Additional_Actions:
     scroll_tick_size = 57
@@ -64,10 +67,17 @@ class HL_Additional_Actions:
     def scroll_by(self, x_diff, y_diff, addDelayAfter=True, element=None):
         """ This function scrolls a few pixels further if the parameter is not a multiple of a standard scroll value.
             It would be detectable otherwise.
+            Keyword arguments:
+            x_diff -- the horizontal distance to scroll. 0 to not scroll horizontally.
+            y_diff -- the vertical distance to scroll. 0 to not scroll vertically.
+            element -- the element to scroll in (if None, the page is scrolled)
         """
         if x_diff != 0:
             raise NotImplementedError("Horizontal scrolling not yet implemented")
-        self.scroll_vertical(y_diff, element)
+        if element is None or element_is_scrollable(self.webdriver, element):
+            self.scroll_vertical(y_diff, element)
+        else:
+            raise UnscrollableElementException("The element can not be scrolled")
         if addDelayAfter:
             self.shortPauze()
 

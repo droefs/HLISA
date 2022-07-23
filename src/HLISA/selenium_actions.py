@@ -14,8 +14,8 @@ from HLISA.util import (behavorial_element_coordinates,
                         get_current_scrolling_position,
                         increaseMousemovementSpeed,
                         std_positive)
-from HLISA.errors import HLISAException
-from HLISA.errors import OutOfViewportException
+from HLISA.errors import (HLISAException,
+                          OutOfViewportException)
 
 class HL_Selenium_Actions:
 
