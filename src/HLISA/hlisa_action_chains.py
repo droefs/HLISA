@@ -138,9 +138,9 @@ class HLISA_ActionChains:
         self.chain.append(lambda: additional_actions.move_to_element_outside_viewport(element, addDelayAfter))
         return self
 
-    def scroll_by(self, x_diff, y_diff, addDelayAfter=True):
+    def scroll_by(self, x_diff, y_diff, addDelayAfter=True, element=None):
         additional_actions = HL_Additional_Actions(self.webdriver)
-        self.chain.append(lambda: additional_actions.scroll_by(x_diff, y_diff, addDelayAfter))
+        self.chain.append(lambda: additional_actions.scroll_by(x_diff, y_diff, addDelayAfter, element))
         return self
 
     def scroll_to(self, x_diff, y_diff, addDelayAfter=True):

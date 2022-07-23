@@ -12,3 +12,8 @@ class ElementBoundariesWereZeroException(HLISAException):
   """ Indicates that either the height or width of an element was zero
   """
   pass
+
+class UnscrollableElementException(HLISAException):
+  """ Indicates failing interaction due to leaving of the viewport
+  """
+  pass

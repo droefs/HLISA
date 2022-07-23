@@ -312,13 +312,14 @@ Scrolls the viewport, then moves the mouse to the element.
 
 ---
 
-**scroll_by**(*x_diff, y_diff*, *addDelayAfterAction=True*)
+**scroll_by**(*x_diff, y_diff*, *addDelayAfterAction=True*, element=None)
 
-Scrolls by *x_diff* and *y_diff* pixels. Scrolling happens in fixed steps of 57 pixels to prevent detection. **Warning: up to 56 pixels can be scrolled more than specified in the parameter to prevent detection.**  
+Scrolls by *x_diff* and *y_diff* pixels. Scrolling happens in fixed steps of 57 pixels to prevent detection. **Warning: up to 56 pixels can be scrolled more than specified in the parameter to prevent detection.**
 **Arguments:**
 
 - **x_dif**: the horizontal distance to scroll. 0 to not scroll horizontally.
 - **x_dif**: the vertical distance to scroll. 0 to not scroll vertically.
+- **element**: the element to scroll in. If None, the page is scrolled.
 
 ---
 
