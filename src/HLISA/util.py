@@ -2,6 +2,7 @@ import math
 import time
 import random
 import numpy as np
+from HLISA.errors import ElementBoundariesWereZeroException
 
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
@@ -31,6 +32,18 @@ def behavorial_element_coordinates(webdriver, element):
     viewport_width = webdriver.execute_script("return window.innerWidth")
     viewport_height = webdriver.execute_script("return window.innerHeight")
     counter = 0
+    if element.rect['width'] == 0 or element.rect['height'] == 0:
+        error_msg = """
+            The element's plane was zero. To avoid this issue, you may want to use:
+                from HLISA.util import best_effort_element_selection as best_selection
+                from HLISA.errors import ElementBoundariesWereZeroException
+                try:
+                    click_with_HLISA(driver, el)
+                except ElementBoundariesWereZeroException:
+                    best_el = best_selection(driver, el)
+                    click_with_HLISA(driver, best_el[0])
+        """
+        raise ElementBoundariesWereZeroException(error_msg)
     for i in range(100): # Try 10 random positions, as some positions are not in round buttons.
         x = x_relative + int(np.random.normal(int(element.rect['width']*0.5), int(element.rect['width']*0.2)))
         y = y_relative + int(np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2)))
@@ -94,3 +107,18 @@ def get_scrollable_elements(webdriver, element):
         return scrollNodes;
     """
     return webdriver.execute_script(script, element)
+
+def best_effort_element_selection(webdriver, element):
+    """ Collection of best efforts approaches to select a clickable element
+    """
+    if element.rect["height"] == 0 or element.rect["width"] == 0:
+        script ="""
+            let res = [];
+            arguments[0].querySelectorAll('*').forEach(el => {
+                if (el.clientWidth > 0 && el.clientHeight > 0){
+                    res.push(el);
+                }
+            });
+            return res;"""
+        candidates = webdriver.execute_script(script, element)
+        return candidates

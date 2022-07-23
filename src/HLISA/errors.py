@@ -7,3 +7,8 @@ class OutOfViewportException(HLISAException):
   """ Indicates failing interaction due to leaving of the viewport
   """
   pass
+
+class ElementBoundariesWereZeroException(HLISAException):
+  """ Indicates that either the height or width of an element was zero
+  """
+  pass
