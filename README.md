@@ -174,7 +174,9 @@ For more details, please see [our IMC 2021 publication](https://doi.org/10.1145/
 work as follow:
 
 ```
-HLISA: towards a more reliable measurement tool. D. Goßen, H. Jonker, S. Karsch, B. Krumnow and D. Roefs. In Proceedings of the 21st ACM⁄SIGCOMM Internet Measurement Conference (IMC’21). ACM, pp. 380–389, 2021. 
+HLISA: towards a more reliable measurement tool. D. Goßen, H. Jonker, S. Karsch,
+B. Krumnow and D. Roefs. In Proceedings of the 21st ACM⁄SIGCOMM Internet 
+Measurement Conference (IMC’21). ACM, pp. 380–389, 2021. 
 ```
 
 or by using this BibTeX entry:
