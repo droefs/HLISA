@@ -1,6 +1,6 @@
 # HLISA
 
-HLISA is a drop-in replacement for the ActionChains object of the Selenium [API](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html) (Python only), featuring more human-like interaction. Besides providing all functionality the original Selenium ActionChains offers, additional interaction functionality is provided. Calling interaction on elements (`element.click()`) is not provided.
+HLISA is a drop-in replacement for the ActionChains object of the Selenium [API](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html) (Python only), featuring more human-like interaction. Besides providing all functionality the original Selenium ActionChains offers, additional interaction functionality is [provided](https://github.com/droefs/HLISA/blob/master/docs/api.md#additional-actions-available-in-hlisa). Calling interaction on elements (`element.click()`) is not provided.
 
 ## Demo
 
@@ -22,7 +22,7 @@ And upgraded in the same fashion:
 
 ## Usage
 
-The HLISA_ActionChains can be used just like the Selenium ActionChains object. It is however not possible to use standard Selenium interaction methods before using HLISA in a single session. This means that executing a Selenium ActionChain before executing an HLISA_ActionChain is not possible. Similarly, calling interaction on Elements (`element.click()`) can not be used before executing HLISA_ActionChains. Using Selenium actions to perform web page interaction before using HLISA in a single session can result in unexpected behavior.
+See the [API description](https://github.com/droefs/HLISA/blob/master/docs/api.md) for all functions. The HLISA_ActionChains can be used just like the Selenium ActionChains object. It is however not possible to use standard Selenium interaction methods before using HLISA in a single session. This means that executing a Selenium ActionChain before executing an HLISA_ActionChain is not possible. Similarly, calling interaction on Elements (`element.click()`) can not be used before executing HLISA_ActionChains. Using Selenium actions to perform web page interaction before using HLISA in a single session can result in unexpected behavior.
 
 ### Usage example
 
