@@ -103,7 +103,7 @@ HLISA_ActionChains(wd)
 ```
 
 ## API
-Check the API description under docs/api.md.
+Check the [API description under docs/api.md.](https://github.com/droefs/HLISA/blob/master/docs/api.md)
 
 ## Migrating from Selenium ActionChains to HLISA ActionChains
 
