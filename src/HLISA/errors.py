@@ -17,3 +17,8 @@ class UnscrollableElementException(HLISAException):
   """ Indicates failing interaction due to leaving of the viewport
   """
   pass
+
+class IllegalArgumentException(HLISAException):
+  """ Indicates failing to provide legal arguments to a function
+  """
+  pass

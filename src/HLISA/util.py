@@ -2,7 +2,7 @@ import math
 import time
 import random
 import numpy as np
-from HLISA.errors import ElementBoundariesWereZeroException
+from errors import ElementBoundariesWereZeroException, IllegalArgumentException
 
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
@@ -63,6 +63,11 @@ def std_positive(mean, std, minimal):
         To minimize this effect, values that would have been smaller than the minimum are not drawn
         again, but get added a random small value. The new number will never become larger as the mean.
     """
+    if minimal > mean:
+        raise IllegalArgumentException(
+            f"\n\tMethod util.std_positive expects argument 'minimal' <= 'mean'\n" + \
+            f"\tGot:\n\t\tminimal: {minimal}\n\t\tmean: {mean}"
+        )
     sample = np.random.normal(mean, std)
     if sample < minimal:
         sample += (minimal-sample) + (mean - minimal)*random.random()
@@ -134,3 +139,6 @@ def best_effort_element_selection(webdriver, element):
             return res;"""
         candidates = webdriver.execute_script(script, element)
         return candidates
+
+if __name__ == "__main__":
+    std_positive(mean=5, std=1, minimal=6)
