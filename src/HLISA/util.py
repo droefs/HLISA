@@ -64,8 +64,8 @@ def std_positive(mean, std, minimal):
         again, but get added a random small value. The new number will never become larger as the mean.
     """
     sample = np.random.normal(mean, std)
-    while sample < minimal:
-        sample += random.random() * (mean - minimal)
+    if sample < minimal:
+        sample += (minimal-sample) + (mean - minimal)*random.random()
     return sample
 
 def increaseMousemovementSpeed():
