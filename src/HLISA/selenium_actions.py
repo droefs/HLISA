@@ -13,16 +13,13 @@ from selenium.common.exceptions import MoveTargetOutOfBoundsException
 from HLISA.util import (behavorial_element_coordinates,
                         get_current_scrolling_position,
                         increaseMousemovementSpeed,
-                        std_positive)
+                        std_positive,
+                        get_cursor_coordinates)
 from HLISA.errors import (HLISAException,
                           OutOfViewportException)
 
 class HL_Selenium_Actions:
 
-    x_pos = 0
-    y_pos = 0
-    browser_resets_cursor_location = False
-    page_identifier = ""
     selenium_version = -1 # -1: unknown; 3: selenium < 4; 4: selenium >= 4
     
     def __init__(self, webdriver):
@@ -37,8 +34,6 @@ class HL_Selenium_Actions:
         else:
             HL_Selenium_Actions.selenium_version = 4
             self.actions = ActionChains(webdriver, 50)
-        if HL_Selenium_Actions.page_identifier == "":
-            HL_Selenium_Actions.page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
 
     def addDelayAfterAction(self):
         self.actions.pause(std_positive(0.3, 0.1, 0.025))
@@ -59,7 +54,8 @@ class HL_Selenium_Actions:
         return self
 
     def move_by_offset(self, x, y, addDelayAfter=True):
-        self.move_to(HL_Selenium_Actions.x_pos + x, HL_Selenium_Actions.y_pos + y, addDelayAfter)
+        current_x, current_y = get_cursor_coordinates(self.webdriver)
+        self.move_to(current_x + x, current_y + y, addDelayAfter)
         return self
 
     def move_to_element(self, element, addDelayAfter=True):
@@ -129,19 +125,13 @@ class HL_Selenium_Actions:
     def drag_and_drop(self, source, target, addDelayAfter=True):
         self.move_to_element(source)
         self.actions.drag_and_drop(source, target)
-        HL_Selenium_Actions.x_pos = int(target.rect['x'] + target.rect['width'] * 0.5)
-        HL_Selenium_Actions.y_pos = int(target.rect['y'] + target.rect['height'] * 0.5)
         if addDelayAfter:
             self.addDelayAfterAction()
         return self
 
     def drag_and_drop_by_offset(self, source, xoffset, yoffset, addDelayAfter=True):
         self.move_to_element(source)
-        HL_Selenium_Actions.x_pos = int(source.rect['x'] + source.rect['width'] * 0.5)
-        HL_Selenium_Actions.y_pos = int(source.rect['y'] + source.rect['height'] * 0.5)
         self.actions.drag_and_drop_by_offset(source, xoffset, yoffset)
-        HL_Selenium_Actions.x_pos += xoffset
-        HL_Selenium_Actions.y_pos += yoffset
         if addDelayAfter:
             self.addDelayAfterAction()
         return self
@@ -198,14 +188,7 @@ class HL_Selenium_Actions:
     #   x: x-coordinate to move to
     #   y: y-coordinate to move to
     def move_to(self, x, y, addDelayAfter=True):
-        current_page_identifier = str(self.webdriver.execute_script("return window.performance.timing.domContentLoadedEventEnd"))
-        if current_page_identifier != HL_Selenium_Actions.page_identifier and HL_Selenium_Actions.browser_resets_cursor_location:
-            HL_Selenium_Actions.page_identifier = current_page_identifier
-            HL_Selenium_Actions.x_pos = 0
-            HL_Selenium_Actions.y_pos = 0
-        t_cursor = TheoreticalCursor(HL_Selenium_Actions.x_pos, HL_Selenium_Actions.y_pos, x, y, self.webdriver, self.actions)
-        HL_Selenium_Actions.x_pos = t_cursor.x_pos
-        HL_Selenium_Actions.y_pos = t_cursor.y_pos
+        t_cursor = TheoreticalCursor(x, y, self.webdriver, self.actions)
         if addDelayAfter:
             self.addDelayAfterAction()
         return self
@@ -253,7 +236,7 @@ class TheoreticalCursor():
         else:
             return number
 
-    def __init__(self, x_start, y_start, x, y, webdriver, actions):
+    def __init__(self, x, y, webdriver, actions):
         x = self.roundNumber(x)
         y = self.roundNumber(y)
         
@@ -262,7 +245,7 @@ class TheoreticalCursor():
         if (x > windowWidth or y > windowHeight or x < 0 or y < 0):
             raise MoveTargetOutOfBoundsException("(HLISA) (" + str(x) + ", " + str(y) + ") is out of bounds of viewport width (" + str(windowWidth) + ") and height (" + str(windowHeight) + ")")
         
-        self.init_variables(x_start, y_start)
+        self.init_variables(webdriver)
         minimalDiff = self.calculatePointsAndDistances(x, y)
 
         self.sample_points = self.sample_points(minimalDiff)
@@ -271,7 +254,8 @@ class TheoreticalCursor():
         for i in range(minimalDiff):
             self.calculate_point(minimalDiff, i, x, y, webdriver)
 
-    def init_variables(self, x_start, y_start):
+    def init_variables(self, webdriver):
+        x_start, y_start = get_cursor_coordinates(webdriver)
         self.x_pos = x_start
         self.y_pos = y_start
         self.startPosX = self.x_pos # The point where the movement started

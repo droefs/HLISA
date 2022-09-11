@@ -4,7 +4,7 @@ Instantiate the HLISA_ActionChains object by calling:
 
 **HLISA_ActionChains**(*webdriver, browser_resets_cursor_location=True*)
 
-If your combination of Selenium and web browser do not reset the virtual cursor position to (0, 0) on a new page load, specify *browser_resets_cursor_location=False*. If mouse movements end up in wrong locations, or if elements are not selected, chances are this setting needs to altered.
+The flag `browser_resets_cursor_location` is depriciated starting from HLISA version 1.5. It only needs to be set for HLISA versions older than 1.5. It needs to be set if your combination of Selenium and web browser do not reset the virtual cursor position to (0, 0) on a new page load. If so, specify *browser_resets_cursor_location=False*. If mouse movements end up in wrong locations, or if elements are not selected, chances are the boolean needs to be flipped.
 
 ### Actions provided by both Selenium's ActionChains object and HLISA:
 

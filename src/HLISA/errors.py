@@ -22,3 +22,9 @@ class IllegalArgumentException(HLISAException):
   """ Indicates failing to provide legal arguments to a function
   """
   pass
+
+class NoCursorCoordinatesException(HLISAException):
+  """ An exception occured while retrieving the cursor location. 
+      This should not happen, please file an issue if it did: https://github.com/droefs/HLISA/issues
+  """
+  pass

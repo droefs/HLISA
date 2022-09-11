@@ -2,12 +2,17 @@ import math
 import time
 import random
 import numpy as np
-from errors import ElementBoundariesWereZeroException, IllegalArgumentException
+from HLISA.errors import (ElementBoundariesWereZeroException,
+                            IllegalArgumentException,
+                            NoCursorCoordinatesException)
 
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 from selenium.webdriver.remote.webelement import WebElement
+
+from selenium.common.exceptions import MoveTargetOutOfBoundsException
 
 class HL_Util:
     def create_pointer_move(self, duration=50, x=None, y=None, origin=None):
@@ -139,3 +144,26 @@ def best_effort_element_selection(webdriver, element):
             return res;"""
         candidates = webdriver.execute_script(script, element)
         return candidates
+
+# Use the coordinate information from the Selenium 
+# MoveTargetOutOfBoundsException to get the coordinates
+# of the Selenium mouse cursor.
+def get_cursor_coordinates(driver):
+    MOVE_PIXELS = 30000
+    try:
+        ac = ActionChains(driver)
+        ac.move_by_offset(MOVE_PIXELS, MOVE_PIXELS)
+        ac.perform()
+    except MoveTargetOutOfBoundsException as ex:
+        error_message = str(ex)[10:23]
+        x = error_message[0:5]
+        y = error_message[7:12]
+        try:
+            x = int(x)
+            y = int(y)
+        except Exception as e:
+            raise NoCursorCoordinatesException() # If the coordinates are not integers, something went wrong
+        if x < 0 or y < 0:
+            raise NoCursorCoordinatesException()
+        return (x - MOVE_PIXELS, y - MOVE_PIXELS)
+    raise NoCursorCoordinatesException() # If no exception occured, something went wrong
