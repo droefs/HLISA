@@ -23,7 +23,16 @@ from HLISA.constants import (ACTION_DELAY_KWARGS,
                              SENTENCE_COMPLETION_DELAY_KWARGS,
                              DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS,
                              DOUBLE_CLICK_BETWEEN_DELAY_KWARGS,
-                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS)
+                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS,
+                             KEY_DOWN_DELAY_KWARGS,
+                             KEY_UP_DELAY_KWARGS,
+                             SENTENCE_OPENING_DELAY_KWARGS,
+                             WORD_OPENING_DELAY_KWARGS,
+                             WORD_CHARACTER_DELAY_KWARGS,
+                             WORD_CLOSING_DELAY_KWARGS,
+                             CHARACTER_SHIFT_DOWN_DELAY_KWARGS,
+                             CHARACTER_SHIFT_UP_DELAY_KWARGS
+                             )
 
 class HL_Selenium_Actions:
 
@@ -204,7 +213,7 @@ class HL_Selenium_Actions:
     ##### Util functions #####
 
     def write_sentence(self, sentence):
-        self.actions.pause(std_positive(1.3, 1, 0.2)) # Opening a sentence
+        self.actions.pause(std_positive(**SENTENCE_OPENING_DELAY_KWARGS)) # Opening a sentence
         words = sentence.split(" ")
         if len(words) > 0:
             for i in range(len(words)-1):
@@ -214,25 +223,25 @@ class HL_Selenium_Actions:
             self.write_word(words[-1])
 
     def write_word(self, word):
-        self.actions.pause(std_positive(0.47, 0.21, 0.05)) # Opening a word
+        self.actions.pause(std_positive(**WORD_OPENING_DELAY_KWARGS)) # Opening a word
         characters = list(word)
         if len(characters) > 0:
             for i in range(len(characters)-1):
                 self.write_character(characters[i])
-                self.actions.pause(std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
+                self.actions.pause(std_positive(**WORD_CHARACTER_DELAY_KWARGS)) # Pauze between characters (within a word)
             self.write_character(characters[-1])
-        self.actions.pause(std_positive(0.2, 0.08, 0.01)) # Closing a word
+        self.actions.pause(std_positive(**WORD_CLOSING_DELAY_KWARGS)) # Closing a word
 
     def write_character(self, character):
         special_characters = "!@#$%^&*()_+{}|:<>?"
         if character.isupper() or character in special_characters:
             self.actions.key_down("\ue008")
-            self.actions.pause(std_positive(0.06, 0.035, 0.005)) # Time after shift press
+            self.actions.pause(std_positive(**CHARACTER_SHIFT_DOWN_DELAY_KWARGS)) # Time after shift press
         self.actions.key_down(character)
-        self.actions.pause(std_positive(0.06, 0.035, 0.013)) # Dwell time
+        self.actions.pause(std_positive(**KEY_DOWN_DELAY_KWARGS)) # Dwell time
         self.actions.key_up(character)
         if character.isupper() or character in special_characters:
-            self.actions.pause(std_positive(0.03, 0.015, 0.003)) # Time before shift release
+            self.actions.pause(std_positive(**CHARACTER_SHIFT_UP_DELAY_KWARGS)) # Time before shift release
             self.actions.key_up("\ue008")
 
 class TheoreticalCursor():
