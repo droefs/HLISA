@@ -21,18 +21,19 @@ from HLISA.constants import (ACTION_DELAY_KWARGS,
                              CLICK_HOLD_DELAY_KWARGS,
                              SENTENCE_CLOSING_DELAY_KWARGS,
                              SENTENCE_COMPLETION_DELAY_KWARGS,
-                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS,
-                             DOUBLE_CLICK_BETWEEN_DELAY_KWARGS,
-                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS,
                              KEY_DOWN_DELAY_KWARGS,
                              KEY_UP_DELAY_KWARGS,
                              SENTENCE_OPENING_DELAY_KWARGS,
+                             SENTENCE_CHARACTER_DELAY_KWARGS,
                              WORD_OPENING_DELAY_KWARGS,
                              WORD_CHARACTER_DELAY_KWARGS,
                              WORD_CLOSING_DELAY_KWARGS,
                              CHARACTER_SHIFT_DOWN_DELAY_KWARGS,
-                             CHARACTER_SHIFT_UP_DELAY_KWARGS
-                             )
+                             CHARACTER_SHIFT_UP_DELAY_KWARGS,
+                             CHARACTER_DWELL_DELAY_KWARGS,
+                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS,
+                             DOUBLE_CLICK_BETWEEN_DELAY_KWARGS,
+                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS)
 
 class HL_Selenium_Actions:
 
@@ -218,7 +219,7 @@ class HL_Selenium_Actions:
         if len(words) > 0:
             for i in range(len(words)-1):
                 self.write_word(words[i])
-                self.actions.pause(std_positive(0.21, 0.03, 0.011)) # Pauze between characters (within a word)
+                self.actions.pause(std_positive(**SENTENCE_CHARACTER_DELAY_KWARGS)) # Pauze between characters (within a word)
                 self.write_character(" ")
             self.write_word(words[-1])
 
@@ -238,7 +239,7 @@ class HL_Selenium_Actions:
             self.actions.key_down("\ue008")
             self.actions.pause(std_positive(**CHARACTER_SHIFT_DOWN_DELAY_KWARGS)) # Time after shift press
         self.actions.key_down(character)
-        self.actions.pause(std_positive(**KEY_DOWN_DELAY_KWARGS)) # Dwell time
+        self.actions.pause(std_positive(**CHARACTER_DWELL_DELAY_KWARGS)) # Dwell time
         self.actions.key_up(character)
         if character.isupper() or character in special_characters:
             self.actions.pause(std_positive(**CHARACTER_SHIFT_UP_DELAY_KWARGS)) # Time before shift release

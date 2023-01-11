@@ -36,18 +36,6 @@ CLICK_HOLD_DELAY_KWARGS = {
 }
 
 '''
-    HL_Selenium_Actions.write_sentence delay for how long to wait starting a sentence.
-'''
-SENTENCE_OPENING_DELAY_MEAN = 1.3
-SENTENCE_OPENING_DELAY_STD  = 1.0
-SENTENCE_OPENING_DELAY_MIN  = 0.2
-SENTENCE_OPENING_DELAY_KWARGS = {
-    'mean': SENTENCE_OPENING_DELAY_MEAN,
-    'std': SENTENCE_OPENING_DELAY_STD,
-    'minimal': SENTENCE_OPENING_DELAY_MIN
-}
-
-'''
     HL_Selenium_Actions.send_keys delay for how long to wait before adding the '.'
     at the end of a sentence.
 '''
@@ -72,6 +60,34 @@ SENTENCE_COMPLETION_DELAY_KWARGS = {
     'std': SENTENCE_COMPLETION_DELAY_STD,
     'minimal': SENTENCE_COMPLETION_DELAY_MIN
 }
+
+
+
+'''
+    HL_Selenium_Actions.write_sentence delay for how long to wait starting a sentence.
+'''
+SENTENCE_OPENING_DELAY_MEAN = 1.3
+SENTENCE_OPENING_DELAY_STD  = 1.0
+SENTENCE_OPENING_DELAY_MIN  = 0.2
+SENTENCE_OPENING_DELAY_KWARGS = {
+    'mean': SENTENCE_OPENING_DELAY_MEAN,
+    'std': SENTENCE_OPENING_DELAY_STD,
+    'minimal': SENTENCE_OPENING_DELAY_MIN
+}
+
+
+'''
+    HL_Selenium_Actions.write_sentence delay between characters
+'''
+SENTENCE_CHARACTER_DELAY_MEAN = 1.3
+SENTENCE_CHARACTER_DELAY_STD  = 1.0
+SENTENCE_CHARACTER_DELAY_MIN  = 0.2
+SENTENCE_CHARACTER_DELAY_KWARGS = {
+    'mean': SENTENCE_CHARACTER_DELAY_MEAN,
+    'std': SENTENCE_CHARACTER_DELAY_STD,
+    'minimal': SENTENCE_CHARACTER_DELAY_MIN
+}
+
 
 '''
     HL_Selenium_Actions.write_word delay for how long to wait starting a word.
