@@ -17,6 +17,10 @@ from HLISA.util import (behavorial_element_coordinates,
                         get_cursor_coordinates)
 from HLISA.errors import (HLISAException,
                           OutOfViewportException)
+from HLISA.constants import (ACTION_DELAY_KWARGS,
+                             CLICK_HOLD_DELAY_KWARGS,
+
+                             )
 
 class HL_Selenium_Actions:
 
@@ -36,7 +40,7 @@ class HL_Selenium_Actions:
             self.actions = ActionChains(webdriver, 50)
 
     def addDelayAfterAction(self):
-        self.actions.pause(std_positive(0.3, 0.1, 0.025))
+        self.actions.pause(std_positive(**ACTION_DELAY_KWARGS))
 
     ##### Action chain methods #####
 
@@ -47,7 +51,8 @@ class HL_Selenium_Actions:
         if element is not None:
             self.move_to_element(element)
         self.actions.click_and_hold()
-        self.actions.pause(np.random.normal(0.092, 0.018))
+        # self.actions.pause(np.random.normal(0.092, 0.018))
+        self.actions.pause(std_positive(**CLICK_HOLD_DELAY_KWARGS))
         self.actions.release()
         if addDelayAfter:
             self.addDelayAfterAction()
