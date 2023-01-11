@@ -19,8 +19,11 @@ from HLISA.errors import (HLISAException,
                           OutOfViewportException)
 from HLISA.constants import (ACTION_DELAY_KWARGS,
                              CLICK_HOLD_DELAY_KWARGS,
-
-                             )
+                             SENTENCE_CLOSING_DELAY_KWARGS,
+                             SENTENCE_COMPLETION_DELAY_KWARGS,
+                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS,
+                             DOUBLE_CLICK_BETWEEN_DELAY_KWARGS,
+                             DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS)
 
 class HL_Selenium_Actions:
 
@@ -96,9 +99,9 @@ class HL_Selenium_Actions:
         sentences = keys_to_send.split(". ")
         for i in range(len(sentences)-1):
             self.write_sentence(sentences[i])
-            self.actions.pause(std_positive(1.7, 0.7, 0.3)) # Closing a sentence
+            self.actions.pause(std_positive(**SENTENCE_CLOSING_DELAY_KWARGS)) # Closing a sentence
             self.write_character(".") # Add the removed dot and space again
-            self.actions.pause(std_positive(0.6, 0.4, 0.05)) # After closing a sentence
+            self.actions.pause(std_positive(**SENTENCE_COMPLETION_DELAY_KWARGS)) # After closing a sentence
             self.write_character(" ")
         self.write_sentence(sentences[len(sentences)-1])
         if addDelayAfter:
@@ -117,11 +120,11 @@ class HL_Selenium_Actions:
         if element is not None:
             self.move_to_element(element)
         self.actions.click_and_hold()
-        self.actions.pause(np.random.normal(0.083, 0.034))
+        self.actions.pause(np.random.normal(**DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS))
         self.actions.release()
-        self.actions.pause(np.random.normal(0.075, 0.026))
+        self.actions.pause(np.random.normal(**DOUBLE_CLICK_BETWEEN_DELAY_KWARGS))
         self.actions.click_and_hold()
-        self.actions.pause(np.random.normal(0.051, 0.016))
+        self.actions.pause(np.random.normal(**DOUBLE_CLICK_SECOND_HOLD_DELAY_KWARGS))
         self.actions.release()
         if addDelayAfter:
             self.addDelayAfterAction()
@@ -146,7 +149,7 @@ class HL_Selenium_Actions:
             self.click(element)
         self.actions.key_down(value)
         if addDelayAfter:
-            self.actions.pause(std_positive(0.06, 0.035, 0.013)) # Specific version of addDelayAfterAction()
+            self.actions.pause(std_positive(**KEY_DOWN_DELAY_KWARGS))
         return self
 
     def key_up(self, value, element=None, addDelayAfter=True):
@@ -154,7 +157,7 @@ class HL_Selenium_Actions:
             self.click(element)
         self.actions.key_up(value)
         if addDelayAfter:
-            self.actions.pause(std_positive(0.21, 0.03, 0.011)) # Specific version of addDelayAfterAction()
+            self.actions.pause(std_positive(**KEY_UP_DELAY_KWARGS))
         return self
 
     def move_to_element_with_offset(self, to_element, xoffset, yoffset, addDelayAfter=True):
