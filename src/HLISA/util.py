@@ -29,14 +29,13 @@ class HL_Util:
         self.add_action(action)
 
 def behavorial_element_coordinates(webdriver, element):
-    """ Takes an element and returns coordinates somewhere in the element. If the element is not visable, it returns 0.
-        Uses a normal distribution.
+    """ Takes an element and returns coordinates somewhere in the element. If the element is not visable, it returns None.
+        Uses a normal distribution, to bias the click towards the center of the element.
     """
     x_relative = int(element.rect['x']) - get_current_scrolling_position(webdriver)["x"]
     y_relative = int(element.rect['y']) - get_current_scrolling_position(webdriver)["y"]
     viewport_width = webdriver.execute_script("return window.innerWidth")
     viewport_height = webdriver.execute_script("return window.innerHeight")
-    counter = 0
     if element.rect['width'] == 0 or element.rect['height'] == 0:
         error_msg = """
             The element's plane was zero. To avoid this issue, you may want to use:
@@ -49,15 +48,18 @@ def behavorial_element_coordinates(webdriver, element):
                     click_with_HLISA(driver, best_el[0])
         """
         raise ElementBoundariesWereZeroException(error_msg)
-    for i in range(100): # Try 10 random positions, as some positions are not in round buttons.
+    for _ in range(100): # Try 10 random positions, as some positions are not in round buttons.
         x = x_relative + int(np.random.normal(int(element.rect['width']*0.5), int(element.rect['width']*0.2)))
         y = y_relative + int(np.random.normal(int(element.rect['height']*0.5), int(element.rect['height']*0.2)))
+        
+        if x < 0 or y < 0 or x > viewport_width or y > viewport_height:
+            continue
+        
         coords_in_button = webdriver.execute_script(f"return document.elementFromPoint({x}, {y}) === arguments[0];", element)
         coords_in_descendant = webdriver.execute_script(f"""
             let el = document.elementFromPoint({x}, {y});
             return [...arguments[0].querySelectorAll('*')].includes(el);""", element)
-        if x < 0 or y < 0 or x > viewport_width or y > viewport_height:
-            coords_in_button = False # If the element is partly in the viewport, a part of the element is outside of it. In that case, try again. This is not the best solution (non-deterministic), it would be better to limit the sample space.
+
         if coords_in_button or coords_in_descendant:
             return (x, y)
     return None
