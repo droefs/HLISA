@@ -111,11 +111,11 @@ class HL_Selenium_Actions:
         for i in range(len(sentences)-1):
             self.write_sentence(sentences[i], speed_scaling=speed_scaling)
             self.actions.pause(
-                std_positive(scale_delay_kwargs(speed_scaling, **SENTENCE_CLOSING_DELAY_KWARGS))
+                std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_CLOSING_DELAY_KWARGS))
             ) # Closing a sentence
             self.write_character(".") # Add the removed dot and space again
             self.actions.pause(
-                std_positive(scale_delay_kwargs(speed_scaling, **SENTENCE_COMPLETION_DELAY_KWARGS))
+                std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_COMPLETION_DELAY_KWARGS))
             ) # After closing a sentence
             self.write_character(" ")
         self.write_sentence(sentences[len(sentences)-1], speed_scaling=speed_scaling)
@@ -220,32 +220,32 @@ class HL_Selenium_Actions:
 
     def write_sentence(self, sentence, speed_scaling=1.0):
         self.actions.pause(
-            std_positive(scale_delay_kwargs(speed_scaling, **SENTENCE_OPENING_DELAY_KWARGS))
+            std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_OPENING_DELAY_KWARGS))
         ) # Opening a sentence
         words = sentence.split(" ")
         if len(words) > 0:
             for i in range(len(words)-1):
                 self.write_word(words[i], speed_scaling=speed_scaling)
                 self.actions.pause(
-                    std_positive(scale_delay_kwargs(speed_scaling, **SENTENCE_CHARACTER_DELAY_KWARGS))
+                    std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_CHARACTER_DELAY_KWARGS))
                 ) # Pauze between characters (within a word)
                 self.write_character(" ")
             self.write_word(words[-1], speed_scaling=speed_scaling)
 
     def write_word(self, word, speed_scaling=1.0):
         self.actions.pause(
-            std_positive(scale_delay_kwargs(speed_scaling, **WORD_OPENING_DELAY_KWARGS))
+            std_positive(**scale_delay_kwargs(speed_scaling, WORD_OPENING_DELAY_KWARGS))
         ) # Opening a word
         characters = list(word)
         if len(characters) > 0:
             for i in range(len(characters)-1):
                 self.write_character(characters[i])
                 self.actions.pause(
-                    std_positive(scale_delay_kwargs(speed_scaling, **WORD_CHARACTER_DELAY_KWARGS))
+                    std_positive(**scale_delay_kwargs(speed_scaling, WORD_CHARACTER_DELAY_KWARGS))
                 ) # Pauze between characters (within a word)
             self.write_character(characters[-1])
         self.actions.pause(
-            std_positive(scale_delay_kwargs(speed_scaling, **WORD_CLOSING_DELAY_KWARGS))
+            std_positive(**scale_delay_kwargs(speed_scaling, WORD_CLOSING_DELAY_KWARGS))
         ) # Closing a word
 
     def write_character(self, character):
