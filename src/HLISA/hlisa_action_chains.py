@@ -112,15 +112,15 @@ class HLISA_ActionChains:
         self.chain = []
         return self
 
-    def send_keys(self, keys_to_send, element=None, addDelayAfter=True):
+    def send_keys(self, keys_to_send, element=None, addDelayAfter=True, speed_scaling=1.0):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.send_keys(keys_to_send, element, addDelayAfter))
+        self.chain.append(lambda: actions.send_keys(keys_to_send, element, addDelayAfter, speed_scaling=speed_scaling))
         self.chain.append(lambda: actions.perform())
         return self
 
-    def send_keys_to_element(self, element, keys_to_send, addDelayAfter=True):
+    def send_keys_to_element(self, element, keys_to_send, addDelayAfter=True, speed_scaling=1.0):
         actions = HL_Selenium_Actions(self.webdriver)
-        self.chain.append(lambda: actions.send_keys_to_element(element, keys_to_send, addDelayAfter))
+        self.chain.append(lambda: actions.send_keys_to_element(element, keys_to_send, addDelayAfter, speed_scaling=speed_scaling))
         self.chain.append(lambda: actions.perform())
         return self
 

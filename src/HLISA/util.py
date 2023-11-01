@@ -80,6 +80,14 @@ def std_positive(mean, std, minimal):
         sample += (minimal-sample) + (mean - minimal)*random.random()
     return sample
 
+def scale_delay_kwargs(scaling, delay_kwargs):
+    return {
+        'mean': delay_kwargs['mean'] * (1/scaling),
+        'std': delay_kwargs['mean'],
+        'minimal': delay_kwargs['mean'],
+    }
+    
+
 def increaseMousemovementSpeed():
     """ Replace a function in the original Selenium API to increase mouse movement speed.
     """

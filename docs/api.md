@@ -139,23 +139,25 @@ Releases the left mouse button. If an element is given, releases the mouse on th
 
 ---
 
-**send_keys**(*keys_to_send, element*, *addDelayAfterAction=True*)
+**send_keys**(*keys_to_send, element*, *addDelayAfterAction=True*, *speed_scaling=1.0*)
 
 Types the given text. If an element is specified, the element is selected before typing starts.  
 **Arguments:**
 
 - **keys_to_send**: a string containing the text to send.
 - *(optional)* **element**: the element to send the keys to.
+- *(optional)* **speed_scaling**: alter the speed at which keys are send (2 = twice as fast, 0.5 = half as fast).
 
 ---
 
-**send_keys_to_element**(*element, *keys_to_send*, *addDelayAfterAction=True*)
+**send_keys_to_element**(*element, *keys_to_send*, *addDelayAfterAction=True*, *speed_scaling=1.0*)
 
 Selects the given element and types the given text.  
 **Arguments:**
 
 - **element**: the element to send the keys to.
 - **keys_to_send**: a string containing the text to send.
+- *(optional)* **speed_scaling**: alter the speed at which keys are send (2 = twice as fast, 0.5 = half as fast).
 
 **Note:** characters that are pressed realistically, as if they were typed on a US-International keyboard, are: 0-9, a-z, A-Z, keys in [selenium.webdriver.common.keys.Keys](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html#module-selenium.webdriver.common.keys) and all of the following: !@#$%^&*()_+{}|:>?-=[]\;,./
 

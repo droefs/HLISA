@@ -14,7 +14,8 @@ from HLISA.util import (behavorial_element_coordinates,
                         get_current_scrolling_position,
                         increaseMousemovementSpeed,
                         std_positive,
-                        get_cursor_coordinates)
+                        get_cursor_coordinates,
+                        scale_delay_kwargs)
 from HLISA.errors import (HLISAException,
                           OutOfViewportException)
 from HLISA.constants import (ACTION_DELAY_KWARGS,
@@ -103,17 +104,21 @@ class HL_Selenium_Actions:
         self.actions.pause(seconds)
         return self
 
-    def send_keys(self, keys_to_send, element=None, addDelayAfter=True):
+    def send_keys(self, keys_to_send, element=None, addDelayAfter=True, speed_scaling=1.0):
         if element is not None:
             self.click(element)
         sentences = keys_to_send.split(". ")
         for i in range(len(sentences)-1):
-            self.write_sentence(sentences[i])
-            self.actions.pause(std_positive(**SENTENCE_CLOSING_DELAY_KWARGS)) # Closing a sentence
+            self.write_sentence(sentences[i], speed_scaling=speed_scaling)
+            self.actions.pause(
+                std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_CLOSING_DELAY_KWARGS))
+            ) # Closing a sentence
             self.write_character(".") # Add the removed dot and space again
-            self.actions.pause(std_positive(**SENTENCE_COMPLETION_DELAY_KWARGS)) # After closing a sentence
+            self.actions.pause(
+                std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_COMPLETION_DELAY_KWARGS))
+            ) # After closing a sentence
             self.write_character(" ")
-        self.write_sentence(sentences[len(sentences)-1])
+        self.write_sentence(sentences[len(sentences)-1], speed_scaling=speed_scaling)
         if addDelayAfter:
             self.addDelayAfterAction()
         return self
@@ -184,8 +189,8 @@ class HL_Selenium_Actions:
             self.addDelayAfterAction()
         return self
 
-    def send_keys_to_element(self, element, keys_to_send, addDelayAfter=True):
-        self.send_keys(keys_to_send, element, addDelayAfter)
+    def send_keys_to_element(self, element, keys_to_send, addDelayAfter=True, speed_scaling=1.0):
+        self.send_keys(keys_to_send, element, addDelayAfter, speed_scaling=speed_scaling)
         return self
 
     def reset_actions():
@@ -213,25 +218,35 @@ class HL_Selenium_Actions:
 
     ##### Util functions #####
 
-    def write_sentence(self, sentence):
-        self.actions.pause(std_positive(**SENTENCE_OPENING_DELAY_KWARGS)) # Opening a sentence
+    def write_sentence(self, sentence, speed_scaling=1.0):
+        self.actions.pause(
+            std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_OPENING_DELAY_KWARGS))
+        ) # Opening a sentence
         words = sentence.split(" ")
         if len(words) > 0:
             for i in range(len(words)-1):
-                self.write_word(words[i])
-                self.actions.pause(std_positive(**SENTENCE_CHARACTER_DELAY_KWARGS)) # Pauze between characters (within a word)
+                self.write_word(words[i], speed_scaling=speed_scaling)
+                self.actions.pause(
+                    std_positive(**scale_delay_kwargs(speed_scaling, SENTENCE_CHARACTER_DELAY_KWARGS))
+                ) # Pauze between characters (within a word)
                 self.write_character(" ")
-            self.write_word(words[-1])
+            self.write_word(words[-1], speed_scaling=speed_scaling)
 
-    def write_word(self, word):
-        self.actions.pause(std_positive(**WORD_OPENING_DELAY_KWARGS)) # Opening a word
+    def write_word(self, word, speed_scaling=1.0):
+        self.actions.pause(
+            std_positive(**scale_delay_kwargs(speed_scaling, WORD_OPENING_DELAY_KWARGS))
+        ) # Opening a word
         characters = list(word)
         if len(characters) > 0:
             for i in range(len(characters)-1):
                 self.write_character(characters[i])
-                self.actions.pause(std_positive(**WORD_CHARACTER_DELAY_KWARGS)) # Pauze between characters (within a word)
+                self.actions.pause(
+                    std_positive(**scale_delay_kwargs(speed_scaling, WORD_CHARACTER_DELAY_KWARGS))
+                ) # Pauze between characters (within a word)
             self.write_character(characters[-1])
-        self.actions.pause(std_positive(**WORD_CLOSING_DELAY_KWARGS)) # Closing a word
+        self.actions.pause(
+            std_positive(**scale_delay_kwargs(speed_scaling, WORD_CLOSING_DELAY_KWARGS))
+        ) # Closing a word
 
     def write_character(self, character):
         special_characters = "!@#$%^&*()_+{}|:<>?"
