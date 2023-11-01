@@ -1,6 +1,6 @@
 # HLISA
 
-HLISA is a drop-in replacement for the ActionChains object of the Selenium [API](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html) (Python only), featuring more human-like interaction. Besides providing all functionality the original Selenium ActionChains offers, additional interaction functionality is [provided](https://github.com/droefs/HLISA/blob/master/docs/api.md#additional-actions-available-in-hlisa). Calling interaction on elements (`element.click()`) is not provided.
+HLISA is a drop-in replacement for the ActionChains object of the Selenium [API](https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.action_chains.html) (Python only), featuring more human-like interaction. Besides providing all functionality the original Selenium ActionChains offers, additional interaction functionality is [provided](https://github.com/droefs/HLISA/blob/master/docs/api.md#additional-actions-available-in-hlisa). HLISA does currently not support Chrome-based browsers, unless an older HLSIA version is used. For details and other considerations of using HLISA, see [the limitations section](https://github.com/droefs/HLISA#limitations).
 
 ## Important documents
 - [API documentation](https://github.com/droefs/HLISA/blob/master/docs/api.md)
@@ -149,6 +149,8 @@ HLISA (and Selenium) can be immediately detected if the browser is minimized whi
 
 ## Limitations
 
+- HLISA does currently not support Chrome-based browsers. A workaround is to use HLISA 1.4.1 (`pip install HLISA==1.4.1`), but it contains some bugs. It is advised to use Firefox instead. See [#31](https://github.com/droefs/HLISA/issues/31) for details. 
+- HLISA does not support [threading](https://docs.python.org/3/library/threading.html). It does support [multiprocessing](https://docs.python.org/3/library/multiprocessing.html).
 - HLISA does not support a remote end (Selenium Server).
 - It is not possible to call interactions on Elements (`element.click()`-like syntax):
 
