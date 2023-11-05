@@ -83,8 +83,8 @@ def std_positive(mean, std, minimal):
 def scale_delay_kwargs(scaling, delay_kwargs):
     return {
         'mean': delay_kwargs['mean'] * (1/scaling),
-        'std': delay_kwargs['mean'],
-        'minimal': delay_kwargs['mean'],
+        'std': delay_kwargs['mean'] * (1/scaling),
+        'minimal': delay_kwargs['mean'] * (1/scaling),
     }
     
 
